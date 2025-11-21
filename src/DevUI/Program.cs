@@ -23,6 +23,8 @@ string? googleApiKey = builder.Configuration[SecretKeys.GoogleApiKey];
 string? anthropicApiKey = builder.Configuration[SecretKeys.AnthropicApiKey];
 string? xAIApiKey = builder.Configuration[SecretKeys.XAIApiKey];
 
+//todo - check for "-"
+
 if (!string.IsNullOrWhiteSpace(azureOpenAiEndpoint) && !string.IsNullOrWhiteSpace(azureOpenAiApiKey))
 {
     const string agentName = "Azure OpenAI Agent";

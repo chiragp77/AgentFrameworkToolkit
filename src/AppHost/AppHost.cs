@@ -1,16 +1,16 @@
-using Aspire.Hosting;
 using Projects;
 using ServiceDefaults;
 
 IDistributedApplicationBuilder builder = DistributedApplication.CreateBuilder(args);
 
-IResourceBuilder<ParameterResource> azureOpenAiEndpoint = builder.AddParameter(SecretKeys.AzureOpenAIEndpoint, secret: false);
-IResourceBuilder<ParameterResource> azureOpenAiApiKey = builder.AddParameter(SecretKeys.AzureOpenAIApiKey, secret: true);
-IResourceBuilder<ParameterResource> mistralApiKey = builder.AddParameter(SecretKeys.MistralApiKey, secret: true);
-IResourceBuilder<ParameterResource> googleApiKey = builder.AddParameter(SecretKeys.GoogleApiKey, secret: true);
-IResourceBuilder<ParameterResource> anthropicApiKey = builder.AddParameter(SecretKeys.AnthropicApiKey, secret: true);
-IResourceBuilder<ParameterResource> xaiApiKey = builder.AddParameter(SecretKeys.XAIApiKey, secret: true);
-IResourceBuilder<ParameterResource> openAiApiKey = builder.AddParameter(SecretKeys.OpenAIApiKey, secret: true);
+string description = "If you don't have a value then enter the a dash '-' to ignore";
+IResourceBuilder<ParameterResource> azureOpenAiEndpoint = builder.AddParameter(SecretKeys.AzureOpenAIEndpoint, secret: false).WithDescription(description);
+IResourceBuilder<ParameterResource> azureOpenAiApiKey = builder.AddParameter(SecretKeys.AzureOpenAIApiKey, secret: true).WithDescription(description);
+IResourceBuilder<ParameterResource> mistralApiKey = builder.AddParameter(SecretKeys.MistralApiKey, secret: true).WithDescription(description);
+IResourceBuilder<ParameterResource> googleApiKey = builder.AddParameter(SecretKeys.GoogleApiKey, secret: true).WithDescription(description);
+IResourceBuilder<ParameterResource> anthropicApiKey = builder.AddParameter(SecretKeys.AnthropicApiKey, secret: true).WithDescription(description);
+IResourceBuilder<ParameterResource> xaiApiKey = builder.AddParameter(SecretKeys.XAIApiKey, secret: true).WithDescription(description);
+IResourceBuilder<ParameterResource> openAiApiKey = builder.AddParameter(SecretKeys.OpenAIApiKey, secret: true).WithDescription(description);
 
 builder.AddProject<DevUI>("DevUI")
     .WithEnvironment(SecretKeys.AzureOpenAIEndpoint, azureOpenAiEndpoint)
