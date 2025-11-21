@@ -5,6 +5,7 @@
 		<ImplicitUsings>enable</ImplicitUsings>
 		<Nullable>enable</Nullable>
 		<GeneratePackageOnBuild>True</GeneratePackageOnBuild>
+		<Description>An opinionated C# Toolkit targeting Azure OpenAI for Microsoft Agent Framework that makes life eaisier</Description>
 	</PropertyGroup>
 
 	<Import Project="..\nuget-package.props" />

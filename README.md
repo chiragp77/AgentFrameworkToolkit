@@ -7,6 +7,7 @@ An opinionated C# Toolkit for Microsoft Agent Framework that makes life easier
 - [AgentFramework Toolkit for Google (Gemini)](https://www.nuget.org/packages/AgentFrameworkToolkit.Google)
 - [AgentFramework Toolkit for Anthropic (Claude)](https://www.nuget.org/packages/AgentFrameworkToolkit.Anthropic)
 - [AgentFramework Toolkit for XAI (Grok)](https://www.nuget.org/packages/AgentFrameworkToolkit.XAI)
+- [AgentFramework Toolkit for Mistral](https://www.nuget.org/packages/AgentFrameworkToolkit.Mistral)
 
 ## Examples of use
 > All agents have AIAgent as base, fully work the  rest of Microsoft Agent Framework)
@@ -44,10 +45,7 @@ GoogleAgent agent = factory.CreateAgent(new GoogleAgentOptions
 
 ### Anthropic
 ```cs
-AnthropicAgentFactory factory = new AnthropicAgentFactory(new AnthropicConnection
-{
-    ApiKey = configuration.AnthropicApiKey
-});
+AnthropicAgentFactory factory = new AnthropicAgentFactory("<AnthropicApiKey">);
 
 factory.CreateAgent(new AnthropicAgentOptions
 {
@@ -68,6 +66,15 @@ XAIAgent agent = factory.CreateAgent(new OpenAIAgentOptionsForChatClientWithoutR
 {
     DeploymentModelName = "grok-4-fast-non-reasoning",
     Tools = [AIFunctionFactory.Create(GetWeather)]
+});
+```
+
+### Mistral
+```cs
+MistralAgentFactory mistralAgentFactory = new MistralAgentFactory("<MistralApiKey>");
+MistralAgent mistralAgent = mistralAgentFactory.CreateAgent(new MistralAgentOptions
+{
+    DeploymentModelName = Mistral.SDK.ModelDefinitions.MistralSmall
 });
 ```
 

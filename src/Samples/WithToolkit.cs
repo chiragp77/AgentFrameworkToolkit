@@ -1,6 +1,7 @@
 ﻿using AgentFrameworkToolkit.Anthropic;
 using AgentFrameworkToolkit.AzureOpenAI;
 using AgentFrameworkToolkit.Google;
+using AgentFrameworkToolkit.Mistral;
 using AgentFrameworkToolkit.OpenAI;
 using AgentFrameworkToolkit.XAI;
 using Microsoft.Agents.AI;
@@ -17,6 +18,14 @@ public class WithToolkit
     public static async Task Run()
     {
         Configuration configuration = ConfigurationManager.GetConfiguration();
+
+        MistralAgentFactory mistralAgentFactory = new MistralAgentFactory(configuration.MistralApiKey);
+        MistralAgent mistralAgent = mistralAgentFactory.CreateAgent(new MistralAgentOptions
+        {
+            DeploymentModelName = Mistral.SDK.ModelDefinitions.MistralSmall
+        });
+
+        AgentRunResponse runResponse = await mistralAgent.RunAsync("Hello");
 
         AzureOpenAIAgentFactory azureOpenAIAgentFactory = new(new AzureOpenAIConnection
         {

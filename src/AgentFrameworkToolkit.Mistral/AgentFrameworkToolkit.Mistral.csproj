@@ -5,14 +5,14 @@
 		<ImplicitUsings>enable</ImplicitUsings>
 		<Nullable>enable</Nullable>
 		<GeneratePackageOnBuild>True</GeneratePackageOnBuild>
-		<Description>An opinionated C# Toolkit targeting Anthropic for Microsoft Agent Framework that makes life eaisier</Description>
+		<Description>An opinionated C# Toolkit targeting Mistral for Microsoft Agent Framework that makes life eaisier</Description>
 	</PropertyGroup>
 
 	<Import Project="..\nuget-package.props" />
 
 	<ItemGroup>
-		<PackageReference Include="Anthropic.SDK" Version="5.8.0" />
 		<PackageReference Include="Microsoft.Agents.AI" Version="1.0.0-preview.251114.1" />
+		<PackageReference Include="Mistral.SDK" Version="2.3.1" />
 	</ItemGroup>
 	<ItemGroup>
 		<ProjectReference Include="..\AgentFrameworkToolkit\AgentFrameworkToolkit.csproj" />

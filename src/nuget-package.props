@@ -1,7 +1,7 @@
 <Project>
 	<PropertyGroup>
 		<!-- Central version prefix - applies to all nuget packages. -->
-		<PackageVersion>1.0.0-preview.251121.1</PackageVersion>
+		<PackageVersion>1.0.0-preview.251121.2</PackageVersion>
 		<Configurations>Debug;Release;Publish</Configurations>
 		<IsPackable>true</IsPackable>
 		<GeneratePackageOnBuild>True</GeneratePackageOnBuild>
@@ -10,7 +10,6 @@
 		<RepositoryUrl>https://github.com/rwjdk/AgentFrameworkToolkit</RepositoryUrl>
 		<GenerateDocumentationFile>True</GenerateDocumentationFile>
 		<Authors>Rasmus Wulff Jensen</Authors>
-		<Description>An opinionated C# Toolkit for Microsoft Agent Framework that makes life eaisier</Description>
 		<Copyright>2025</Copyright>
 		<PackageProjectUrl>https://github.com/rwjdk/AgentFrameworkToolkit</PackageProjectUrl>
 		<PackageIcon>icon.png</PackageIcon>
