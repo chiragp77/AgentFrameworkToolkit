@@ -6,8 +6,23 @@ using Microsoft.Extensions.AI;
 
 namespace AgentFrameworkToolkit.Anthropic;
 
-public class AnthropicAgentFactory(AnthropicConnection connection)
+public class AnthropicAgentFactory
 {
+    private readonly AnthropicConnection _connection;
+
+    public AnthropicAgentFactory(string apiKey)
+    {
+        _connection = new AnthropicConnection
+        {
+            ApiKey = apiKey
+        };
+    }
+
+    public AnthropicAgentFactory(AnthropicConnection connection)
+    {
+        _connection = connection;
+    }
+
     public AnthropicAgent CreateAgent(AnthropicAgentOptions options)
     {
         IChatClient client = GetClient(options);
@@ -82,7 +97,7 @@ public class AnthropicAgentFactory(AnthropicConnection connection)
             httpClient.Timeout = options.NetworkTimeout.Value;
         }
 
-        AnthropicClient anthropicClient = new(new APIAuthentication(connection.ApiKey), httpClient);
+        AnthropicClient anthropicClient = new(new APIAuthentication(_connection.ApiKey), httpClient);
         IChatClient client = anthropicClient.Messages.AsBuilder().Build();
         return client;
     }

@@ -10,8 +10,53 @@ using OpenAI.Responses;
 
 namespace AgentFrameworkToolkit.OpenAI;
 
-public class OpenAIAgentFactory(OpenAIConnection connection)
+/// <summary>
+/// Create an OpenAI Agent Factory
+/// </summary>
+public class OpenAIAgentFactory
 {
+    private readonly OpenAIConnection _connection;
+
+    /// <summary>
+    /// Constructor
+    /// </summary>
+    /// <param name="apiKey">API Key for your OpenAI API Account (for more advanced connections use the constructor overload)</param>
+    public OpenAIAgentFactory(string apiKey)
+    {
+        _connection = new OpenAIConnection
+        {
+            ApiKey = apiKey
+        };
+    }
+
+    /// <summary>
+    /// Constructor
+    /// </summary>
+    /// <param name="connection">The OpenAI Connection details</param>
+    public OpenAIAgentFactory(OpenAIConnection connection)
+    {
+        _connection = connection;
+    }
+
+    /// <summary>
+    /// Create a simple Agent (using the ChatClient) with default settings (For more advanced agents use the options overloads)
+    /// </summary>
+    /// <param name="model">Name of the Model to use</param>
+    /// <param name="instructions">Instructions for the Agent to follow (aka Developer Message)</param>
+    /// <param name="name">Name of the Agent</param>
+    /// <param name="tools">Tools for the Agent</param>
+    /// <returns>An Agent</returns>
+    public OpenAIAgent CreateAgent(string model, string? instructions = null, string? name = null, AITool[]? tools = null)
+    {
+        return CreateAgent(new OpenAIAgentOptionsForChatClientWithoutReasoning
+        {
+            DeploymentModelName = model,
+            Name = name,
+            Instructions = instructions,
+            Tools = tools
+        });
+    }
+
     public OpenAIAgent CreateAgent(OpenAIAgentOptionsForResponseApiWithoutReasoning options)
     {
         OpenAIClient client = CreateClient(options);
@@ -95,9 +140,9 @@ public class OpenAIAgentFactory(OpenAIConnection connection)
             NetworkTimeout = options.NetworkTimeout
         };
 
-        if (!string.IsNullOrWhiteSpace(connection.Endpoint))
+        if (!string.IsNullOrWhiteSpace(_connection.Endpoint))
         {
-            openAIClientOptions.Endpoint = new Uri(connection.Endpoint);
+            openAIClientOptions.Endpoint = new Uri(_connection.Endpoint);
         }
 
         // ReSharper disable once InvertIf
@@ -107,9 +152,9 @@ public class OpenAIAgentFactory(OpenAIConnection connection)
             openAIClientOptions.Transport = new HttpClientPipelineTransport(inspectingHttpClient);
         }
 
-        connection.AdditionalOpenAIClientOptions?.Invoke(openAIClientOptions);
+        _connection.AdditionalOpenAIClientOptions?.Invoke(openAIClientOptions);
 
-        return new OpenAIClient(new ApiKeyCredential(connection.ApiKey), openAIClientOptions);
+        return new OpenAIClient(new ApiKeyCredential(_connection.ApiKey), openAIClientOptions);
     }
 
     public static ChatClientAgentOptions CreateChatClientAgentOptions(OpenAIAgentOptions options, OpenAIAgentOptionsForChatClientWithoutReasoning? chatClientWithoutReasoning, OpenAIAgentOptionsForResponseApiWithoutReasoning? responseWithoutReasoning, OpenAIAgentOptionsForResponseApiWithReasoning? responsesApiReasoningOptions, OpenAIAgentOptionsForChatClientWithReasoning? chatClientReasoningOptions)

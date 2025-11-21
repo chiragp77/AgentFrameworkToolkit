@@ -4,10 +4,39 @@ using Microsoft.Extensions.AI;
 
 namespace AgentFrameworkToolkit.Google;
 
-public class GoogleAgentFactory(GoogleConnection connection)
+/// <summary>
+/// Create an Agent Factory for creating Google Based Agents
+/// </summary>
+public class GoogleAgentFactory
 {
-    private readonly GoogleConnection? _connection = connection;
+    private readonly GoogleConnection? _connection;
 
+    /// <summary>
+    /// Constructor
+    /// </summary>
+    /// <param name="apiKey">Your Google API Key (if you need a more advanced connection use the constructor overload)</param>
+    public GoogleAgentFactory(string apiKey)
+    {
+        _connection = new GoogleConnection
+        {
+            ApiKey = apiKey
+        };
+    }
+
+    /// <summary>
+    /// Constructor
+    /// </summary>
+    /// <param name="connection">Connection Details for connecting and authenticating with Google</param>
+    public GoogleAgentFactory(GoogleConnection connection)
+    {
+        _connection = connection;
+    }
+
+    /// <summary>
+    /// Create an agent with the specified options
+    /// </summary>
+    /// <param name="options"></param>
+    /// <returns></returns>
     public GoogleAgent CreateAgent(GoogleAgentOptions options)
     {
         IChatClient client = GetClient(options.DeploymentModelName);
