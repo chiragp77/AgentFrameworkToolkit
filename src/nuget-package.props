@@ -15,6 +15,7 @@
 		<PackageIcon>icon.png</PackageIcon>
 		<PackageTags>microsoft-agent-framework agent-framework-toolkit toolkit microsoft agent framework</PackageTags>
 		<Company>RWJDK</Company>
+		<SymbolPackageFormat>snupkg</SymbolPackageFormat>
 		<PublishRepositoryUrl>true</PublishRepositoryUrl>
 		<IncludeSymbols>true</IncludeSymbols>
 		<EmbedUntrackedSources>true</EmbedUntrackedSources>
