@@ -50,11 +50,11 @@ public class WithToolkit
         long? b = usageDetails.OutputTokenCount;
 
 
+        /**/
+        bool addTool = false;
         ChatClientAgentRunResponse<Weather> commonResponse = await commonAgent.RunAsync<Weather>("What is the weather like in Paris?");
         Weather commonWeather = commonResponse.Result;
 
-
-        bool addTool = false;
 
         AnthropicAgent anthropicAgent = GetAnthropicAgent();
 
@@ -207,7 +207,7 @@ public class WithToolkit
 
             GoogleAgent agent = factory.CreateAgent(new GoogleAgentOptions
             {
-                DeploymentModelName = GenerativeAI.GoogleAIModels.Gemini25Pro,
+                DeploymentModelName = "gemini-3-pro-preview",
                 Tools = addTool ? [AIFunctionFactory.Create(GetWeather)] : [],
             });
             return agent;

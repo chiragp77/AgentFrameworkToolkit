@@ -1,15 +1,15 @@
 using AgentFrameworkToolkit.Anthropic;
-using Microsoft.Agents.AI.DevUI;
-using Microsoft.Agents.AI.Hosting;
-using ServiceDefaults;
 using AgentFrameworkToolkit.AzureOpenAI;
 using AgentFrameworkToolkit.Google;
 using AgentFrameworkToolkit.Mistral;
 using AgentFrameworkToolkit.OpenAI;
+using AgentFrameworkToolkit.OpenRouter;
 using AgentFrameworkToolkit.XAI;
-using Anthropic.SDK.Constants;
 using GenerativeAI;
+using Microsoft.Agents.AI.DevUI;
+using Microsoft.Agents.AI.Hosting;
 using Mistral.SDK;
+using ServiceDefaults;
 
 WebApplicationBuilder builder = WebApplication.CreateBuilder(args);
 
@@ -22,41 +22,48 @@ string? mistralApiKey = builder.Configuration[SecretKeys.MistralApiKey];
 string? googleApiKey = builder.Configuration[SecretKeys.GoogleApiKey];
 string? anthropicApiKey = builder.Configuration[SecretKeys.AnthropicApiKey];
 string? xAIApiKey = builder.Configuration[SecretKeys.XAIApiKey];
+string? openRouterApiKey = builder.Configuration[SecretKeys.OpenRouterApiKey];
 
 if (HasValidValues(azureOpenAiEndpoint, azureOpenAiApiKey))
 {
     const string agentName = "Azure OpenAI Agent";
-    builder.AddAIAgent(agentName, (_, _) => new AzureOpenAIAgentFactory(azureOpenAiEndpoint, azureOpenAiApiKey).CreateAgent(deploymentModelName: "gpt-4.1-mini", name: agentName));
+    builder.AddAIAgent(agentName, (_, _) => new AzureOpenAIAgentFactory(azureOpenAiEndpoint!, azureOpenAiApiKey!).CreateAgent(deploymentModelName: OpenAIChatModels.Gpt41Mini, name: agentName));
 }
 
 if (HasValidValues(openAIApiKey))
 {
     const string agentName = "OpenAI Agent";
-    builder.AddAIAgent(agentName, (_, _) => new OpenAIAgentFactory(openAIApiKey).CreateAgent(model: "gpt-4.1-mini", name: agentName));
+    builder.AddAIAgent(agentName, (_, _) => new OpenAIAgentFactory(openAIApiKey!).CreateAgent(model: OpenAIChatModels.Gpt41Mini, name: agentName));
 }
 
 if (HasValidValues(googleApiKey))
 {
     const string agentName = "Google Agent";
-    builder.AddAIAgent(agentName, (_, _) => new GoogleAgentFactory(googleApiKey).CreateAgent(model: GoogleAIModels.Gemini25Flash, name: agentName));
+    builder.AddAIAgent(agentName, (_, _) => new GoogleAgentFactory(googleApiKey!).CreateAgent(model: GoogleChatModels.Gemini25Flash, name: agentName));
 }
 
 if (HasValidValues(mistralApiKey))
 {
     const string agentName = "Mistral Agent";
-    builder.AddAIAgent(agentName, (_, _) => new MistralAgentFactory(mistralApiKey).CreateAgent(model: ModelDefinitions.MistralSmall, name: agentName));
+    builder.AddAIAgent(agentName, (_, _) => new MistralAgentFactory(mistralApiKey!).CreateAgent(model: MistalChatModels.MistralSmall, name: agentName));
 }
 
 if (HasValidValues(anthropicApiKey))
 {
     const string agentName = "Anthropic Agent";
-    builder.AddAIAgent(agentName, (_, _) => new AnthropicAgentFactory(anthropicApiKey).CreateAgent(model: AnthropicModels.Claude35Haiku, maxTokenCount: 1000, name: agentName));
+    builder.AddAIAgent(agentName, (_, _) => new AnthropicAgentFactory(anthropicApiKey!).CreateAgent(model: AnthropicChatModels.ClaudeHaiku45, maxTokenCount: 1000, name: agentName));
 }
 
 if (HasValidValues(xAIApiKey))
 {
     const string agentName = "XAI Agent";
-    builder.AddAIAgent(agentName, (_, _) => new XAIAgentFactory(xAIApiKey).CreateAgent(model: "grok-4-1-fast-non-reasoning", name: agentName));
+    builder.AddAIAgent(agentName, (_, _) => new XAIAgentFactory(xAIApiKey!).CreateAgent(model: XAIChatModels.Grok41FastNonReasoning, name: agentName));
+}
+
+if (HasValidValues(openRouterApiKey))
+{
+    const string agentName = "OpenRouter Agent";
+    builder.AddAIAgent(agentName, (_, _) => new OpenRouterAgentFactory(openRouterApiKey!).CreateAgent(model: OpenRouterChatModels.OpenAI.Gpt41Mini, name: agentName));
 }
 
 // Register Services needed to run DevUI
@@ -76,10 +83,11 @@ if (builder.Environment.IsDevelopment())
 app.UseHttpsRedirection();
 
 app.Run();
+return;
 
 bool HasValidValues(params string?[] values)
 {
-    foreach (string value in values)
+    foreach (string? value in values)
     {
         if (value?.ToUpperInvariant() is null or "" or "-" or "NONE")
         {

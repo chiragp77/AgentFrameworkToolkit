@@ -23,6 +23,15 @@ public class AnthropicAgentFactory
         _connection = connection;
     }
 
+    /// <summary>
+    /// 
+    /// </summary>
+    /// <param name="model">Name of the model to use (See AnthropicChatModels constants)</param>
+    /// <param name="maxTokenCount"></param>
+    /// <param name="instructions"></param>
+    /// <param name="name"></param>
+    /// <param name="tools"></param>
+    /// <returns></returns>
     public AnthropicAgent CreateAgent(string model, int maxTokenCount, string? instructions = null, string? name = null, AITool[]? tools = null)
     {
         return CreateAgent(new AnthropicAgentOptions

@@ -11,6 +11,7 @@ IResourceBuilder<ParameterResource> googleApiKey = builder.AddParameter(SecretKe
 IResourceBuilder<ParameterResource> anthropicApiKey = builder.AddParameter(SecretKeys.AnthropicApiKey, secret: true).WithDescription(description);
 IResourceBuilder<ParameterResource> xaiApiKey = builder.AddParameter(SecretKeys.XAIApiKey, secret: true).WithDescription(description);
 IResourceBuilder<ParameterResource> openAiApiKey = builder.AddParameter(SecretKeys.OpenAIApiKey, secret: true).WithDescription(description);
+IResourceBuilder<ParameterResource> openRouterApiKey = builder.AddParameter(SecretKeys.OpenRouterApiKey, secret: true).WithDescription(description);
 
 builder.AddProject<DevUI>("DevUI")
     .WithEnvironment(SecretKeys.AzureOpenAIEndpoint, azureOpenAiEndpoint)
@@ -19,6 +20,7 @@ builder.AddProject<DevUI>("DevUI")
     .WithEnvironment(SecretKeys.GoogleApiKey, googleApiKey)
     .WithEnvironment(SecretKeys.AnthropicApiKey, anthropicApiKey)
     .WithEnvironment(SecretKeys.XAIApiKey, xaiApiKey)
-    .WithEnvironment(SecretKeys.OpenAIApiKey, openAiApiKey);
+    .WithEnvironment(SecretKeys.OpenAIApiKey, openAiApiKey)
+    .WithEnvironment(SecretKeys.OpenRouterApiKey, openRouterApiKey);
 
 builder.Build().Run();

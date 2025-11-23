@@ -13,6 +13,7 @@
     <ProjectReference Include="..\AgentFrameworkToolkit.Google\AgentFrameworkToolkit.Google.csproj" />
     <ProjectReference Include="..\AgentFrameworkToolkit.Mistral\AgentFrameworkToolkit.Mistral.csproj" />
     <ProjectReference Include="..\AgentFrameworkToolkit.OpenAI\AgentFrameworkToolkit.OpenAI.csproj" />
+    <ProjectReference Include="..\AgentFrameworkToolkit.OpenRouter\AgentFrameworkToolkit.OpenRouter.csproj" />
     <ProjectReference Include="..\AgentFrameworkToolkit.XAI\AgentFrameworkToolkit.XAI.csproj" />
     <ProjectReference Include="..\ServiceDefaults\ServiceDefaults.csproj" />
   </ItemGroup>
