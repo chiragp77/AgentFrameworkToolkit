@@ -2,13 +2,13 @@
 An opinionated C# Toolkit for Microsoft Agent Framework that makes life easier
 
 ## NuGet
-- [OpenAI](https://www.nuget.org/packages/AgentFrameworkToolkit.OpenAI)
-- [Azure OpenAI](https://www.nuget.org/packages/AgentFrameworkToolkit.AzureOpenAI)
-- [Google (Gemini)](https://www.nuget.org/packages/AgentFrameworkToolkit.Google)
-- [Anthropic (Claude)](https://www.nuget.org/packages/AgentFrameworkToolkit.Anthropic)
-- [XAI (Grok)](https://www.nuget.org/packages/AgentFrameworkToolkit.XAI)
-- [Mistral](https://www.nuget.org/packages/AgentFrameworkToolkit.Mistral)
-- [OpenRouter](https://www.nuget.org/packages/AgentFrameworkToolkit.OpenRouter)
+[OpenAI](https://www.nuget.org/packages/AgentFrameworkToolkit.OpenAI) |
+[Azure OpenAI](https://www.nuget.org/packages/AgentFrameworkToolkit.AzureOpenAI) |
+[Google (Gemini)](https://www.nuget.org/packages/AgentFrameworkToolkit.Google) | 
+[Anthropic (Claude)](https://www.nuget.org/packages/AgentFrameworkToolkit.Anthropic) | 
+[XAI (Grok)](https://www.nuget.org/packages/AgentFrameworkToolkit.XAI) |
+[Mistral](https://www.nuget.org/packages/AgentFrameworkToolkit.Mistral) | 
+[OpenRouter](https://www.nuget.org/packages/AgentFrameworkToolkit.OpenRouter)
 
 ## Examples of use
 > All agents have AIAgent as base, fully work the  rest of Microsoft Agent Framework)
