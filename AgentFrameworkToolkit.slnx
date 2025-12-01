@@ -13,6 +13,7 @@
   <Folder Name="/Solution Items/">
     <File Path="CHANGELOG.md" />
     <File Path="README.md" />
+    <File Path="src/.editorconfig" />
     <File Path="src/nuget-package.props" />
   </Folder>
   <Project Path="src/AppHost/AppHost.csproj" Id="a0ecbf7c-4fea-48a7-8163-8041495a2fa7" />

@@ -1,5 +1,12 @@
 # Changelog - Agent Framework Toolkit
 
+## Unreleases
+- Added RBAC (TokenCredentials) support for Azure OpenAI
+- Enabled Treat Warnings as Errors
+- Added .editorconfig 
+
+---
+
 ## Version 1.0.0-preview.251129.1
 - Added GitHub provider NuGet Package
 - Everything now have XML Summaries
@@ -9,6 +16,7 @@
 - Fixed that `ServiceCollectionExtensions` for Google was in the wrong namespace
 - Fixed that Mistral had an `AddAnthropicAgentFactory` method (wrong name)
 - Fixed that OpenAI ResponseAPI without reasoning Agents did not get their Temperature set
+
 ---
 
 ## Version 1.0.0-preview.251126.2

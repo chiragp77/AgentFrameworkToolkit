@@ -1,5 +1,6 @@
 ﻿using AgentFrameworkToolkit.AzureOpenAI;
 using AgentFrameworkToolkit.OpenAI;
+using Azure.Identity;
 using Microsoft.Agents.AI;
 
 namespace Samples.Providers;
@@ -12,7 +13,7 @@ public static class AzureOpenAI
         AzureOpenAIAgentFactory factory = new(new AzureOpenAIConnection
         {
             Endpoint = configuration.AzureOpenAiEndpoint,
-            ApiKey = configuration.AzureOpenAiKey,
+            Credentials = new AzureCliCredential()
         });
 
         AzureOpenAIAgent agent = factory.CreateAgent(new OpenAIAgentOptionsForChatClientWithoutReasoning

@@ -6,6 +6,7 @@ using Microsoft.Extensions.AI;
 using OpenAI;
 using System.ClientModel;
 using System.ClientModel.Primitives;
+using Azure.Core;
 
 #pragma warning disable OPENAI001
 
@@ -30,6 +31,20 @@ public class AzureOpenAIAgentFactory
         {
             Endpoint = endpoint,
             ApiKey = apiKey
+        };
+    }
+
+    /// <summary>
+    /// Constructor
+    /// </summary>
+    /// <param name="endpoint">Your AzureOpenAI Endpoint (not to be confused with a Microsoft Foundry Endpoint. format: 'https://YourName.openai.azure.com' or 'https://YourName.services.azure.com')</param>
+    /// <param name="credentials">Your RBAC Credentials (if you need a more advanced connection use the constructor overload)</param>
+    public AzureOpenAIAgentFactory(string endpoint, TokenCredential credentials)
+    {
+        _connection = new AzureOpenAIConnection
+        {
+            Endpoint = endpoint,
+            Credentials = credentials
         };
     }
 
@@ -235,6 +250,18 @@ public class AzureOpenAIAgentFactory
 
         _connection.AdditionalAzureOpenAIClientOptions?.Invoke(azureOpenAIClientOptions);
 
-        return new AzureOpenAIClient(new Uri(_connection.Endpoint), new ApiKeyCredential(_connection.ApiKey!), azureOpenAIClientOptions);
+        Uri endpoint = new Uri(_connection.Endpoint);
+        if (!string.IsNullOrWhiteSpace(_connection.ApiKey))
+        {
+            return new AzureOpenAIClient(endpoint, new ApiKeyCredential(_connection.ApiKey!), azureOpenAIClientOptions);
+        }
+
+        // ReSharper disable once ConvertIfStatementToReturnStatement
+        if (_connection.Credentials != null)
+        {
+            return new AzureOpenAIClient(endpoint, _connection.Credentials, azureOpenAIClientOptions);
+        }
+
+        throw new AgentFrameworkToolkitException("Neither APIKey nor TokenCredentials was provided in the AzureConnection");
     }
 }

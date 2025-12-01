@@ -1,4 +1,5 @@
-﻿using JetBrains.Annotations;
+﻿using Azure.Core;
+using JetBrains.Annotations;
 using Microsoft.Extensions.DependencyInjection;
 
 namespace AgentFrameworkToolkit.AzureOpenAI;
@@ -30,5 +31,17 @@ public static class ServiceCollectionExtensions
     public static IServiceCollection AddAzureOpenAIAgentFactory(this IServiceCollection services, string endpoint, string apiKey)
     {
         return services.AddSingleton(new AzureOpenAIAgentFactory(endpoint, apiKey));
+    }
+
+    /// <summary>
+    /// Register an AddAzureOpenAIAgentFactory as a Singleton
+    /// </summary>
+    /// <param name="services">The IServiceCollection collection</param>
+    /// <param name="endpoint">You Azure OpenAI Endpoint</param>
+    /// <param name="credentials">Your RBAC Credentials</param>
+    /// <returns>The ServiceCollection</returns>
+    public static IServiceCollection AddAzureOpenAIAgentFactory(this IServiceCollection services, string endpoint, TokenCredential credentials)
+    {
+        return services.AddSingleton(new AzureOpenAIAgentFactory(endpoint, credentials));
     }
 }
