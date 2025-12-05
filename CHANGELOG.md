@@ -1,5 +1,10 @@
 # Changelog - Agent Framework Toolkit
 
+## Version 1.0.0-preview.251204.1
+- Bumped `Microsoft.Agents.AI` version to latest (1.0.0-preview.251204.1) to be compatible with [latest breaking change around Instructions](https://github.com/microsoft/agent-framework/pull/1517)
+
+---
+
 ## Version 1.0.0-preview.251201.1
 - AzureOpenAI: Added RBAC Support (TokenCredentials)
 - Enabled "Treat Warnings as Errors"

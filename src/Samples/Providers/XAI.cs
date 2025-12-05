@@ -6,7 +6,7 @@ namespace Samples.Providers;
 
 public static class XAI
 {
-    public static async Task Run()
+    public static async Task RunAsync()
     {
         Configuration configuration = ConfigurationManager.GetConfiguration();
         XAIAgentFactory factory = new(new XAIConnection

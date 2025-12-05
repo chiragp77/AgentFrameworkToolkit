@@ -7,7 +7,7 @@ namespace Samples.Providers;
 
 public static class AzureOpenAI
 {
-    public static async Task Run()
+    public static async Task RunAsync()
     {
         Configuration configuration = ConfigurationManager.GetConfiguration();
         AzureOpenAIAgentFactory factory = new(new AzureOpenAIConnection
@@ -19,6 +19,7 @@ public static class AzureOpenAI
         AzureOpenAIAgent agent = factory.CreateAgent(new OpenAIAgentOptionsForChatClientWithoutReasoning
         {
             Model = OpenAIChatModels.Gpt41Mini,
+            Instructions = "Speak like a pirate"
         });
 
         AgentRunResponse response = await agent.RunAsync<string>("Hello");

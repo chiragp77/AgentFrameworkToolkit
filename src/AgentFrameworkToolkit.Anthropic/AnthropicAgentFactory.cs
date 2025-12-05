@@ -82,7 +82,8 @@ public class AnthropicAgentFactory
     {
         ChatOptions chatOptions = new()
         {
-            ModelId = options.Model
+            ModelId = options.Model,
+            Instructions = options.Instructions
         };
 
         if (options.Tools != null)
@@ -111,7 +112,6 @@ public class AnthropicAgentFactory
         ChatClientAgentOptions chatClientAgentOptions = new()
         {
             Name = options.Name,
-            Instructions = options.Instructions,
             Description = options.Description,
             Id = options.Id,
             ChatOptions = chatOptions

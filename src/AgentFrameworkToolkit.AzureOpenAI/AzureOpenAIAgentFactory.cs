@@ -201,6 +201,12 @@ public class AzureOpenAIAgentFactory
             chatOptions.Temperature = responseWithoutReasoning.Temperature;
         }
 
+        if (!string.IsNullOrWhiteSpace(options.Instructions))
+        {
+            anyOptionsSet = true;
+            chatOptions.Instructions = options.Instructions;
+        }
+
         if (responsesApiReasoningOptions != null)
         {
             if (responsesApiReasoningOptions.ReasoningEffort != null || responsesApiReasoningOptions.ReasoningSummaryVerbosity.HasValue)
@@ -216,10 +222,10 @@ public class AzureOpenAIAgentFactory
             chatOptions = chatOptions.WithOpenAIChatClientReasoning(chatClientReasoningOptions.ReasoningEffort);
         }
 
+
         ChatClientAgentOptions chatClientAgentOptions = new()
         {
             Name = options.Name,
-            Instructions = options.Instructions,
             Description = options.Description,
             Id = options.Id,
         };
@@ -249,7 +255,7 @@ public class AzureOpenAIAgentFactory
 
         _connection.AdditionalAzureOpenAIClientOptions?.Invoke(azureOpenAIClientOptions);
 
-        Uri endpoint = new Uri(_connection.Endpoint);
+        Uri endpoint = new(_connection.Endpoint);
         if (!string.IsNullOrWhiteSpace(_connection.ApiKey))
         {
             return new AzureOpenAIClient(endpoint, new ApiKeyCredential(_connection.ApiKey!), azureOpenAIClientOptions);

@@ -106,10 +106,16 @@ public class GoogleAgentFactory
             chatOptions.Temperature = options.Temperature;
         }
 
+
+        if (!string.IsNullOrWhiteSpace(options.Instructions))
+        {
+            anyOptionsSet = true;
+            chatOptions.Instructions = options.Instructions;
+        }
+
         ChatClientAgentOptions chatClientAgentOptions = new()
         {
             Name = options.Name,
-            Instructions = options.Instructions,
             Description = options.Description,
             Id = options.Id
         };

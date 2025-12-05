@@ -205,6 +205,12 @@ public class OpenAIAgentFactory
             chatOptions.Temperature = responseWithoutReasoning.Temperature;
         }
 
+        if (!string.IsNullOrWhiteSpace(options.Instructions))
+        {
+            anyOptionsSet = true;
+            chatOptions.Instructions = options.Instructions;
+        }
+
         if (responsesApiReasoningOptions != null)
         {
             if (responsesApiReasoningOptions.ReasoningEffort != null || responsesApiReasoningOptions.ReasoningSummaryVerbosity.HasValue)
@@ -223,7 +229,6 @@ public class OpenAIAgentFactory
         ChatClientAgentOptions chatClientAgentOptions = new()
         {
             Name = options.Name,
-            Instructions = options.Instructions,
             Description = options.Description,
             Id = options.Id,
         };

@@ -29,7 +29,7 @@ string? gitHubPatToken = builder.Configuration[SecretKeys.GitHubPatToken];
 if (HasValidValues(azureOpenAiEndpoint, azureOpenAiApiKey))
 {
     const string agentName = "Azure OpenAI Agent";
-    builder.AddAIAgent(agentName, (_, _) => new AzureOpenAIAgentFactory(azureOpenAiEndpoint!, azureOpenAiApiKey!).CreateAgent(new OpenAIAgentOptionsForResponseApiWithoutReasoning()
+    builder.AddAIAgent(agentName, (_, _) => new AzureOpenAIAgentFactory(azureOpenAiEndpoint!, azureOpenAiApiKey!).CreateAgent(new OpenAIAgentOptionsForChatClientWithoutReasoning
     {
         Name = agentName,
         Model = OpenAIChatModels.Gpt41Mini
