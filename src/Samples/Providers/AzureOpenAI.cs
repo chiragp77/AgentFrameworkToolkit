@@ -3,6 +3,7 @@ using AgentFrameworkToolkit.OpenAI;
 using Azure.Identity;
 using Microsoft.Agents.AI;
 using OpenAI.Chat;
+
 #pragma warning disable OPENAI001
 
 namespace Samples.Providers;

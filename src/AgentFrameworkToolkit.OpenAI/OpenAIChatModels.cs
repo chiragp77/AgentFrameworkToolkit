@@ -9,9 +9,24 @@ namespace AgentFrameworkToolkit.OpenAI;
 public static class OpenAIChatModels
 {
     /// <summary>
+    /// GPT-5.2 Pro (Reasoning)
+    /// </summary>
+    public const string Gpt52Pro = "gpt-5.2-pro";
+
+    /// <summary>
+    /// GPT-5.2 (Reasoning)
+    /// </summary>
+    public const string Gpt52 = "gpt-5.2";
+
+    /// <summary>
     /// GPT-5.1 (Reasoning)
     /// </summary>
     public const string Gpt51 = "gpt-5.1";
+
+    /// <summary>
+    /// GPT-5.1 Codex (Reasoning) [NB: Only work with Responses API]
+    /// </summary>
+    public const string Gpt51CodexMax = "gpt-5.1-codex-max";
 
     /// <summary>
     /// GPT-5.1 Codex (Reasoning) [NB: Only work with Responses API]
@@ -24,7 +39,7 @@ public static class OpenAIChatModels
     public const string Gpt5Codex = "gpt-5-codex";
 
     /// <summary>
-    /// GPT-5 pro (Reasoning)
+    /// GPT-5 Pro (Reasoning)
     /// </summary>
     public const string Gpt5Pro = "gpt-5-pro";
 
@@ -57,4 +72,14 @@ public static class OpenAIChatModels
     /// GPT-4.1 Nano (Non-Reasoning)
     /// </summary>
     public const string Gpt41Nano = "gpt-4.1-nano";
+
+    /// <summary>
+    /// GPT-4o (Non-Reasoning)
+    /// </summary>
+    public const string Gpt4O = "gpt-4o";
+
+    /// <summary>
+    /// GPT-4o (Non-Reasoning)
+    /// </summary>
+    public const string Gpt4OMini = "gpt-4o-mini";
 }
