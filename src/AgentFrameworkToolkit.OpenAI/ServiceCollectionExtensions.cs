@@ -1,5 +1,6 @@
 ﻿using JetBrains.Annotations;
 using Microsoft.Extensions.DependencyInjection;
+using System.Diagnostics.CodeAnalysis;
 
 namespace AgentFrameworkToolkit.OpenAI;
 
@@ -29,5 +30,27 @@ public static class ServiceCollectionExtensions
     public static IServiceCollection AddOpenAIAgentFactory(this IServiceCollection services, string apiKey)
     {
         return services.AddSingleton(new OpenAIAgentFactory(apiKey));
+    }
+
+    /// <summary>
+    /// Register an OpenAIEmbeddingFactory as a Singleton
+    /// </summary>
+    /// <param name="services">The IServiceCollection collection</param>
+    /// <param name="connection">Connection Details</param>
+    /// <returns>The ServiceCollection</returns>
+    public static IServiceCollection AddOpenAIEmbeddingFactory(this IServiceCollection services, OpenAIConnection connection)
+    {
+        return services.AddSingleton(new OpenAIEmbeddingFactory(connection));
+    }
+
+    /// <summary>
+    /// Register an OpenAIEmbeddingFactory as a Singleton
+    /// </summary>
+    /// <param name="services">The IServiceCollection collection</param>
+    /// <param name="apiKey">The API Key</param>
+    /// <returns>The ServiceCollection</returns>
+    public static IServiceCollection AddOpenAIEmbeddingFactory(this IServiceCollection services, string apiKey)
+    {
+        return services.AddSingleton(new OpenAIEmbeddingFactory(apiKey));
     }
 }
