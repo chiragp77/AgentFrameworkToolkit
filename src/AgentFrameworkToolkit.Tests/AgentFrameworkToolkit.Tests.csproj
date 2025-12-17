@@ -29,7 +29,7 @@
   </ItemGroup>
 
   <ItemGroup>
-    <ProjectReference Include="..\AgentFrameworkToolkit.ModelContextProtocol\AgentFrameworkToolkit.ModelContextProtocol.csproj" />
+    <ProjectReference Include="..\AgentFrameworkToolkit.Tools.ModelContextProtocol\AgentFrameworkToolkit.Tools.ModelContextProtocol.csproj" />
     <ProjectReference Include="..\AgentFrameworkToolkit\AgentFrameworkToolkit.csproj" />
   </ItemGroup>
 

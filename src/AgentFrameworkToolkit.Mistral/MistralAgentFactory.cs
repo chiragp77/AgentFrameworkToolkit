@@ -61,7 +61,7 @@ public class MistralAgentFactory
     {
         IChatClient client = _connection.GetClient(options.RawHttpCallDetails).Completions;
 
-        AIAgent innerAgent = new ChatClientAgent(client, CreateChatClientAgentOptions(options));
+        AIAgent innerAgent = new ChatClientAgent(client, CreateChatClientAgentOptions(options), options.LoggerFactory, options.Services);
 
         // ReSharper disable once ConvertIfStatementToReturnStatement
         if (options.RawToolCallDetails != null)

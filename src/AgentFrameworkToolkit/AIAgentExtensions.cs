@@ -11,7 +11,7 @@ namespace AgentFrameworkToolkit;
 /// Various Extensions for an AI Agent
 /// </summary>
 [PublicAPI]
-public static class AIAgentExtensions
+public static class AIToolsExtensions
 {
     /// <summary>
     /// Runs the agent with a collection of chat messages, requesting a response of the specified type <typeparamref name="T"/>.

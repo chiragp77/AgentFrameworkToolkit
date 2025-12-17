@@ -1,5 +1,6 @@
 ﻿using Microsoft.Agents.AI;
 using Microsoft.Extensions.AI;
+using Microsoft.Extensions.Logging;
 
 namespace AgentFrameworkToolkit.OpenAI;
 
@@ -57,6 +58,21 @@ public abstract class OpenAIAgentOptions
     /// An Action that allow you to inject additional ChatClientAgentOptions settings beyond what these options can do
     /// </summary>
     public Action<ChatClientAgentOptions>? AdditionalChatClientAgentOptions { get; set; }
+
+    /// <summary>
+    /// An optional <see cref="IServiceProvider"/> to use for resolving services required by the <see cref="AIFunction"/> instances being invoked.
+    /// </summary>
+    public IServiceProvider? Services { get; set; }
+
+    /// <summary>
+    /// Optional logger factory for enabling logging within the agent.
+    /// </summary>
+    public ILoggerFactory? LoggerFactory { get; set; }
+
+    /// <summary>
+    /// Provides a way to customize the creation of the underlying <see cref="IChatClient"/> used by the agent.
+    /// </summary>
+    public Func<IChatClient, IChatClient>? ClientFactory { get; set; }
 
     /// <summary>
     /// Apply Middleware to the Agent, if needed

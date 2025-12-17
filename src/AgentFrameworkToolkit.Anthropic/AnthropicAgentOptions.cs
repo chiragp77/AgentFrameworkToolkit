@@ -1,5 +1,6 @@
 ﻿using Microsoft.Agents.AI;
 using Microsoft.Extensions.AI;
+using Microsoft.Extensions.Logging;
 
 namespace AgentFrameworkToolkit.Anthropic;
 
@@ -63,6 +64,16 @@ public class AnthropicAgentOptions
     /// This value controls the randomness of predictions made by the model. Use a lower value to decrease randomness in the response.
     /// </remarks>
     public float? Temperature { get; set; }
+
+    /// <summary>
+    /// An optional <see cref="IServiceProvider"/> to use for resolving services required by the <see cref="AIFunction"/> instances being invoked.
+    /// </summary>
+    public IServiceProvider? Services { get; set; }
+
+    /// <summary>
+    /// Optional logger factory for enabling logging within the agent.
+    /// </summary>
+    public ILoggerFactory? LoggerFactory { get; set; }
 
     /// <summary>
     /// Apply Middleware to the Agent, if needed

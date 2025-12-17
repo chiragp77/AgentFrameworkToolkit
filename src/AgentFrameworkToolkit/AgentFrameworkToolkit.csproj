@@ -5,9 +5,8 @@
 		<ImplicitUsings>enable</ImplicitUsings>
 		<Nullable>enable</Nullable>
 		<GeneratePackageOnBuild>True</GeneratePackageOnBuild>
-		<WarningsAsErrors>false</WarningsAsErrors>
-		<TreatWarningsAsErrors>false</TreatWarningsAsErrors>
-		<PackageListed>false</PackageListed>
+		<WarningsAsErrors>true</WarningsAsErrors>
+		<TreatWarningsAsErrors>true</TreatWarningsAsErrors>
 		<Description>An opinionated C# Toolkit for Microsoft Agent Framework that makes life eaisier</Description>
 	</PropertyGroup>
 

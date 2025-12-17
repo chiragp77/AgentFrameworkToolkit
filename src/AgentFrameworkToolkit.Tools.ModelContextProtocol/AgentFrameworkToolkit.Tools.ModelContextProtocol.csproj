@@ -4,6 +4,10 @@
 		<TargetFramework>net8.0</TargetFramework>
 		<ImplicitUsings>enable</ImplicitUsings>
 		<Nullable>enable</Nullable>
+		<GeneratePackageOnBuild>True</GeneratePackageOnBuild>
+		<WarningsAsErrors>true</WarningsAsErrors>
+		<TreatWarningsAsErrors>true</TreatWarningsAsErrors>
+		<Description>An opinionated C# Toolkit targeting Model Context Protocol for Microsoft Agent Framework Tools</Description>
 	</PropertyGroup>
 
 	<Import Project="..\nuget-package.props" />

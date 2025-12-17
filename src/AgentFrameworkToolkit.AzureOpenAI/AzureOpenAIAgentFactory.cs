@@ -136,7 +136,11 @@ public class AzureOpenAIAgentFactory
 
         AIAgent innerAgent = client
             .GetChatClient(options.Model)
-            .CreateAIAgent(chatClientAgentOptions);
+            .CreateAIAgent(
+                options: chatClientAgentOptions,
+                services: options.Services,
+                loggerFactory: options.LoggerFactory,
+                clientFactory: options.ClientFactory);
 
         // ReSharper disable once ConvertIfStatementToReturnStatement
         if (options.RawToolCallDetails != null)
@@ -160,7 +164,11 @@ public class AzureOpenAIAgentFactory
 
         AIAgent innerAgent = client
             .GetChatClient(options.Model)
-            .CreateAIAgent(chatClientAgentOptions);
+            .CreateAIAgent(
+                options: chatClientAgentOptions,
+                services: options.Services,
+                loggerFactory: options.LoggerFactory,
+                clientFactory: options.ClientFactory);
 
         // ReSharper disable once ConvertIfStatementToReturnStatement
         if (options.RawToolCallDetails != null)

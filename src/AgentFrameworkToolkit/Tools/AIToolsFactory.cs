@@ -1,91 +1,87 @@
-﻿using System.ComponentModel;
-using System.Reflection;
-using System.Text.RegularExpressions;
+﻿using System.Reflection;
 using Microsoft.Extensions.AI;
 
 namespace AgentFrameworkToolkit.Tools;
 
+/// <summary>
+/// A Factory to get AI Tools from Classes and Methods
+/// </summary>
 public class AIToolsFactory
 {
-    public IList<AITool> GetToolsFromAttribute(object instance)
+    /// <summary>
+    /// Get all Tools in an object Type with the [AITool] attribute (require an empty constructor)
+    /// </summary>
+    /// <param name="type">An object type</param>
+    /// <returns>AI Tools collection</returns>
+    private IList<AITool> GetTools(Type type)
     {
-        Type type = instance.GetType();
+        if (type.IsAbstract)
+        {
+            List<AITool> staticTools = [];
+            IEnumerable<MethodInfo> methodsWithAttribute = GetMethodsWithAttribute(type);
+            foreach (MethodInfo methodInfo in methodsWithAttribute)
+            {
+                AIToolAttribute definition = methodInfo.GetCustomAttribute<AIToolAttribute>()!;
+                staticTools.Add(AIFunctionFactory.Create(methodInfo, name: definition.Name, description: definition.Description, target: null));
+            }
+
+            return staticTools;
+        }
+
+        object instance = Activator.CreateInstance(type)!;
+        return GetTools(instance);
+    }
+
+    /// <summary>
+    /// Get all Tools in an object instance with the [AITool] attribute
+    /// </summary>
+    /// <param name="objectInstance">An object instance</param>
+    /// <returns>AI Tools collection</returns>
+    private IList<AITool> GetTools(object objectInstance)
+    {
+        Type type = objectInstance.GetType();
         IEnumerable<MethodInfo> methods = GetMethodsWithAttribute(type);
         AITool[] tools = methods.Select(methodInfo =>
         {
-            AiToolDetailsAttribute details = methodInfo.GetCustomAttribute<AiToolDetailsAttribute>()!;
-            return AIFunctionFactory.Create(methodInfo, instance, name: details.Name, description: details.Description);
+            AIToolAttribute definition = methodInfo.GetCustomAttribute<AIToolAttribute>()!;
+            return AIFunctionFactory.Create(methodInfo, objectInstance, name: definition.Name, description: definition.Description);
         }).Cast<AITool>().ToArray();
         return tools;
     }
 
-    public IList<AITool> GetToolsFromMethods(object instance, AIToolsFactoryMethodOptions? options = null)
+    /// <summary>
+    /// Get all Tools in a collection of Types with the [AITool] attribute (each require an empty constructor)
+    /// </summary>
+    /// <param name="types">A collection of Types to get tools from</param>
+    /// <returns>AI Tools collection</returns>
+    public IList<AITool> GetTools(params Type[] types)
     {
-        options ??= new AIToolsFactoryMethodOptions();
-        Type type = instance.GetType();
-        IEnumerable<MethodInfo> methods = GetMethods(type, options);
-        AITool[] tools1 = methods.Select(methodInfo =>
+        List<AITool> result = [];
+        foreach (Type type in types)
         {
-            string name = options.MakeNamesSnakeCase ? ToSnakeCase(methodInfo.Name) : methodInfo.Name;
-            string? description = options.IncludeDescriptions ? methodInfo.GetCustomAttribute<DescriptionAttribute>()?.Description : null;
-            return AIFunctionFactory.Create(methodInfo, instance, name: name, description: description);
-        }).Cast<AITool>().ToArray();
-        AITool[] tools = tools1;
-        return tools;
-
-        static string ToSnakeCase(string input)
-        {
-            string result = Regex.Replace(input, "([a-z0-9])([A-Z])", "$1_$2");
-            return result.ToLower();
+            result.AddRange(GetTools(type));
         }
+
+        return result;
     }
 
-    private IEnumerable<MethodInfo> GetMethods(Type type, AIToolsFactoryMethodOptions options)
+    /// <summary>
+    /// Get all Tools in a collection of object instances with the [AITool] attribute
+    /// </summary>
+    /// <param name="objectInstances">A collection of object instances to get tools from</param>
+    /// <returns>AI Tools collection</returns>
+    public IList<AITool> GetTools(params object[] objectInstances)
     {
-        IEnumerable<MethodInfo> methods = [];
-
-        if (options.IncludePublicMethods)
+        List<AITool> result = [];
+        foreach (object instance in objectInstances)
         {
-            BindingFlags flags = GetBindingFlags(BindingFlags.Instance | BindingFlags.Public);
-            methods = methods.Union(type.GetMethods(flags));
+            result.AddRange(GetTools(instance));
         }
 
-        if (options.IncludeNonPublicMethods)
-        {
-            BindingFlags flags = GetBindingFlags(BindingFlags.Instance | BindingFlags.NonPublic);
-            methods = methods.Union(type.GetMethods(flags));
-        }
-
-        if (options.IncludePublicStaticMethods)
-        {
-            BindingFlags flags = GetBindingFlags(BindingFlags.Static | BindingFlags.Public);
-            methods = methods.Union(type.GetMethods(flags));
-        }
-
-        if (options.IncludeNonPublicStaticMethods)
-        {
-            BindingFlags flags = GetBindingFlags(BindingFlags.Static | BindingFlags.NonPublic);
-            methods = methods.Union(type.GetMethods(flags));
-        }
-
-        return methods;
-
-        BindingFlags GetBindingFlags(BindingFlags flags)
-        {
-            if (options.DeclaredOnly)
-            {
-                flags |= BindingFlags.DeclaredOnly;
-            }
-            else
-            {
-                flags |= BindingFlags.FlattenHierarchy;
-            }
-
-            return flags;
-        }
+        return result;
     }
 
-    private IEnumerable<MethodInfo> GetMethodsWithAttribute(Type type)
+    private static IEnumerable<MethodInfo> GetMethodsWithAttribute(Type type)
     {
         MethodInfo[] methods = type.GetMethods(
             BindingFlags.Public
@@ -94,6 +90,6 @@ public class AIToolsFactory
             | BindingFlags.Instance
             | BindingFlags.FlattenHierarchy);
 
-        return methods.Where(x => x.GetCustomAttribute<AiToolDetailsAttribute>() != null).ToList();
+        return methods.Where(x => x.GetCustomAttribute<AIToolAttribute>() != null).ToList();
     }
 }

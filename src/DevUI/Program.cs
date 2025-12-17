@@ -5,6 +5,7 @@ using AgentFrameworkToolkit.Google;
 using AgentFrameworkToolkit.Mistral;
 using AgentFrameworkToolkit.OpenAI;
 using AgentFrameworkToolkit.OpenRouter;
+using AgentFrameworkToolkit.Tools;
 using AgentFrameworkToolkit.XAI;
 using Microsoft.Agents.AI.DevUI;
 using Microsoft.Agents.AI.Hosting;

@@ -1,5 +1,5 @@
-using AgentFrameworkToolkit.ModelContextProtocol;
 using AgentFrameworkToolkit.Tools;
+using AgentFrameworkToolkit.Tools.ModelContextProtocol;
 using JetBrains.Annotations;
 using Microsoft.Extensions.AI;
 
@@ -8,10 +8,27 @@ namespace AgentFrameworkToolkit.Tests;
 public class AIToolsFactoryTests
 {
     [Fact]
-    public void GetToolsFromAttribute()
+    public void GetToolsFromInstance()
     {
         AIToolsFactory factory = new();
-        IList<AITool> tools = factory.GetToolsFromAttribute(new TestToolsWithAttributes());
+        IList<AITool> tools = factory.GetTools(new TestToolsWithAttributes());
+
+        Assert.Equal(4, tools.Count);
+        Assert.Equal("tool_1", tools[0].Name);
+        Assert.Equal("This is tool1", tools[0].Description);
+        Assert.Equal("tool_2", tools[1].Name);
+        Assert.Equal("This is tool2", tools[1].Description);
+        Assert.Equal("tool_3", tools[2].Name);
+        Assert.Equal("This is tool3", tools[2].Description);
+        Assert.Equal("tool_4", tools[3].Name);
+        Assert.Equal("This is tool4", tools[3].Description);
+    }
+
+    [Fact]
+    public void GetToolsFromType()
+    {
+        AIToolsFactory factory = new();
+        IList<AITool> tools = factory.GetTools(typeof(TestToolsWithAttributes));
 
         Assert.Equal(4, tools.Count);
         Assert.Equal("tool_1", tools[0].Name);
@@ -49,25 +66,25 @@ public class AIToolsFactoryTests
     [PublicAPI]
     private class TestToolsWithAttributes
     {
-        [AiToolDetails("tool_1", "This is tool1")]
+        [AITool("tool_1", "This is tool1")]
         public string Tool1(string input1)
         {
             return input1;
         }
 
-        [AiToolDetails("tool_2", "This is tool2")]
+        [AITool("tool_2", "This is tool2")]
         private string Tool2(string input1)
         {
             return input1;
         }
 
-        [AiToolDetails("tool_3", "This is tool3")]
+        [AITool("tool_3", "This is tool3")]
         public static string Tool3(string input1)
         {
             return input1;
         }
 
-        [AiToolDetails("tool_4", "This is tool4")]
+        [AITool("tool_4", "This is tool4")]
         private static string Tool4(string input1)
         {
             return input1;
