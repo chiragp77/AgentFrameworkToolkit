@@ -51,8 +51,9 @@ public class OpenRouterAgentFactory
     /// <returns>An Agent</returns>
     public OpenRouterAgent CreateAgent(string model, string? instructions = null, string? name = null, AITool[]? tools = null)
     {
-        return CreateAgent(new OpenAIAgentOptionsForChatClientWithoutReasoning
+        return CreateAgent(new AgentOptions
         {
+            ClientType = ClientType.ChatClient,
             Model = model,
             Name = name,
             Instructions = instructions,
@@ -65,6 +66,17 @@ public class OpenRouterAgentFactory
     /// </summary>
     /// <param name="options">Options for the agent</param>
     /// <returns>The Agent</returns>
+    public OpenRouterAgent CreateAgent(AgentOptions options)
+    {
+        return new OpenRouterAgent(_openAIAgentFactory.CreateAgent(options));
+    }
+
+    /// <summary>
+    /// Create a new Agent
+    /// </summary>
+    /// <param name="options">Options for the agent</param>
+    /// <returns>The Agent</returns>
+    [Obsolete("Use 'AgentOptions' variant instead (This method will be remove 1st of January 2026)")]
     public OpenRouterAgent CreateAgent(OpenAIAgentOptionsForResponseApiWithoutReasoning options)
     {
         return new OpenRouterAgent(_openAIAgentFactory.CreateAgent(options));
@@ -75,6 +87,7 @@ public class OpenRouterAgentFactory
     /// </summary>
     /// <param name="options">Options for the agent</param>
     /// <returns>The Agent</returns>
+    [Obsolete("Use 'AgentOptions' variant instead (This method will be remove 1st of January 2026)")]
     public OpenRouterAgent CreateAgent(OpenAIAgentOptionsForResponseApiWithReasoning options)
     {
         return new OpenRouterAgent(_openAIAgentFactory.CreateAgent(options));
@@ -85,6 +98,7 @@ public class OpenRouterAgentFactory
     /// </summary>
     /// <param name="options">Options for the agent</param>
     /// <returns>The Agent</returns>
+    [Obsolete("Use 'AgentOptions' variant instead (This method will be remove 1st of January 2026)")]
     public OpenRouterAgent CreateAgent(OpenAIAgentOptionsForChatClientWithoutReasoning options)
     {
         return new OpenRouterAgent(_openAIAgentFactory.CreateAgent(options));
@@ -95,6 +109,7 @@ public class OpenRouterAgentFactory
     /// </summary>
     /// <param name="options">Options for the agent</param>
     /// <returns>The Agent</returns>
+    [Obsolete("Use 'AgentOptions' variant instead (This method will be remove 1st of January 2026)")]
     public OpenRouterAgent CreateAgent(OpenAIAgentOptionsForChatClientWithReasoning options)
     {
         return new OpenRouterAgent(_openAIAgentFactory.CreateAgent(options));

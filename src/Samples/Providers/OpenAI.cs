@@ -9,12 +9,12 @@ namespace Samples.Providers;
 
 public static class OpenAI
 {
-    public static async Task Run()
+    public static async Task RunAsync()
     {
         Configuration configuration = ConfigurationManager.GetConfiguration();
-        OpenAIAgentFactory factory = new OpenAIAgentFactory(configuration.OpenAiApiKey);
+        OpenAIAgentFactory factory = new(configuration.OpenAiApiKey);
 
-        OpenAIAgent agent = factory.CreateAgent(new OpenAIAgentOptionsForChatClientWithoutReasoning()
+        OpenAIAgent agent = factory.CreateAgent(new AgentOptions()
         {
             Model = OpenAIChatModels.Gpt5Mini,
             MaxOutputTokens = 2000,

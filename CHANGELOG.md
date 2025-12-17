@@ -2,6 +2,7 @@
 
 ## Version 1.0.0-preview.251217.1
 - Added `AIToolsFactory` to make it easier to create and define AI Tools
+- [BREAKING] Obsoleted `OpenAIAgentOptionsForChatClientWithoutReasoning`, `OpenAIAgentOptionsForChatClientWithReasoning`, `OpenAIAgentOptionsForResponseApiWithoutReasoning` and `OpenAIAgentOptionsForResponseApiWithReasoning` as these names where 'too much' and confused (Use AgentOptions instead (with `ClientType` and `ReasoningEffort` Enums to control the option))
 - Added support for `IServiceProvider`, `ILoggerFactory` and `ClientFactory` in Agent Creation
 
 ## Version 1.0.0-preview.251215.1

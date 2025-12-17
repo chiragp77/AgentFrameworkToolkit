@@ -2,6 +2,8 @@
 using Microsoft.Agents.AI;
 using Microsoft.Extensions.AI;
 using OpenAI;
+using OpenAI.Chat;
+using OpenAI.Responses;
 
 #pragma warning disable OPENAI001
 
@@ -46,8 +48,9 @@ public class OpenAIAgentFactory
     /// <returns>An Agent</returns>
     public OpenAIAgent CreateAgent(string model, string? instructions = null, string? name = null, AITool[]? tools = null)
     {
-        return CreateAgent(new OpenAIAgentOptionsForChatClientWithoutReasoning
+        return CreateAgent(new AgentOptions
         {
+            ClientType = ClientType.ChatClient,
             Model = model,
             Name = name,
             Instructions = instructions,
@@ -60,6 +63,45 @@ public class OpenAIAgentFactory
     /// </summary>
     /// <param name="options">Options for the agent</param>
     /// <returns>The Agent</returns>
+    public OpenAIAgent CreateAgent(AgentOptions options)
+    {
+        OpenAIClient client = _connection.GetClient(options.RawHttpCallDetails);
+
+        ChatClientAgentOptions chatClientAgentOptions = CreateChatClientAgentOptions(options);
+
+        ChatClientAgent innerAgent;
+        switch (options.ClientType)
+        {
+            case ClientType.ChatClient:
+                innerAgent = client
+                    .GetChatClient(options.Model)
+                    .CreateAIAgent(chatClientAgentOptions);
+                break;
+            case ClientType.ResponsesApi:
+                innerAgent = client
+                    .GetOpenAIResponseClient(options.Model)
+                    .CreateAIAgent(chatClientAgentOptions);
+                break;
+            default:
+                throw new ArgumentOutOfRangeException();
+        }
+
+        // ReSharper disable once ConvertIfStatementToReturnStatement
+        if (options.RawToolCallDetails != null)
+        {
+            return new OpenAIAgent(options.ApplyMiddleware(innerAgent));
+        }
+
+        return new OpenAIAgent(innerAgent);
+    }
+
+
+    /// <summary>
+    /// Create a new Agent
+    /// </summary>
+    /// <param name="options">Options for the agent</param>
+    /// <returns>The Agent</returns>
+    [Obsolete("Use 'AgentOptions' variant instead (This method will be remove 1st of January 2026)")]
     public OpenAIAgent CreateAgent(OpenAIAgentOptionsForResponseApiWithoutReasoning options)
     {
         OpenAIClient client = _connection.GetClient(options.RawHttpCallDetails);
@@ -84,6 +126,7 @@ public class OpenAIAgentFactory
     /// </summary>
     /// <param name="options">Options for the agent</param>
     /// <returns>The Agent</returns>
+    [Obsolete("Use 'AgentOptions' variant instead (This method will be remove 1st of January 2026)")]
     public OpenAIAgent CreateAgent(OpenAIAgentOptionsForResponseApiWithReasoning options)
     {
         OpenAIClient client = _connection.GetClient(options.RawHttpCallDetails);
@@ -108,6 +151,7 @@ public class OpenAIAgentFactory
     /// </summary>
     /// <param name="options">Options for the agent</param>
     /// <returns>The Agent</returns>
+    [Obsolete("Use 'AgentOptions' variant instead (This method will be remove 1st of January 2026)")]
     public OpenAIAgent CreateAgent(OpenAIAgentOptionsForChatClientWithoutReasoning options)
     {
         OpenAIClient client = _connection.GetClient(options.RawHttpCallDetails);
@@ -136,6 +180,7 @@ public class OpenAIAgentFactory
     /// </summary>
     /// <param name="options">Options for the agent</param>
     /// <returns>The Agent</returns>
+    [Obsolete("Use 'AgentOptions' variant instead (This method will be remove 1st of January 2026)")]
     public OpenAIAgent CreateAgent(OpenAIAgentOptionsForChatClientWithReasoning options)
     {
         OpenAIClient client = _connection.GetClient(options.RawHttpCallDetails);
@@ -159,6 +204,7 @@ public class OpenAIAgentFactory
         return new OpenAIAgent(innerAgent);
     }
 
+    [Obsolete("Use 'AgentOptions' variant instead (This method will be remove 1st of January 2026)")]
     private ChatClientAgentOptions CreateChatClientAgentOptions(OpenAIAgentOptions options, OpenAIAgentOptionsForChatClientWithoutReasoning? chatClientWithoutReasoning, OpenAIAgentOptionsForResponseApiWithoutReasoning? responseWithoutReasoning, OpenAIAgentOptionsForResponseApiWithReasoning? responsesApiReasoningOptions, OpenAIAgentOptionsForChatClientWithReasoning? chatClientReasoningOptions)
     {
         bool anyOptionsSet = false;
@@ -206,6 +252,105 @@ public class OpenAIAgentFactory
         {
             anyOptionsSet = true;
             chatOptions = chatOptions.WithOpenAIChatClientReasoning(chatClientReasoningOptions.ReasoningEffort);
+        }
+
+        ChatClientAgentOptions chatClientAgentOptions = new()
+        {
+            Name = options.Name,
+            Description = options.Description,
+            Id = options.Id,
+        };
+        if (anyOptionsSet)
+        {
+            chatClientAgentOptions.ChatOptions = chatOptions;
+        }
+
+        options.AdditionalChatClientAgentOptions?.Invoke(chatClientAgentOptions);
+
+        return chatClientAgentOptions;
+    }
+
+    private ChatClientAgentOptions CreateChatClientAgentOptions(AgentOptions options)
+    {
+        bool anyOptionsSet = false;
+        ChatOptions chatOptions = new();
+        if (options.Tools != null)
+        {
+            anyOptionsSet = true;
+            chatOptions.Tools = options.Tools;
+        }
+
+        if (options.MaxOutputTokens.HasValue)
+        {
+            anyOptionsSet = true;
+            chatOptions.MaxOutputTokens = options.MaxOutputTokens.Value;
+        }
+
+        if (options.Temperature != null && !OpenAIChatModels.ReasoningModels.Contains(options.Model))
+        {
+            anyOptionsSet = true;
+            chatOptions.Temperature = options.Temperature;
+        }
+
+        if (!string.IsNullOrWhiteSpace(options.Instructions))
+        {
+            anyOptionsSet = true;
+            chatOptions.Instructions = options.Instructions;
+        }
+
+        string? reasoningEffortAsString = null;
+        switch (options.ReasoningEffort)
+        {
+            case OpenAIReasoningEffort.None:
+                reasoningEffortAsString = "none";
+                break;
+            case OpenAIReasoningEffort.Minimal:
+                reasoningEffortAsString = "minimal";
+                break;
+            case OpenAIReasoningEffort.Low:
+                reasoningEffortAsString = "low";
+                break;
+            case OpenAIReasoningEffort.Medium:
+                reasoningEffortAsString = "medium";
+                break;
+            case OpenAIReasoningEffort.High:
+                reasoningEffortAsString = "high";
+                break;
+            case OpenAIReasoningEffort.ExtraHigh:
+                reasoningEffortAsString = "xhigh";
+                break;
+        }
+
+        if (!string.IsNullOrWhiteSpace(reasoningEffortAsString) && !OpenAIChatModels.NonReasoningModels.Contains(options.Model))
+        {
+            anyOptionsSet = true;
+
+            switch (options.ClientType)
+            {
+                case ClientType.ChatClient:
+                    chatOptions = chatOptions.WithOpenAIChatClientReasoning(new ChatReasoningEffortLevel(reasoningEffortAsString));
+                    break;
+                case ClientType.ResponsesApi:
+                    switch (options.ReasoningSummaryVerbosity)
+                    {
+                        case OpenAIReasoningSummaryVerbosity.Auto:
+                            chatOptions = chatOptions.WithOpenAIResponsesApiReasoning(new ResponseReasoningEffortLevel(reasoningEffortAsString), ResponseReasoningSummaryVerbosity.Auto);
+                            break;
+                        case OpenAIReasoningSummaryVerbosity.Concise:
+                            chatOptions = chatOptions.WithOpenAIResponsesApiReasoning(new ResponseReasoningEffortLevel(reasoningEffortAsString), ResponseReasoningSummaryVerbosity.Concise);
+                            break;
+                        case OpenAIReasoningSummaryVerbosity.Detailed:
+                            chatOptions = chatOptions.WithOpenAIResponsesApiReasoning(new ResponseReasoningEffortLevel(reasoningEffortAsString), ResponseReasoningSummaryVerbosity.Detailed);
+                            break;
+                        case null:
+                            chatOptions = chatOptions.WithOpenAIResponsesApiReasoning(new ResponseReasoningEffortLevel(reasoningEffortAsString));
+                            break;
+                    }
+
+                    break;
+                default:
+                    throw new ArgumentOutOfRangeException();
+            }
         }
 
         ChatClientAgentOptions chatClientAgentOptions = new()

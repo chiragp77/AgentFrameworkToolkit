@@ -30,8 +30,9 @@ string? gitHubPatToken = builder.Configuration[SecretKeys.GitHubPatToken];
 if (HasValidValues(azureOpenAiEndpoint, azureOpenAiApiKey))
 {
     const string agentName = "Azure OpenAI Agent";
-    builder.AddAIAgent(agentName, (_, _) => new AzureOpenAIAgentFactory(azureOpenAiEndpoint!, azureOpenAiApiKey!).CreateAgent(new OpenAIAgentOptionsForChatClientWithoutReasoning
+    builder.AddAIAgent(agentName, (_, _) => new AzureOpenAIAgentFactory(azureOpenAiEndpoint!, azureOpenAiApiKey!).CreateAgent(new AgentOptions
     {
+        ClientType = ClientType.ChatClient,
         Name = agentName,
         Model = OpenAIChatModels.Gpt41Mini
     }));
@@ -40,8 +41,9 @@ if (HasValidValues(azureOpenAiEndpoint, azureOpenAiApiKey))
 if (HasValidValues(openAIApiKey))
 {
     const string agentName = "OpenAI Agent";
-    builder.AddAIAgent(agentName, (_, _) => new OpenAIAgentFactory(openAIApiKey!).CreateAgent(new OpenAIAgentOptionsForChatClientWithoutReasoning
+    builder.AddAIAgent(agentName, (_, _) => new OpenAIAgentFactory(openAIApiKey!).CreateAgent(new AgentOptions
     {
+        ClientType = ClientType.ChatClient,
         Name = agentName,
         Model = OpenAIChatModels.Gpt41Mini,
     }));
@@ -81,7 +83,7 @@ if (HasValidValues(anthropicApiKey))
 if (HasValidValues(xAIApiKey))
 {
     const string agentName = "XAI Agent";
-    builder.AddAIAgent(agentName, (_, _) => new XAIAgentFactory(xAIApiKey!).CreateAgent(new OpenAIAgentOptionsForChatClientWithoutReasoning
+    builder.AddAIAgent(agentName, (_, _) => new XAIAgentFactory(xAIApiKey!).CreateAgent(new AgentOptions
     {
         Name = agentName,
         Model = XAIChatModels.Grok41FastNonReasoning
@@ -91,7 +93,7 @@ if (HasValidValues(xAIApiKey))
 if (HasValidValues(openRouterApiKey))
 {
     const string agentName = "OpenRouter Agent";
-    builder.AddAIAgent(agentName, (_, _) => new OpenRouterAgentFactory(openRouterApiKey!).CreateAgent(new OpenAIAgentOptionsForChatClientWithoutReasoning
+    builder.AddAIAgent(agentName, (_, _) => new OpenRouterAgentFactory(openRouterApiKey!).CreateAgent(new AgentOptions
     {
         Name = agentName,
         Model = OpenRouterChatModels.OpenAI.Gpt41Mini

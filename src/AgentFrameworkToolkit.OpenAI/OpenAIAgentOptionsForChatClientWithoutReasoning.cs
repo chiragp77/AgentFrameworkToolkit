@@ -3,6 +3,7 @@
 /// <summary>
 /// Options for an OpenAI Agent (ChatClient without reasoning)
 /// </summary>
+[Obsolete("Use 'OpenAIAgentOptions' instead")]
 public class OpenAIAgentOptionsForChatClientWithoutReasoning : OpenAIAgentOptions
 {
     /// <summary>The temperature for generating chat responses.</summary>

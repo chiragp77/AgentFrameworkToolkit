@@ -14,7 +14,7 @@ public static class XAI
             ApiKey = configuration.XAiGrokApiKey
         });
 
-        XAIAgent agent = factory.CreateAgent(new OpenAIAgentOptionsForChatClientWithoutReasoning
+        XAIAgent agent = factory.CreateAgent(new AgentOptions
         {
             Model = XAIChatModels.Grok4FastNonReasoning,
         });

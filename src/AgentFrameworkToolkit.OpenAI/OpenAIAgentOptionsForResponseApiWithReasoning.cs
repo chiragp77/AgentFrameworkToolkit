@@ -7,6 +7,7 @@ namespace AgentFrameworkToolkit.OpenAI;
 /// <summary>
 /// Options for an OpenAI Agent (ResponsesApi with reasoning)
 /// </summary>
+[Obsolete("Use 'OpenAIAgentOptions' instead")]
 public class OpenAIAgentOptionsForResponseApiWithReasoning : OpenAIAgentOptions
 {
     /// <summary>

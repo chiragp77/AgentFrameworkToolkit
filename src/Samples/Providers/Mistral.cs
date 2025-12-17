@@ -6,7 +6,7 @@ namespace Samples.Providers;
 
 public static class Mistral
 {
-    public static async Task Run()
+    public static async Task RunAsync()
     {
         Configuration configuration = ConfigurationManager.GetConfiguration();
         OpenRouterAgentFactory factory = new(new OpenRouterConnection
@@ -14,7 +14,7 @@ public static class Mistral
             ApiKey = configuration.OpenRouterApiKey
         });
 
-        OpenRouterAgent agent = factory.CreateAgent(new OpenAIAgentOptionsForChatClientWithoutReasoning
+        OpenRouterAgent agent = factory.CreateAgent(new AgentOptions
         {
             Model = OpenRouterChatModels.OpenAI.Gpt41Mini,
         });

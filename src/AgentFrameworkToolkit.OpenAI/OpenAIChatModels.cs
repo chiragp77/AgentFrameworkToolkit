@@ -82,4 +82,14 @@ public static class OpenAIChatModels
     /// GPT-4o (Non-Reasoning)
     /// </summary>
     public const string Gpt4OMini = "gpt-4o-mini";
+
+    /// <summary>
+    /// Known Non-Reasoning Models
+    /// </summary>
+    public static string[] NonReasoningModels = [Gpt41, Gpt41Mini, Gpt41Nano, Gpt4O, Gpt4OMini];
+
+    /// <summary>
+    /// Known Reasoning Models
+    /// </summary>
+    public static string[] ReasoningModels = [Gpt5, Gpt5Pro, Gpt51, Gpt5Mini, Gpt5Nano, Gpt5Codex, Gpt51Codex, Gpt51CodexMax, Gpt52Pro, Gpt52];
 }

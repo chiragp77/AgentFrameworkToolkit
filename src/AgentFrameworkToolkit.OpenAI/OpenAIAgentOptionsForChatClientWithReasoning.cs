@@ -8,6 +8,7 @@ namespace AgentFrameworkToolkit.OpenAI;
 /// <summary>
 /// Options for an OpenAI Agent (ChatClient with reasoning)
 /// </summary>
+[Obsolete("Use 'OpenAIAgentOptions' instead")]
 public class OpenAIAgentOptionsForChatClientWithReasoning : OpenAIAgentOptions
 {
     /// <summary>

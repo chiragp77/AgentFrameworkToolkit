@@ -5,11 +5,15 @@ using Microsoft.Extensions.Logging;
 namespace AgentFrameworkToolkit.OpenAI;
 
 /// <summary>
-/// Options for an OpenAI Agent
+/// Options for an OpenAI-Based Agent
 /// </summary>
-[Obsolete("Do note use this anymore")]
-public class OpenAIAgentOptions
+public class AgentOptions
 {
+    /// <summary>
+    /// The type of OpenAI Client to use (ChatClient or ResponsesAPI)
+    /// </summary>
+    public ClientType ClientType { get; set; } = ClientType.ChatClient;
+
     /// <summary>
     /// Model to use
     /// </summary>
@@ -74,6 +78,22 @@ public class OpenAIAgentOptions
     /// Provides a way to customize the creation of the underlying <see cref="IChatClient"/> used by the agent.
     /// </summary>
     public Func<IChatClient, IChatClient>? ClientFactory { get; set; }
+
+    /// <summary>The temperature for generating chat responses. [ONLY USED BY NON-REASONING MODELS]</summary>
+    /// <remarks>
+    /// This value controls the randomness of predictions made by the model. Use a lower value to decrease randomness in the response.
+    /// </remarks>
+    public float? Temperature { get; set; }
+
+    /// <summary>
+    /// Define the reasoning Effort [ONLY USED BY REASONING MODELS]
+    /// </summary>
+    public OpenAIReasoningEffort? ReasoningEffort { get; set; }
+
+    /// <summary>
+    /// Define the reasoning summary verbosity [ONLY USED BY REASONING MODELS USING THE RESPONSES API]
+    /// </summary>
+    public OpenAIReasoningSummaryVerbosity? ReasoningSummaryVerbosity { get; set; }
 
     /// <summary>
     /// Apply Middleware to the Agent, if needed

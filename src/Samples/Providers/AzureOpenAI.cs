@@ -30,12 +30,14 @@ public static class AzureOpenAI
         AIToolsFactory aiToolsFactory = new();
 
         IList<AITool> aiTools = aiToolsFactory.GetTools(typeof(AzureOpenAI));
-        AzureOpenAIAgent agent = factory.CreateAgent(new OpenAIAgentOptionsForChatClientWithReasoning
+        AzureOpenAIAgent agent = factory.CreateAgent(new AgentOptions
         {
+            ClientType = ClientType.ChatClient,
             Model = OpenAIChatModels.Gpt41Mini,
+            Temperature = 0,
             Instructions = "Speak like a pirate",
             RawHttpCallDetails = details => Console.WriteLine(details.RequestData),
-            Tools = aiTools
+            Tools = aiTools,
         });
 
         AgentRunResponse response = await agent.RunAsync<string>("How is the weather?");
