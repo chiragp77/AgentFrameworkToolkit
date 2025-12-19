@@ -6,6 +6,9 @@
 - Bumped `Microsoft.Agents.AI` version to latest (1.0.0-preview.251219.1) to be compatible with [latest breaking change around Instructions](https://github.com/microsoft/agent-framework/releases/tag/dotnet-1.0.0-preview.251219.1)
   - Removed Agent Display name as AF do not have it anymore
   - Remove Agent ID as override as it is not overridable anymore 
+  - Resolved new OpenAI Nuget Package renames in ResponsesAPI
+- Renamed `ToolCallsHandler.ToolCallingMiddleware` to `ToolCallingMiddlewareAsync`
+- Added `DefaultClientType` to OpenAI/AzureOpenAI based providers so you can define if `ChatClient` or `ResponsesAPI` is the default `ClientType` for Agents that do not define it themself
 
 ---
 

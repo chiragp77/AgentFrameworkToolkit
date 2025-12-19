@@ -1,7 +1,7 @@
-﻿Console.Clear();
+Console.Clear();
 
 //await Samples.Providers.Anthropic.Run();
-//await Samples.Providers.OpenAI.Run();
+//await Samples.Providers.OpenAI.RunAsync();
 //await Samples.Providers.GitHub.Run();
 await Samples.Providers.AzureOpenAI.RunAsync();
 //await Samples.Providers.Mistral.Run();

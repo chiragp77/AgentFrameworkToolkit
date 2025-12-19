@@ -1,7 +1,5 @@
-﻿using AgentFrameworkToolkit.OpenAI;
+using AgentFrameworkToolkit.OpenAI;
 using Microsoft.Agents.AI;
-using Microsoft.Extensions.AI;
-using OpenAI.Chat;
 
 #pragma warning disable OPENAI001
 
@@ -11,19 +9,22 @@ public static class OpenAI
 {
     public static async Task RunAsync()
     {
-        Configuration configuration = ConfigurationManager.GetConfiguration();
-        OpenAIAgentFactory factory = new(configuration.OpenAiApiKey);
-
-        OpenAIAgent agent = factory.CreateAgent(new AgentOptions()
+        Secrets secrets = SecretsManager.GetConfiguration();
+        OpenAIAgentFactory factory = new(new OpenAIConnection
         {
+            ApiKey = secrets.OpenAiApiKey,
+            DefaultClientType = ClientType.ResponsesApi
+        });
+
+        OpenAIAgent agent = factory.CreateAgent(new AgentOptions
+        {
+            Id = "1111",
+            ClientType = ClientType.ResponsesApi,
+            ReasoningEffort = OpenAIReasoningEffort.High,
+            ReasoningSummaryVerbosity = OpenAIReasoningSummaryVerbosity.Concise,
             Model = OpenAIChatModels.Gpt5Mini,
             MaxOutputTokens = 2000,
             RawHttpCallDetails = details => { Console.WriteLine(details.RequestData); },
-            AdditionalChatClientAgentOptions = options =>
-            {
-                options.ChatOptions ??= new ChatOptions();
-                options.ChatOptions.WithOpenAIChatClientReasoning(ChatReasoningEffortLevel.High);
-            }
         });
 
         AgentRunResponse response = await agent.RunAsync("Hello");

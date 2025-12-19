@@ -1,4 +1,5 @@
-﻿using Azure.AI.OpenAI;
+using AgentFrameworkToolkit.OpenAI;
+using Azure.AI.OpenAI;
 using Azure.Core;
 using System.ClientModel;
 using System.ClientModel.Primitives;
@@ -10,6 +11,11 @@ namespace AgentFrameworkToolkit.AzureOpenAI;
 /// </summary>
 public class AzureOpenAIConnection
 {
+    /// <summary>
+    /// The Default ClientType (ChatClient or ResponsesAPI) to use for Agents
+    /// </summary>
+    public ClientType DefaultClientType { get; set; } = ClientType.ChatClient;
+
     /// <summary>
     /// The Endpoint of your Azure OpenAI Resource
     /// </summary>

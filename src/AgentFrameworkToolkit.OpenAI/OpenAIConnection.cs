@@ -1,8 +1,7 @@
-﻿using JetBrains.Annotations;
+using JetBrains.Annotations;
 using OpenAI;
 using System.ClientModel;
 using System.ClientModel.Primitives;
-using System.Data.Common;
 
 namespace AgentFrameworkToolkit.OpenAI;
 
@@ -12,6 +11,11 @@ namespace AgentFrameworkToolkit.OpenAI;
 [PublicAPI]
 public class OpenAIConnection
 {
+    /// <summary>
+    /// The Default ClientType (ChatClient or ResponsesAPI) to use for Agents
+    /// </summary>
+    public ClientType DefaultClientType { get; set; } = ClientType.ChatClient;
+
     /// <summary>
     /// The API Key to be used
     /// </summary>
@@ -31,7 +35,7 @@ public class OpenAIConnection
     /// An Action that allow you to set additional options on the OpenAIClientOptions
     /// </summary>
     public Action<OpenAIClientOptions>? AdditionalOpenAIClientOptions { get; set; }
-    
+
     /// <summary>
     /// Get a Raw Client
     /// </summary>

@@ -7,8 +7,8 @@ public static class Anthropic
 {
     public static async Task Run()
     {
-        Configuration configuration = ConfigurationManager.GetConfiguration();
-        AnthropicAgentFactory factory = new(configuration.AnthropicApiKey);
+        Secrets secrets = SecretsManager.GetConfiguration();
+        AnthropicAgentFactory factory = new(secrets.AnthropicApiKey);
 
         AnthropicAgent agent = factory.CreateAgent(new AnthropicAgentOptions
         {

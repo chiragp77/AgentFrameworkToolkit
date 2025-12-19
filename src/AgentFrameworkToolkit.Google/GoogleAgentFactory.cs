@@ -1,4 +1,3 @@
-﻿using GenerativeAI;
 using GenerativeAI.Microsoft;
 using JetBrains.Annotations;
 using Microsoft.Agents.AI;

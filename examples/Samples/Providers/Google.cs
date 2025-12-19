@@ -7,10 +7,10 @@ public static class Google
 {
     public static async Task Run()
     {
-        Configuration configuration = ConfigurationManager.GetConfiguration();
+        Secrets secrets = SecretsManager.GetConfiguration();
         GoogleAgentFactory factory = new(new GoogleConnection
         {
-            ApiKey = configuration.GoogleGeminiApiKey
+            ApiKey = secrets.GoogleGeminiApiKey
         });
 
         GoogleAgent agent = factory.CreateAgent(new GoogleAgentOptions

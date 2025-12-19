@@ -7,10 +7,10 @@ public static class OpenRouter
 {
     public static async Task RunAsync()
     {
-        Configuration configuration = ConfigurationManager.GetConfiguration();
-        OpenRouterAgentFactory factory = new(new OpenRouterConnection 
+        Secrets secrets = SecretsManager.GetConfiguration();
+        OpenRouterAgentFactory factory = new(new OpenRouterConnection
         {
-            ApiKey = configuration.OpenRouterApiKey
+            ApiKey = secrets.OpenRouterApiKey
         });
 
         OpenRouterAgent agent = factory.CreateAgent(OpenRouterChatModels.Google.Gemini25Flash);

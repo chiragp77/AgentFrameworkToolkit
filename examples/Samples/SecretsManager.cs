@@ -1,10 +1,10 @@
-﻿using Microsoft.Extensions.Configuration;
+using Microsoft.Extensions.Configuration;
 
 namespace Samples;
 
-public class ConfigurationManager
+public class SecretsManager
 {
-    /* This ConfigurationManager relies on .NET User Secrets in the following format
+    /* This SecretsManager relies on .NET User Secrets in the following format
     ************************************************************************************************************************************************
     {
       "OpenAiApiKey": "todo", //URL of your OpenAI API Key
@@ -32,9 +32,9 @@ public class ConfigurationManager
     ************************************************************************************************************************************************
     */
 
-    public static Configuration GetConfiguration()
+    public static Secrets GetConfiguration()
     {
-        IConfigurationRoot configurationRoot = new ConfigurationBuilder().AddUserSecrets<ConfigurationManager>().Build();
+        IConfigurationRoot configurationRoot = new ConfigurationBuilder().AddUserSecrets<SecretsManager>().Build();
         string openAiApiKey = configurationRoot["OpenAiApiKey"] ?? string.Empty;
         string azureOpenAiEndpoint = configurationRoot["AzureOpenAiEndpoint"] ?? string.Empty;
         string azureOpenAiKey = configurationRoot["AzureOpenAiKey"] ?? string.Empty;
@@ -54,7 +54,7 @@ public class ConfigurationManager
         string anthropicApiKey = configurationRoot["AnthropicApiKey"] ?? string.Empty;
         string mistralApiKey = configurationRoot["MistralApiKey"] ?? string.Empty;
 
-        return new Configuration(
+        return new Secrets(
             openAiApiKey,
             azureOpenAiEndpoint,
             azureOpenAiKey,

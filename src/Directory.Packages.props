@@ -2,8 +2,6 @@
   <!-- Enable Central Package Management for all src projects -->
   <PropertyGroup>
     <ManagePackageVersionsCentrally>true</ManagePackageVersionsCentrally>
-    <!-- Common version variables -->
-    <MicrosoftAgentsAIVersion>1.0.0-preview.251204.1</MicrosoftAgentsAIVersion>
   </PropertyGroup>
   <ItemGroup>
     <!-- Microsoft Agents AI Framework -->

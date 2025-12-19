@@ -22,11 +22,11 @@ OpenAIAgentFactory factory = new OpenAIAgentFactory(new OpenAIConnection
     NetworkTimeout = TimeSpan.FromMinutes(5)
 });
 
-OpenAIAgent agent = factory.CreateAgent(new OpenAIAgentOptionsForResponseApiWithReasoning
+OpenAIAgent agent = factory.CreateAgent(new AgentOptions
 {
     Model = "gpt-5",
-    ReasoningEffort = ResponseReasoningEffortLevel.High,
-    ReasoningSummaryVerbosity = ResponseReasoningSummaryVerbosity.Detailed,    
+    ReasoningEffort = OpenAIReasoningEffort.High,
+    ReasoningSummaryVerbosity = OpenAIReasoningSummaryVerbosity.Concise,    
 });
 ```
 
@@ -64,7 +64,7 @@ XAIAgentFactory factory = new(new XAIConnection
     ApiKey = configuration.XAiGrokApiKey
 });
 
-XAIAgent agent = factory.CreateAgent(new OpenAIAgentOptionsForChatClientWithoutReasoning
+XAIAgent agent = factory.CreateAgent(new AgentOptions
 {
     Model = "grok-4-fast-non-reasoning",
     Tools = [AIFunctionFactory.Create(GetWeather)]
@@ -83,15 +83,15 @@ MistralAgent mistralAgent = mistralAgentFactory.CreateAgent(new MistralAgentOpti
 ### Azure AI (with every optional setting added for demonstration)
 
 ```cs
-AzureOpenAIAgent fullBlownAgent = azureOpenAIAgentFactory.CreateAgent(new OpenAIAgentOptionsForResponseApiWithReasoning
+AzureOpenAIAgent fullBlownAgent = azureOpenAIAgentFactory.CreateAgent(new AgentOptions
 {
     Id = "1234",
     Name = "MyAgent",
     Description = "The description of my agent",
     Instructions = "Speak like a pirate",
     Model = "gpt-5-mini",
-    ReasoningEffort = ResponseReasoningEffortLevel.Low,
-    ReasoningSummaryVerbosity = ResponseReasoningSummaryVerbosity.Detailed,
+    ReasoningEffort = OpenAIReasoningEffort.High,
+    ReasoningSummaryVerbosity = OpenAIReasoningSummaryVerbosity.Concise,  
     Tools = [AIFunctionFactory.Create(GetWeather)],
     RawToolCallDetails = details => { Console.WriteLine(details.ToString()); },
     RawHttpCallDetails = details =>

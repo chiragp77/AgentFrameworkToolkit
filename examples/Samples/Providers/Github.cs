@@ -9,8 +9,8 @@ public static class GitHub
 {
     public static async Task Run()
     {
-        Configuration configuration = ConfigurationManager.GetConfiguration();
-        GitHubAgentFactory factory = new(configuration.GitHubPatToken);
+        Secrets secrets = SecretsManager.GetConfiguration();
+        GitHubAgentFactory factory = new(secrets.GitHubPatToken);
 
         GitHubAgent agent = factory.CreateAgent(new GitHubAgentOptions
         {

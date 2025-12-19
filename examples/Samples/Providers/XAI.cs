@@ -1,4 +1,4 @@
-﻿using AgentFrameworkToolkit.OpenAI;
+using AgentFrameworkToolkit.OpenAI;
 using AgentFrameworkToolkit.XAI;
 using Microsoft.Agents.AI;
 
@@ -8,10 +8,10 @@ public static class XAI
 {
     public static async Task RunAsync()
     {
-        Configuration configuration = ConfigurationManager.GetConfiguration();
+        Secrets secrets = SecretsManager.GetConfiguration();
         XAIAgentFactory factory = new(new XAIConnection
         {
-            ApiKey = configuration.XAiGrokApiKey
+            ApiKey = secrets.XAiGrokApiKey,
         });
 
         XAIAgent agent = factory.CreateAgent(new AgentOptions

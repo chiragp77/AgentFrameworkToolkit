@@ -12,6 +12,9 @@ namespace AgentFrameworkToolkit.GitHub;
 [PublicAPI]
 public class GitHubAgent(AIAgent innerAgent) : AIAgent
 {
+    /// <inheritdoc />
+    protected override string IdCore => innerAgent.Id;
+
     /// <summary>
     /// The inner generic Agent
     /// </summary>

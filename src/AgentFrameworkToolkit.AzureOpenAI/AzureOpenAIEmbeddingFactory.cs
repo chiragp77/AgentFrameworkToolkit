@@ -1,7 +1,6 @@
-﻿using Azure.Core;
+using Azure.Core;
 using JetBrains.Annotations;
 using Microsoft.Extensions.AI;
-using System.Diagnostics.CodeAnalysis;
 
 namespace AgentFrameworkToolkit.AzureOpenAI;
 

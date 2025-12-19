@@ -102,6 +102,14 @@ public class AzureOpenAIAgentFactory
                     .GetResponsesClient(options.Model)
                     .CreateAIAgent(chatClientAgentOptions);
                 break;
+            case null:
+                innerAgent = _connection.DefaultClientType switch
+                {
+                    ClientType.ChatClient => client.GetChatClient(options.Model).CreateAIAgent(chatClientAgentOptions),
+                    ClientType.ResponsesApi => client.GetResponsesClient(options.Model).CreateAIAgent(chatClientAgentOptions),
+                    _ => throw new ArgumentOutOfRangeException()
+                };
+                break;
             default:
                 throw new ArgumentOutOfRangeException();
         }

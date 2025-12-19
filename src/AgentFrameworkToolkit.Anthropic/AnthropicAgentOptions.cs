@@ -1,4 +1,4 @@
-﻿using Microsoft.Agents.AI;
+using Microsoft.Agents.AI;
 using Microsoft.Extensions.AI;
 using Microsoft.Extensions.Logging;
 
@@ -84,7 +84,7 @@ public class AnthropicAgentOptions
     {
         if (RawToolCallDetails != null)
         {
-            innerAgent = innerAgent.AsBuilder().Use(new ToolCallsHandler(RawToolCallDetails).ToolCallingMiddleware).Build();
+            innerAgent = innerAgent.AsBuilder().Use(new ToolCallsHandler(RawToolCallDetails).ToolCallingMiddlewareAsync).Build();
         }
 
         return innerAgent;

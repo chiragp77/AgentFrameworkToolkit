@@ -1,5 +1,3 @@
-﻿using Microsoft.Extensions.AI;
-using Microsoft.Extensions.Logging;
 using OpenAI.Chat;
 
 #pragma warning disable OPENAI001

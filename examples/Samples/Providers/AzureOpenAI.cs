@@ -1,4 +1,4 @@
-﻿using AgentFrameworkToolkit.AzureOpenAI;
+using AgentFrameworkToolkit.AzureOpenAI;
 using AgentFrameworkToolkit.OpenAI;
 using AgentFrameworkToolkit.Tools;
 using Microsoft.Agents.AI;
@@ -18,11 +18,11 @@ public static class AzureOpenAI
 
     public static async Task RunAsync()
     {
-        Configuration configuration = ConfigurationManager.GetConfiguration();
+        Secrets secrets = SecretsManager.GetConfiguration();
         AzureOpenAIConnection connection = new()
         {
-            Endpoint = configuration.AzureOpenAiEndpoint,
-            ApiKey = configuration.AzureOpenAiKey
+            Endpoint = secrets.AzureOpenAiEndpoint,
+            ApiKey = secrets.AzureOpenAiKey
         };
 
         AzureOpenAIAgentFactory factory = new(connection);
@@ -32,7 +32,7 @@ public static class AzureOpenAI
         IList<AITool> aiTools = aiToolsFactory.GetTools(typeof(AzureOpenAI));
         AzureOpenAIAgent agent = factory.CreateAgent(new AgentOptions
         {
-            ClientType = ClientType.ChatClient,
+            ClientType = ClientType.ResponsesApi,
             Model = OpenAIChatModels.Gpt41Mini,
             Temperature = 0,
             Instructions = "Speak like a pirate",

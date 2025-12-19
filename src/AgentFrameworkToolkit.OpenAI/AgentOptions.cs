@@ -1,4 +1,4 @@
-﻿using Microsoft.Agents.AI;
+using Microsoft.Agents.AI;
 using Microsoft.Extensions.AI;
 using Microsoft.Extensions.Logging;
 
@@ -12,7 +12,7 @@ public class AgentOptions
     /// <summary>
     /// The type of OpenAI Client to use (ChatClient or ResponsesAPI)
     /// </summary>
-    public ClientType ClientType { get; set; } = ClientType.ChatClient;
+    public ClientType? ClientType { get; set; }
 
     /// <summary>
     /// Model to use
@@ -104,7 +104,7 @@ public class AgentOptions
     {
         if (RawToolCallDetails != null)
         {
-            innerAgent = innerAgent.AsBuilder().Use(new ToolCallsHandler(RawToolCallDetails).ToolCallingMiddleware).Build();
+            innerAgent = innerAgent.AsBuilder().Use(new ToolCallsHandler(RawToolCallDetails).ToolCallingMiddlewareAsync).Build();
         }
 
         return innerAgent;

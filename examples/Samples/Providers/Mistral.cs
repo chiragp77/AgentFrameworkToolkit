@@ -8,10 +8,10 @@ public static class Mistral
 {
     public static async Task RunAsync()
     {
-        Configuration configuration = ConfigurationManager.GetConfiguration();
+        Secrets secrets = SecretsManager.GetConfiguration();
         OpenRouterAgentFactory factory = new(new OpenRouterConnection
         {
-            ApiKey = configuration.OpenRouterApiKey
+            ApiKey = secrets.OpenRouterApiKey
         });
 
         OpenRouterAgent agent = factory.CreateAgent(new AgentOptions
