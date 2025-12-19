@@ -1,4 +1,4 @@
-﻿using AgentFrameworkToolkit.OpenAI;
+using AgentFrameworkToolkit.OpenAI;
 using Azure.AI.OpenAI;
 using Azure.Core;
 using JetBrains.Annotations;
@@ -99,7 +99,7 @@ public class AzureOpenAIAgentFactory
                 break;
             case ClientType.ResponsesApi:
                 innerAgent = client
-                    .GetOpenAIResponseClient(options.Model)
+                    .GetResponsesClient(options.Model)
                     .CreateAIAgent(chatClientAgentOptions);
                 break;
             default:
@@ -128,7 +128,7 @@ public class AzureOpenAIAgentFactory
         ChatClientAgentOptions chatClientAgentOptions = CreateChatClientAgentOptions(options, null, options, null, null);
 
         ChatClientAgent innerAgent = client
-            .GetOpenAIResponseClient(options.Model)
+            .GetResponsesClient(options.Model)
             .CreateAIAgent(chatClientAgentOptions);
 
         // ReSharper disable once ConvertIfStatementToReturnStatement
@@ -153,7 +153,7 @@ public class AzureOpenAIAgentFactory
         ChatClientAgentOptions chatClientAgentOptions = CreateChatClientAgentOptions(options, null, null, options, null);
 
         AIAgent innerAgent = client
-            .GetOpenAIResponseClient(options.Model)
+            .GetResponsesClient(options.Model)
             .CreateAIAgent(chatClientAgentOptions);
 
         // ReSharper disable once ConvertIfStatementToReturnStatement

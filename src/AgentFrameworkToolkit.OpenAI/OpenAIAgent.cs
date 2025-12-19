@@ -1,4 +1,4 @@
-﻿using JetBrains.Annotations;
+using JetBrains.Annotations;
 using Microsoft.Agents.AI;
 using Microsoft.Extensions.AI;
 using System.Text.Json;
@@ -18,16 +18,10 @@ public class OpenAIAgent(AIAgent innerAgent) : AIAgent
     public AIAgent InnerAgent => innerAgent;
 
     /// <inheritdoc />
-    public override string Id => innerAgent.Id;
-
-    /// <inheritdoc />
     public override string? Name => innerAgent.Name;
 
     /// <inheritdoc />
     public override string? Description => innerAgent.Description;
-
-    /// <inheritdoc />
-    public override string DisplayName => innerAgent.DisplayName;
 
     /// <inheritdoc />
     public override object? GetService(Type serviceType, object? serviceKey = null)

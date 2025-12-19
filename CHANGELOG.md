@@ -1,9 +1,20 @@
 # Changelog - Agent Framework Toolkit
 
+## Version 1.0.0-preview.251219.1
+- Added central build management and reorganize project structure (Huge thanks to [gurolg](https://github.com/gurolg) for [PR#24](https://github.com/rwjdk/AgentFrameworkToolkit/pull/24) doing the work 🙌)
+- Add [CONTRIBUTING.md](https://github.com/rwjdk/AgentFrameworkToolkit/blob/main/CONTRIBUTING.md) (Again thanks to [gurolg](https://github.com/gurolg) 💪)
+- Bumped `Microsoft.Agents.AI` version to latest (1.0.0-preview.251219.1) to be compatible with [latest breaking change around Instructions](https://github.com/microsoft/agent-framework/releases/tag/dotnet-1.0.0-preview.251219.1)
+  - Removed Agent Display name as AF do not have it anymore
+  - Remove Agent ID as override as it is not overridable anymore 
+
+---
+
 ## Version 1.0.0-preview.251217.1
 - Added `AIToolsFactory` to make it easier to create and define AI Tools
 - [BREAKING] Obsoleted `OpenAIAgentOptionsForChatClientWithoutReasoning`, `OpenAIAgentOptionsForChatClientWithReasoning`, `OpenAIAgentOptionsForResponseApiWithoutReasoning` and `OpenAIAgentOptionsForResponseApiWithReasoning` as these names where 'too much' and confused (Use AgentOptions instead (with `ClientType` and `ReasoningEffort` Enums to control the option))
 - Added support for `IServiceProvider`, `ILoggerFactory` and `ClientFactory` in Agent Creation
+
+---
 
 ## Version 1.0.0-preview.251215.1
 - Added option to get Raw Client from the various Connection Objects (Except for the Google Connection as switch to the new official Google Nuget is expected soon)

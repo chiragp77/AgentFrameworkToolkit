@@ -1,4 +1,4 @@
-﻿using JetBrains.Annotations;
+using JetBrains.Annotations;
 using Microsoft.Extensions.AI;
 using OpenAI.Chat;
 using OpenAI.Responses;
@@ -24,7 +24,7 @@ public static class ChatOptionsExtensions
     {
         chatOptions.RawRepresentationFactory = _ =>
         {
-            ResponseCreationOptions responseCreationOptions = new()
+            CreateResponseOptions createResponseOptions = new()
             {
                 ReasoningOptions = new ResponseReasoningOptions
                 {
@@ -32,7 +32,7 @@ public static class ChatOptionsExtensions
                     ReasoningSummaryVerbosity = reasoningSummaryVerbosity
                 }
             };
-            return responseCreationOptions;
+            return createResponseOptions;
         };
 
         return chatOptions;
