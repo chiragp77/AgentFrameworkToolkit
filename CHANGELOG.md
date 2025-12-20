@@ -1,5 +1,10 @@
 # Changelog - Agent Framework Toolkit
 
+## Version 1.0.0-preview.251220.1
+- Fixed that not all OpenAI based `CreateAgent` methods would set the `LoggerFactory`, `ClientFactory` and `Services` (Thank you to [LennartJohansen](https://github.com/LennartJohansen) for pointing it out in [#26](https://github.com/rwjdk/AgentFrameworkToolkit/issues/26)
+
+---
+
 ## Version 1.0.0-preview.251219.1
 - Added central build management and reorganized project structure (Huge thanks to [gurolg](https://github.com/gurolg) for [PR#24](https://github.com/rwjdk/AgentFrameworkToolkit/pull/24) doing the work 🙌)
 - Add [CONTRIBUTING.md](https://github.com/rwjdk/AgentFrameworkToolkit/blob/main/CONTRIBUTING.md) (Again thanks to [gurolg](https://github.com/gurolg) 💪)

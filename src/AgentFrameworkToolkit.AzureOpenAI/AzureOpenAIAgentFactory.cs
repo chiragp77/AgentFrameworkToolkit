@@ -95,18 +95,22 @@ public class AzureOpenAIAgentFactory
             case ClientType.ChatClient:
                 innerAgent = client
                     .GetChatClient(options.Model)
-                    .CreateAIAgent(chatClientAgentOptions);
+                    .CreateAIAgent(chatClientAgentOptions, options.ClientFactory, options.LoggerFactory, options.Services);
                 break;
             case ClientType.ResponsesApi:
                 innerAgent = client
                     .GetResponsesClient(options.Model)
-                    .CreateAIAgent(chatClientAgentOptions);
+                    .CreateAIAgent(chatClientAgentOptions, options.ClientFactory, options.LoggerFactory, options.Services);
                 break;
             case null:
                 innerAgent = _connection.DefaultClientType switch
                 {
-                    ClientType.ChatClient => client.GetChatClient(options.Model).CreateAIAgent(chatClientAgentOptions),
-                    ClientType.ResponsesApi => client.GetResponsesClient(options.Model).CreateAIAgent(chatClientAgentOptions),
+                    ClientType.ChatClient => client
+                        .GetChatClient(options.Model)
+                        .CreateAIAgent(chatClientAgentOptions, options.ClientFactory, options.LoggerFactory, options.Services),
+                    ClientType.ResponsesApi => client
+                        .GetResponsesClient(options.Model)
+                        .CreateAIAgent(chatClientAgentOptions, options.ClientFactory, options.LoggerFactory, options.Services),
                     _ => throw new ArgumentOutOfRangeException()
                 };
                 break;
@@ -137,7 +141,7 @@ public class AzureOpenAIAgentFactory
 
         ChatClientAgent innerAgent = client
             .GetResponsesClient(options.Model)
-            .CreateAIAgent(chatClientAgentOptions);
+            .CreateAIAgent(chatClientAgentOptions, options.ClientFactory, options.LoggerFactory, options.Services);
 
         // ReSharper disable once ConvertIfStatementToReturnStatement
         if (options.RawToolCallDetails != null)
@@ -162,7 +166,7 @@ public class AzureOpenAIAgentFactory
 
         AIAgent innerAgent = client
             .GetResponsesClient(options.Model)
-            .CreateAIAgent(chatClientAgentOptions);
+            .CreateAIAgent(chatClientAgentOptions, options.ClientFactory, options.LoggerFactory, options.Services);
 
         // ReSharper disable once ConvertIfStatementToReturnStatement
         if (options.RawToolCallDetails != null)
@@ -187,11 +191,7 @@ public class AzureOpenAIAgentFactory
 
         AIAgent innerAgent = client
             .GetChatClient(options.Model)
-            .CreateAIAgent(
-                options: chatClientAgentOptions,
-                services: options.Services,
-                loggerFactory: options.LoggerFactory,
-                clientFactory: options.ClientFactory);
+            .CreateAIAgent(chatClientAgentOptions, options.ClientFactory, options.LoggerFactory, options.Services);
 
         // ReSharper disable once ConvertIfStatementToReturnStatement
         if (options.RawToolCallDetails != null)
@@ -216,11 +216,7 @@ public class AzureOpenAIAgentFactory
 
         AIAgent innerAgent = client
             .GetChatClient(options.Model)
-            .CreateAIAgent(
-                options: chatClientAgentOptions,
-                services: options.Services,
-                loggerFactory: options.LoggerFactory,
-                clientFactory: options.ClientFactory);
+            .CreateAIAgent(chatClientAgentOptions, options.ClientFactory, options.LoggerFactory, options.Services);
 
         // ReSharper disable once ConvertIfStatementToReturnStatement
         if (options.RawToolCallDetails != null)
