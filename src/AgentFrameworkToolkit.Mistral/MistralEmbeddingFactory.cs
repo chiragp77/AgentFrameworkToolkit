@@ -1,25 +1,26 @@
 using JetBrains.Annotations;
 using Microsoft.Extensions.AI;
+using Mistral.SDK;
 
-namespace AgentFrameworkToolkit.OpenAI;
+namespace AgentFrameworkToolkit.Mistral;
 
 /// <summary>
 /// Factory for creating OpenAI EmbeddingGenerator
 /// </summary>
 [PublicAPI]
-public class OpenAIEmbeddingFactory
+public class MistralEmbeddingFactory
 {
-    private readonly OpenAIConnection _connection;
+    private readonly MistralConnection _connection;
 
     /// <summary>
     /// Constructor
     /// </summary>
-    /// <param name="apiKey">Your OpenAI API Key (if you need a more advanced connection use the constructor overload)</param>
-    public OpenAIEmbeddingFactory(string apiKey)
+    /// <param name="apiKey">Your Mistral API Key (if you need a more advanced connection use the constructor overload)</param>
+    public MistralEmbeddingFactory(string apiKey)
     {
-        _connection = new OpenAIConnection
+        _connection = new MistralConnection
         {
-            ApiKey = apiKey,
+            ApiKey = apiKey
         };
     }
 
@@ -27,19 +28,20 @@ public class OpenAIEmbeddingFactory
     /// Constructor
     /// </summary>
     /// <param name="connection">Connection Details</param>
-    public OpenAIEmbeddingFactory(OpenAIConnection connection)
+    public MistralEmbeddingFactory(MistralConnection connection)
     {
         _connection = connection;
     }
 
     /// <summary>
-    /// Create an EmbeddingGenerator
+    /// Create an EmbeddingGenerator (Note: model-ID need to be provided when generating the Vector and not to this method)
     /// </summary>
-    /// <param name="model">The Embedding Model to use</param>
     /// <returns>An Embedding Generator</returns>
-    public IEmbeddingGenerator<string, Embedding<float>> GetEmbeddingGenerator(string model)
+    public IEmbeddingGenerator<string, Embedding<float>> GetEmbeddingGenerator()
     {
-        return _connection.GetClient().GetEmbeddingClient(model).AsIEmbeddingGenerator();
+        MistralClient client = _connection.GetClient();
+        IEmbeddingGenerator<string, Embedding<float>> embeddingGenerator = client.Embeddings;
+        return embeddingGenerator;
     }
 
     /// <summary>
@@ -51,7 +53,10 @@ public class OpenAIEmbeddingFactory
     /// <returns>The Embedding</returns>
     public async Task<Embedding<float>> GenerateAsync(string value, string model, CancellationToken cancellationToken = default)
     {
-        return await GenerateAsync(value, model, null, cancellationToken);
+        return await GenerateAsync(value, new EmbeddingGenerationOptions
+        {
+            ModelId = model
+        }, cancellationToken);
     }
 
     /// <summary>
@@ -63,20 +68,22 @@ public class OpenAIEmbeddingFactory
     /// <returns>The Embeddings</returns>
     public async Task<GeneratedEmbeddings<Embedding<float>>> GenerateAsync(IEnumerable<string> values, string model, CancellationToken cancellationToken = default)
     {
-        return await GenerateAsync(values, model, null, cancellationToken);
+        return await GenerateAsync(values, new EmbeddingGenerationOptions
+        {
+            ModelId = model
+        }, cancellationToken);
     }
 
     /// <summary>
     /// Generate an embedding
     /// </summary>
     /// <param name="value">String to embed</param>
-    /// <param name="model">Model to use for embedding</param>
     /// <param name="options">Options for the Embedding</param>
     /// <param name="cancellationToken">CancellationToken</param>
     /// <returns>The Embedding</returns>
-    public async Task<Embedding<float>> GenerateAsync(string value, string model, EmbeddingGenerationOptions? options, CancellationToken cancellationToken = default)
+    public async Task<Embedding<float>> GenerateAsync(string value, EmbeddingGenerationOptions options, CancellationToken cancellationToken = default)
     {
-        IEmbeddingGenerator<string, Embedding<float>> generator = GetEmbeddingGenerator(model);
+        IEmbeddingGenerator<string, Embedding<float>> generator = GetEmbeddingGenerator();
         return await generator.GenerateAsync(value, options, cancellationToken);
     }
 
@@ -85,13 +92,12 @@ public class OpenAIEmbeddingFactory
     /// Generate an embedding
     /// </summary>
     /// <param name="values">Strings to embed</param>
-    /// <param name="model">Model to use for embedding</param>
     /// <param name="options">Options for the Embedding</param>
     /// <param name="cancellationToken">CancellationToken</param>
     /// <returns>The Embeddings</returns>
-    public async Task<GeneratedEmbeddings<Embedding<float>>> GenerateAsync(IEnumerable<string> values, string model, EmbeddingGenerationOptions? options, CancellationToken cancellationToken = default)
+    public async Task<GeneratedEmbeddings<Embedding<float>>> GenerateAsync(IEnumerable<string> values, EmbeddingGenerationOptions options, CancellationToken cancellationToken = default)
     {
-        IEmbeddingGenerator<string, Embedding<float>> generator = GetEmbeddingGenerator(model);
+        IEmbeddingGenerator<string, Embedding<float>> generator = GetEmbeddingGenerator();
         return await generator.GenerateAsync(values, options, cancellationToken);
     }
 }

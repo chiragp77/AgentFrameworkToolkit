@@ -11,7 +11,7 @@ namespace AgentFrameworkToolkit.Google;
 [PublicAPI]
 public class GoogleAgentFactory
 {
-    private readonly GoogleConnection? _connection;
+    private readonly GoogleConnection _connection;
 
     /// <summary>
     /// Constructor
@@ -132,11 +132,11 @@ public class GoogleAgentFactory
     private IChatClient GetClient(string model)
     {
         IChatClient client;
-        if (_connection?.Adapter != null)
+        if (_connection.Adapter != null)
         {
             client = new GenerativeAIChatClient(_connection.Adapter, model);
         }
-        else if (_connection?.ApiKey != null)
+        else if (_connection.ApiKey != null)
         {
             client = new GenerativeAIChatClient(_connection.ApiKey, model);
         }

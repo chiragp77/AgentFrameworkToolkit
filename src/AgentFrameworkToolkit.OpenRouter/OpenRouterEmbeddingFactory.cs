@@ -1,35 +1,38 @@
+using AgentFrameworkToolkit.OpenAI;
 using JetBrains.Annotations;
 using Microsoft.Extensions.AI;
 
-namespace AgentFrameworkToolkit.OpenAI;
+namespace AgentFrameworkToolkit.OpenRouter;
 
 /// <summary>
-/// Factory for creating OpenAI EmbeddingGenerator
+/// Factory for creating AzureOpenAI EmbeddingGenerator
 /// </summary>
 [PublicAPI]
-public class OpenAIEmbeddingFactory
+public class OpenRouterEmbeddingFactory
 {
-    private readonly OpenAIConnection _connection;
+    private readonly OpenAIEmbeddingFactory _openAIEmbeddingFactory;
 
     /// <summary>
     /// Constructor
     /// </summary>
-    /// <param name="apiKey">Your OpenAI API Key (if you need a more advanced connection use the constructor overload)</param>
-    public OpenAIEmbeddingFactory(string apiKey)
+    /// <param name="apiKey">Your OpenRouter API Key (if you need a more advanced connection use the constructor overload)</param>
+    public OpenRouterEmbeddingFactory(string apiKey)
     {
-        _connection = new OpenAIConnection
+        _openAIEmbeddingFactory = new OpenAIEmbeddingFactory(new OpenAIConnection
         {
             ApiKey = apiKey,
-        };
+            Endpoint = OpenRouterConnection.DefaultEndpoint
+        });
     }
 
     /// <summary>
     /// Constructor
     /// </summary>
     /// <param name="connection">Connection Details</param>
-    public OpenAIEmbeddingFactory(OpenAIConnection connection)
+    public OpenRouterEmbeddingFactory(OpenRouterConnection connection)
     {
-        _connection = connection;
+        connection.Endpoint ??= OpenRouterConnection.DefaultEndpoint;
+        _openAIEmbeddingFactory = new OpenAIEmbeddingFactory(connection);
     }
 
     /// <summary>
@@ -39,8 +42,9 @@ public class OpenAIEmbeddingFactory
     /// <returns>An Embedding Generator</returns>
     public IEmbeddingGenerator<string, Embedding<float>> GetEmbeddingGenerator(string model)
     {
-        return _connection.GetClient().GetEmbeddingClient(model).AsIEmbeddingGenerator();
+        return _openAIEmbeddingFactory.GetEmbeddingGenerator(model);
     }
+
 
     /// <summary>
     /// Generate an embedding
@@ -76,8 +80,7 @@ public class OpenAIEmbeddingFactory
     /// <returns>The Embedding</returns>
     public async Task<Embedding<float>> GenerateAsync(string value, string model, EmbeddingGenerationOptions? options, CancellationToken cancellationToken = default)
     {
-        IEmbeddingGenerator<string, Embedding<float>> generator = GetEmbeddingGenerator(model);
-        return await generator.GenerateAsync(value, options, cancellationToken);
+        return await _openAIEmbeddingFactory.GenerateAsync(value, model, options, cancellationToken);
     }
 
 
@@ -91,7 +94,6 @@ public class OpenAIEmbeddingFactory
     /// <returns>The Embeddings</returns>
     public async Task<GeneratedEmbeddings<Embedding<float>>> GenerateAsync(IEnumerable<string> values, string model, EmbeddingGenerationOptions? options, CancellationToken cancellationToken = default)
     {
-        IEmbeddingGenerator<string, Embedding<float>> generator = GetEmbeddingGenerator(model);
-        return await generator.GenerateAsync(values, options, cancellationToken);
+        return await _openAIEmbeddingFactory.GenerateAsync(values, model, options, cancellationToken);
     }
 }

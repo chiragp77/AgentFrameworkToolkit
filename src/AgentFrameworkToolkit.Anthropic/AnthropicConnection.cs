@@ -1,4 +1,4 @@
-﻿using Anthropic;
+using Anthropic;
 using Anthropic.Core;
 
 namespace AgentFrameworkToolkit.Anthropic;

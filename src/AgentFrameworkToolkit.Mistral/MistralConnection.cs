@@ -1,4 +1,4 @@
-﻿using JetBrains.Annotations;
+using JetBrains.Annotations;
 using Mistral.SDK;
 
 namespace AgentFrameworkToolkit.Mistral;
