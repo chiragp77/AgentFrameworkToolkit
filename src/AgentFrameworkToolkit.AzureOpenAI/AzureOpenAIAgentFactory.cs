@@ -118,7 +118,7 @@ public class AzureOpenAIAgentFactory
         }
 
         // ReSharper disable once ConvertIfStatementToReturnStatement
-        if (options.RawToolCallDetails != null)
+        if (options.RawToolCallDetails != null || options.ToolCallingMiddleware != null || options.OpenTelemetryMiddleware != null || options.LoggingMiddleware != null)
         {
             return new AzureOpenAIAgent(options.ApplyMiddleware(innerAgent));
         }

@@ -12,7 +12,10 @@ using Microsoft.Agents.AI;
 using Microsoft.Extensions.AI;
 using Microsoft.Extensions.DependencyInjection;
 using Microsoft.Extensions.Logging;
+using OpenTelemetry;
+using OpenTelemetry.Trace;
 using Secrets;
+using System.Diagnostics;
 
 #pragma warning disable OPENAI001
 
@@ -20,6 +23,9 @@ namespace AgentFrameworkToolkit.Tests;
 
 public class AgentFactoryTests
 {
+    private TracerProvider? _tracerProvider;
+    private string? _toolCallingMiddlewareCity;
+    public static string? OpenTelemetryDisplayName;
     private static McpClientTools? _mcpClientTools;
     private const string TestName = "MyAgent";
     private const string TestInstructions = "You are a nice AI";
@@ -110,13 +116,61 @@ public class AgentFactoryTests
     [InlineData(AgentProvider.Google)]
     [InlineData(AgentProvider.Mistral)]
     [InlineData(AgentProvider.OpenRouterChatClient)]
+    [InlineData(AgentProvider.OpenRouterResponsesApi)]
+    [InlineData(AgentProvider.XAIChatClient)]
+    [InlineData(AgentProvider.XAIResponsesApi)]
+    //[InlineData(AgentProvider.GitHub)] //Often hangs so not active by default :-(
+    public async Task OpenTelemetryAndLoggingMiddlewareTestsAsync(AgentProvider provider)
+    {
+        OpenTelemetryDisplayName = null;
+        TestLoggerFactory testLogger = new();
+        AIAgent agent = await GetAgentForScenarioAsync(provider, AgentScenario.OpenTelemetryAndLoggingMiddleware, testLogger);
+        Assert.NotNull(agent.Id);
+        Assert.Equal(TestName, agent.Name);
+        Assert.Equal(TestDescription, agent.Description);
+        AgentRunResponse response = await agent.RunAsync("Hello", cancellationToken: TestContext.Current.CancellationToken);
+        Assert.Single(response.Messages);
+        Assert.NotEmpty(response.Text);
+        bool idCondition = testLogger.Logger.Messages.Any(x => x.Contains(agent.Id));
+        bool completedCondition = testLogger.Logger.Messages.Any(x => x.StartsWith("RunAsync completed"));
+        Assert.True(idCondition);
+        Assert.True(completedCondition);
+        _tracerProvider?.ForceFlush();
+        Assert.Equal($"invoke_agent {agent.Name}({agent.Id})", OpenTelemetryDisplayName);
+
+        switch (provider)
+        {
+            case AgentProvider.AzureOpenAIChatClient:
+            case AgentProvider.AzureOpenAIResponsesApi:
+            case AgentProvider.OpenAIChatClient:
+            case AgentProvider.OpenAIResponsesApi:
+            case AgentProvider.OpenRouterChatClient:
+            case AgentProvider.OpenRouterResponsesApi:
+            case AgentProvider.XAIChatClient:
+            case AgentProvider.XAIResponsesApi:
+                Assert.Contains("ClientFactory Called", testLogger.Logger.Messages);
+                break;
+        }
+    }
+
+    [Theory]
+    [InlineData(AgentProvider.AzureOpenAIChatClient)]
+    [InlineData(AgentProvider.AzureOpenAIResponsesApi)]
+    [InlineData(AgentProvider.OpenAIChatClient)]
+    [InlineData(AgentProvider.OpenAIResponsesApi)]
+    [InlineData(AgentProvider.Anthropic)]
+    [InlineData(AgentProvider.Google)]
+    [InlineData(AgentProvider.Mistral)]
+    [InlineData(AgentProvider.OpenRouterChatClient)]
     [InlineData(AgentProvider.XAIChatClient)]
     //[InlineData(AgentProvider.GitHub)] //Often hangs so not active by default :-(
     //[InlineData(AgentProvider.OpenRouterResponsesApi)] //OpenRouter have issues combining ResponsesAPI with Tools
     //[InlineData(AgentProvider.XAIResponsesApi)] //XAI have issues combining ResponsesAPI with Tools
     public async Task ToolCallAgentTestsAsync(AgentProvider provider)
     {
-        AIAgent agent = await GetAgentForScenarioAsync(provider, AgentScenario.ToolCall);
+        TestLoggerFactory testLogger = new();
+        _toolCallingMiddlewareCity = null;
+        AIAgent agent = await GetAgentForScenarioAsync(provider, AgentScenario.ToolCall, testLogger);
         AgentRunResponse response = await agent.RunAsync("What is the weather like in Paris", cancellationToken: TestContext.Current.CancellationToken);
         switch (provider)
         {
@@ -131,6 +185,7 @@ public class AgentFactoryTests
 
         Assert.Contains("SUNNY", response.Text.ToUpperInvariant());
         Assert.Contains("19", response.Text);
+        Assert.Equal("PARIS", _toolCallingMiddlewareCity?.ToUpperInvariant());
     }
 
     [Theory]
@@ -148,7 +203,8 @@ public class AgentFactoryTests
     //[InlineData(AgentProvider.Google)] //Unofficial Google Provider fail internally to call here so add back when the real Google Provider comes online
     public async Task McpToolCallAgentTestsAsync(AgentProvider provider)
     {
-        AIAgent agent = await GetAgentForScenarioAsync(provider, AgentScenario.McpToolCall);
+        TestLoggerFactory testLogger = new();
+        AIAgent agent = await GetAgentForScenarioAsync(provider, AgentScenario.McpToolCall, testLogger);
         AgentRunResponse response = await agent.RunAsync("Call the 'getting_started' tool to find what URL the nuget is on", cancellationToken: TestContext.Current.CancellationToken);
         switch (provider)
         {
@@ -178,7 +234,8 @@ public class AgentFactoryTests
     //[InlineData(AgentProvider.Google)] //Structured Output not supported
     public async Task StructuredOutputAgentTestsAsync(AgentProvider provider)
     {
-        AIAgent agent = await GetAgentForScenarioAsync(provider, AgentScenario.Normal);
+        TestLoggerFactory testLogger = new();
+        AIAgent agent = await GetAgentForScenarioAsync(provider, AgentScenario.Normal, testLogger);
         ChatClientAgentRunResponse<MovieResult> response = await agent.RunAsync<MovieResult>("Top 3 IMDB Movies", cancellationToken: TestContext.Current.CancellationToken);
         Assert.Equal(3, response.Result.Movies.Count);
     }
@@ -190,6 +247,12 @@ public class AgentFactoryTests
 
     private async Task<AIAgent> GetAgentForScenarioAsync(AgentProvider provider, AgentScenario scenario, TestLoggerFactory? testLogger = null)
     {
+        string sourceName = "AiSource";
+        TracerProviderBuilder tracerProviderBuilder = Sdk.CreateTracerProviderBuilder()
+            .AddSource(sourceName)
+            .AddProcessor(new BatchActivityExportProcessor(new CustomOpenTelemetryExporter()));
+        _tracerProvider = tracerProviderBuilder.Build();
+
         ServiceCollection serviceCollection = new();
         serviceCollection.AddSingleton<MyDi>();
         ServiceProvider serviceProvider = serviceCollection.BuildServiceProvider();
@@ -424,7 +487,19 @@ public class AgentFactoryTests
                         Assert.Contains($"\"name\": \"{tool.Name}\"", details.RequestData);
                     }
                 },
-                RawToolCallDetails = Console.WriteLine
+                RawToolCallDetails = Console.WriteLine,
+                ToolCallingMiddleware = async (agent, context, next, token) =>
+                {
+                    if (scenario is AgentScenario.ToolCall)
+                    {
+                        Assert.True(context.Arguments.ContainsKey("city") && context.Arguments["city"]!.ToString() == "Paris");
+                        _toolCallingMiddlewareCity = context.Arguments["city"]!.ToString();
+                    }
+
+                    return await next(context, token);
+                },
+                OpenTelemetryMiddleware = new OpenTelemetryMiddleware(sourceName, agent => agent.EnableSensitiveData = true),
+                LoggingMiddleware = new LoggingMiddleware(testLogger)
             };
 
             switch (model)
@@ -468,7 +543,19 @@ public class AgentFactoryTests
                     {
                         Assert.Contains($"\"name\": \"{tool.Name}\"", details.RequestData);
                     }
-                }
+                },
+                ToolCallingMiddleware = async (agent, context, next, token) =>
+                {
+                    if (scenario is AgentScenario.ToolCall)
+                    {
+                        Assert.True(context.Arguments.ContainsKey("city") && context.Arguments["city"]!.ToString() == "Paris");
+                        _toolCallingMiddlewareCity = context.Arguments["city"]!.ToString();
+                    }
+
+                    return await next(context, token);
+                },
+                OpenTelemetryMiddleware = new OpenTelemetryMiddleware(sourceName, agent => agent.EnableSensitiveData = true),
+                LoggingMiddleware = new LoggingMiddleware(testLogger)
             });
         }
 
@@ -495,7 +582,19 @@ public class AgentFactoryTests
                     {
                         Assert.Contains($"\"name\": \"{tool.Name}\"", details.RequestData);
                     }
-                }
+                },
+                ToolCallingMiddleware = async (agent, context, next, token) =>
+                {
+                    if (scenario is AgentScenario.ToolCall)
+                    {
+                        Assert.True(context.Arguments.ContainsKey("city") && context.Arguments["city"]!.ToString() == "Paris");
+                        _toolCallingMiddlewareCity = context.Arguments["city"]!.ToString();
+                    }
+
+                    return await next(context, token);
+                },
+                OpenTelemetryMiddleware = new OpenTelemetryMiddleware(sourceName, agent => agent.EnableSensitiveData = true),
+                LoggingMiddleware = new LoggingMiddleware(testLogger)
             });
         }
 
@@ -510,6 +609,18 @@ public class AgentFactoryTests
                 Tools = tools,
                 LoggerFactory = testLogger,
                 Instructions = TestInstructions,
+                ToolCallingMiddleware = async (agent, context, next, token) =>
+                {
+                    if (scenario is AgentScenario.ToolCall)
+                    {
+                        Assert.True(context.Arguments.ContainsKey("city") && context.Arguments["city"]!.ToString() == "Paris");
+                        _toolCallingMiddlewareCity = context.Arguments["city"]!.ToString();
+                    }
+
+                    return await next(context, token);
+                },
+                OpenTelemetryMiddleware = new OpenTelemetryMiddleware(sourceName, agent => agent.EnableSensitiveData = true),
+                LoggingMiddleware = new LoggingMiddleware(testLogger)
             });
         }
 
@@ -536,7 +647,19 @@ public class AgentFactoryTests
                     {
                         Assert.Contains($"\"name\": \"{tool.Name}\"", details.RequestData);
                     }
-                }
+                },
+                ToolCallingMiddleware = async (agent, context, next, token) =>
+                {
+                    if (scenario is AgentScenario.ToolCall)
+                    {
+                        Assert.True(context.Arguments.ContainsKey("city") && context.Arguments["city"]!.ToString() == "Paris");
+                        _toolCallingMiddlewareCity = context.Arguments["city"]!.ToString();
+                    }
+
+                    return await next(context, token);
+                },
+                OpenTelemetryMiddleware = new OpenTelemetryMiddleware(sourceName, agent => agent.EnableSensitiveData = true),
+                LoggingMiddleware = new LoggingMiddleware(testLogger)
             });
         }
     }
@@ -578,6 +701,7 @@ public enum AgentScenario
     Normal,
     ToolCall,
     McpToolCall,
+    OpenTelemetryAndLoggingMiddleware,
 }
 
 public enum AgentProvider
@@ -594,4 +718,20 @@ public enum AgentProvider
     OpenRouterResponsesApi,
     XAIChatClient,
     XAIResponsesApi,
+}
+
+public sealed class CustomOpenTelemetryExporter : BaseExporter<Activity>
+{
+    public override ExportResult Export(in Batch<Activity> batch)
+    {
+        foreach (Activity activity in batch)
+        {
+            string name = activity.DisplayName;
+
+            AgentFactoryTests.OpenTelemetryDisplayName = name;
+            // Send to your destination (HTTP, queue, DB, etc.)
+        }
+
+        return ExportResult.Success;
+    }
 }

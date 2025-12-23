@@ -1,3 +1,4 @@
+using AgentFrameworkToolkit;
 using AgentFrameworkToolkit.AzureOpenAI;
 using AgentFrameworkToolkit.OpenAI;
 using AgentFrameworkToolkit.Tools;
@@ -7,6 +8,8 @@ using Microsoft.Extensions.AI;
 using Microsoft.Extensions.Logging;
 using Microsoft.Extensions.Logging.Console;
 using ModelContextProtocol.Client;
+using OpenTelemetry;
+using OpenTelemetry.Trace;
 using Secrets;
 
 #pragma warning disable OPENAI001
@@ -23,6 +26,12 @@ public static class AzureOpenAI
 
     public static async Task RunAsync()
     {
+        string sourceName = "AiSource";
+        var tracerProviderBuilder = Sdk.CreateTracerProviderBuilder()
+            .AddSource(sourceName)
+            .AddConsoleExporter();
+        using TracerProvider tracerProvider = tracerProviderBuilder.Build();
+
         Secrets.Secrets secrets = SecretsManager.GetSecrets();
         AzureOpenAIConnection connection = new()
         {
@@ -40,6 +49,7 @@ public static class AzureOpenAI
             Model = OpenAIChatModels.Gpt41Mini,
             Tools = mcpClientTools.Tools,
             RawToolCallDetails = Console.WriteLine,
+            OpenTelemetryMiddleware = new OpenTelemetryMiddleware(sourceName, telemetryAgent => telemetryAgent.EnableSensitiveData = true)
         });
 
         AgentRunResponse response = await agent.RunAsync("Use the 'search_docs' tool to find out what relewise user-types exist?");

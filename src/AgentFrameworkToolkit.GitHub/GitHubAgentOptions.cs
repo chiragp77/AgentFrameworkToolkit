@@ -76,17 +76,49 @@ public class GitHubAgentOptions
     public ILoggerFactory? LoggerFactory { get; set; }
 
     /// <summary>
+    /// Enable Tool Calling Middleware allowing you to inspect, manipulate and cancel a tool-call
+    /// </summary>
+    public MiddlewareDelegates.ToolCallingMiddlewareDelegate? ToolCallingMiddleware { get; set; }
+
+    /// <summary>
+    /// Enable OpenTelemetry Middleware for OpenTelemetry Logging
+    /// </summary>
+    public OpenTelemetryMiddleware? OpenTelemetryMiddleware { get; set; }
+
+    /// <summary>
+    /// Enable Logging Middleware for custom Logging
+    /// </summary>
+    public LoggingMiddleware? LoggingMiddleware { get; set; }
+
+    /// <summary>
     /// Apply Middleware to the Agent, if needed
     /// </summary>
     /// <param name="innerAgent">The inner Agent</param>
     /// <returns>The Agent back with applied middleware</returns>
     public AIAgent ApplyMiddleware(AIAgent innerAgent)
     {
+        AIAgentBuilder builder = innerAgent.AsBuilder();
         if (RawToolCallDetails != null)
         {
-            innerAgent = innerAgent.AsBuilder().Use(new ToolCallsHandler(RawToolCallDetails).ToolCallingMiddlewareAsync).Build();
+            builder = builder.Use(new ToolCallsHandler(RawToolCallDetails).ToolCallingMiddlewareAsync);
         }
 
+        if (OpenTelemetryMiddleware != null)
+        {
+            builder = builder.UseOpenTelemetry(OpenTelemetryMiddleware.Source, OpenTelemetryMiddleware.Configure);
+        }
+
+        if (ToolCallingMiddleware != null)
+        {
+            builder = builder.Use(ToolCallingMiddleware.Invoke);
+        }
+
+        if (LoggingMiddleware != null)
+        {
+            builder = builder.UseLogging(LoggingMiddleware.LoggerFactory, LoggingMiddleware.Configure);
+        }
+
+        innerAgent = builder.Build(Services);
         return innerAgent;
     }
 }

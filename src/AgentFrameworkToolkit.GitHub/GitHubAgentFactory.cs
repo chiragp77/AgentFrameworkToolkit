@@ -63,7 +63,7 @@ public class GitHubAgentFactory
         AIAgent innerAgent = new ChatClientAgent(client, CreateChatClientAgentOptions(options), options.LoggerFactory, options.Services);
 
         // ReSharper disable once ConvertIfStatementToReturnStatement
-        if (options.RawToolCallDetails != null)
+        if (options.RawToolCallDetails != null || options.ToolCallingMiddleware != null || options.OpenTelemetryMiddleware != null || options.LoggingMiddleware != null)
         {
             return new GitHubAgent(options.ApplyMiddleware(innerAgent));
         }
