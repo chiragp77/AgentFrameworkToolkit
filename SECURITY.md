@@ -36,4 +36,4 @@ We follow responsible disclosure practices:
 - Run the full `dotnet build`/`dotnet test` workflow locally before submitting PRs.
 - Rotate API keys used in `development/Secrets` regularly and avoid committing secrets to the repository.
 
-Thank you for helping keep AgentFramework Toolkit secure!***
+Thank you for helping keep AgentFramework Toolkit secure!
