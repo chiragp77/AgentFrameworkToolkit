@@ -16,26 +16,6 @@ public static class Anthropic
 //Create your AgentFactory
         AnthropicAgentFactory agentFactory = new AnthropicAgentFactory("<apiKey>");
 
-//Create your Agent
-        AnthropicAgent agent = agentFactory.CreateAgent(new AnthropicAgentOptions //Use AnthropicAgentOptions overload to access more options
-        {
-            Model = AnthropicChatModels.ClaudeHaiku45,
-            MaxOutputTokens = 2000,
-            Instructions = "You are a nice AI", //The System Prompt
-            Tools = [], //Add your tools here
-            BudgetTokens = 1024, //Set Thinking Budget
-        });
-
-        AgentRunResponse response = await agent.RunAsync("Hello World");
-        Console.WriteLine(response);
-
-
-        //Create your AgentFactory (using a connection object for more options)
-        AnthropicAgentFactory agentFactory = new AnthropicAgentFactory(new AnthropicConnection
-        {
-            ApiKey = "<apiKey>",
-            NetworkTimeout = TimeSpan.FromMinutes(5) //Set call timeout
-        });
 
 //Create your Agent
         AnthropicAgent agent = agentFactory.CreateAgent(new AnthropicAgentOptions

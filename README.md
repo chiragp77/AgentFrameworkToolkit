@@ -5,21 +5,20 @@
 # Agent Framework Toolkit
 ### Welcome to Agent Framework Toolkit; An opinionated C# Wrapper for [Microsoft Agent Framework](https://github.com/microsoft/agent-framework) that makes life easier
 
-When using Microsoft Agent Framework, it is very simple, as long as you do not need to do anything advanced. So setting things like, model, instructions and tools are a breeze.
-But the second you need to something slightly more advanced you end up with questions:
+When using the Microsoft Agent Framework, it is very simple, as long as you do not need to do anything advanced. So setting things like 'model', 'instructions', and 'tools' is a breeze.
+But the second you need to do something slightly more advanced, you end up with questions:
 
 - How to work with Anthropic's Claude? 
-- How do you set reasoning effort in OpenAI? 
+- How do you set the reasoning effort in OpenAI or Google? 
 - How do you add Tool Calling Middleware?
 - How do you create Tools from a class or MCP Server?
 
-Things like the above, while doable are very cumbersome and are not discoverable, as Microsoft Agent Framework have decided to be very generic.
+Things like the above, while doable, are very cumbersome and are not discoverable, as Microsoft Agent Framework have decided to be very generic.
 
-Agent Framework Toolkit resolves these issues, but offering Provider-specific wrappers around Microsoft Agent Framwork, that is tailored to the specific provider, while keeping 100% compatibility with the rest of Microsoft Agent Framework. The result is less and much more easy code for you to write.
+Agent Framework Toolkit resolves these issues by offering Provider-specific wrappers around Microsoft Agent Framwork, that are tailored to the specific provider while keeping 100% compatibility with the rest of Microsoft Agent Framework. The result is less code and much easier code for you to write.
 
-**Example (With and Without Agent Framwork Toolkit)**
 ![With and Without Agent Framework Toolkit](https://i.imgur.com/NN18Ets.png)
-Above sample show how code looks with and without Agent Framwork Toolkit. You can get more details in [this video](https://youtu.be/OWjy4vkj-8o)
+*The above sample shows how the code looks with and without the Agent Framework Toolkit. You can get more details in [this video](https://youtu.be/OWjy4vkj-8o).*
 
 ## Supported Providers
 The following providers are currently supported (check out the individual README's for details and samples)
@@ -35,7 +34,7 @@ The following providers are currently supported (check out the individual README
 | **OpenRouter** | `AgentFactory`, `AIToolsFactory`, `EmbeddingFactory` | [![NuGet](https://img.shields.io/badge/NuGet-blue?style=for-the-badge)](https://www.nuget.org/packages/AgentFrameworkToolkit.OpenRouter) | [![README](https://img.shields.io/badge/-README-gray?style=for-the-badge)](https://github.com/rwjdk/AgentFrameworkToolkit/tree/main/src/AgentFrameworkToolkit.OpenRouter/README.md) |
 | **XAI (Grok)** | `AgentFactory`, `AIToolsFactory` | [![NuGet](https://img.shields.io/badge/NuGet-blue?style=for-the-badge)](https://www.nuget.org/packages/AgentFrameworkToolkit.XAI) | [![README](https://img.shields.io/badge/-README-gray?style=for-the-badge)](https://github.com/rwjdk/AgentFrameworkToolkit/tree/main/src/AgentFrameworkToolkit.XAI/README.md) |
 
-> Tip: For other OpenAI Based providers, you can use the OpenAI Package and provide a custom endpoint
+> Tip: For other OpenAI-based providers, you can use the OpenAI Package and provide a custom endpoint
 
 ## Code sample (using Azure OpenAI, easily setting Reasoning Effort and Tool Calling Middleware)
 ```cs
