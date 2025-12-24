@@ -11,8 +11,7 @@
 		<Copyright>2025</Copyright>
 		<PackageProjectUrl>https://github.com/rwjdk/AgentFrameworkToolkit</PackageProjectUrl>
 		<PackageIcon>icon.png</PackageIcon>
-		<PackageTags>microsoft-agent-framework agent-framework-toolkit toolkit microsoft agent
-			framework microsoft.agents.ai</PackageTags>
+		<PackageTags>microsoft-agent-framework agent-framework-toolkit toolkit microsoft agent framework microsoft.agents.ai</PackageTags>
 		<Company>RWJDK</Company>
 		<PackageLicenseExpression>MIT</PackageLicenseExpression>
 		<PackageReleaseNotes>https://github.com/rwjdk/AgentFrameworkToolkit/blob/main/CHANGELOG.md</PackageReleaseNotes>

@@ -1,11 +1,11 @@
-﻿<Project Sdk="Microsoft.NET.Sdk">
+<Project Sdk="Microsoft.NET.Sdk">
 
 	<PropertyGroup>
 		<Description>An opinionated C# Toolkit targeting Anthropic for Microsoft Agent Framework
 			that makes life eaisier</Description>
 	</PropertyGroup>
 
-	<Import Project="..\nuget-package.props" />
+	<Import Project="..\..\nuget-package.props" />
 
 	<ItemGroup>
 		<PackageReference Include="Microsoft.Agents.AI.Anthropic" />

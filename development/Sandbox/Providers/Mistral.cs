@@ -1,12 +1,10 @@
 using AgentFrameworkToolkit;
 using AgentFrameworkToolkit.Mistral;
-using AgentFrameworkToolkit.OpenAI;
-using AgentFrameworkToolkit.OpenRouter;
 using Microsoft.Agents.AI;
 using Microsoft.Extensions.AI;
 using Secrets;
 
-namespace Samples.Providers;
+namespace Sandbox.Providers;
 
 public static class Mistral
 {

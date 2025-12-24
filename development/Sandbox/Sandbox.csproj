@@ -1,0 +1,29 @@
+﻿<Project Sdk="Microsoft.NET.Sdk">
+
+  <PropertyGroup>
+    <OutputType>Exe</OutputType>
+    <TargetFramework>net10.0</TargetFramework>
+    <ImplicitUsings>enable</ImplicitUsings>
+    <Nullable>enable</Nullable>
+  </PropertyGroup>
+
+  <ItemGroup>
+    <PackageReference Include="Azure.Identity" />
+    <PackageReference Include="OpenTelemetry" />
+    <PackageReference Include="OpenTelemetry.Exporter.Console" />
+  </ItemGroup>
+
+  <ItemGroup>
+    <ProjectReference Include="..\..\src\AgentFrameworkToolkit.Anthropic\AgentFrameworkToolkit.Anthropic.csproj" />
+    <ProjectReference Include="..\..\src\AgentFrameworkToolkit.AzureOpenAI\AgentFrameworkToolkit.AzureOpenAI.csproj" />
+    <ProjectReference Include="..\..\src\AgentFrameworkToolkit.GitHub\AgentFrameworkToolkit.GitHub.csproj" />
+    <ProjectReference Include="..\..\src\AgentFrameworkToolkit.Google\AgentFrameworkToolkit.Google.csproj" />
+    <ProjectReference Include="..\..\src\AgentFrameworkToolkit.Mistral\AgentFrameworkToolkit.Mistral.csproj" />
+    <ProjectReference Include="..\..\src\AgentFrameworkToolkit.OpenAI\AgentFrameworkToolkit.OpenAI.csproj" />
+    <ProjectReference Include="..\..\src\AgentFrameworkToolkit.OpenRouter\AgentFrameworkToolkit.OpenRouter.csproj" />
+    <ProjectReference Include="..\..\src\AgentFrameworkToolkit.Tools.ModelContextProtocol\AgentFrameworkToolkit.Tools.ModelContextProtocol.csproj" />
+    <ProjectReference Include="..\..\src\AgentFrameworkToolkit.XAI\AgentFrameworkToolkit.XAI.csproj" />
+    <ProjectReference Include="..\..\src\AgentFrameworkToolkit\AgentFrameworkToolkit.csproj" />
+    <ProjectReference Include="..\Secrets\Secrets.csproj" />
+  </ItemGroup>
+</Project>

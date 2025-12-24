@@ -4,7 +4,7 @@ using Secrets;
 
 #pragma warning disable OPENAI001
 
-namespace Samples.Providers;
+namespace Sandbox.Providers;
 
 public static class OpenAI
 {

@@ -3,7 +3,7 @@ using AgentFrameworkToolkit.XAI;
 using Microsoft.Agents.AI;
 using Secrets;
 
-namespace Samples.Providers;
+namespace Sandbox.Providers;
 
 public static class XAI
 {

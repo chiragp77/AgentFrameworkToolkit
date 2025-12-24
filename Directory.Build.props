@@ -20,15 +20,18 @@
         <IsPackable>false</IsPackable>
     </PropertyGroup>
 
-    <!-- Library projects: enable packaging -->
-    <PropertyGroup Condition="'$(MSBuildProjectName)' != 'AgentFrameworkToolkit.Tests'">
-        <IsPackable>true</IsPackable>
-        <GeneratePackageOnBuild>true</GeneratePackageOnBuild>
+    <!-- Test project specific settings -->
+    <PropertyGroup Condition="'$(MSBuildProjectName)' == 'Tests'">
+        <IsPackable>false</IsPackable>
     </PropertyGroup>
 
-    <!-- Test project specific settings -->
-    <PropertyGroup Condition="'$(MSBuildProjectName)' == 'AgentFrameworkToolkit.Tests'">
-        <IsPackable>false</IsPackable>
-        <TargetFramework>net8.0</TargetFramework>
+    <!-- Sandbox project specific settings -->
+    <PropertyGroup Condition="'$(MSBuildProjectName)' == 'Sandbox'">
+	    <IsPackable>false</IsPackable>
+    </PropertyGroup>
+
+    <!-- Secret project specific settings -->
+    <PropertyGroup Condition="'$(MSBuildProjectName)' == 'Secrets'">
+	    <IsPackable>false</IsPackable>
     </PropertyGroup>
 </Project>

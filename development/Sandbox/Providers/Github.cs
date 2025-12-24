@@ -1,33 +1,41 @@
 using AgentFrameworkToolkit;
-using AgentFrameworkToolkit.Anthropic;
+using AgentFrameworkToolkit.GitHub;
 using Microsoft.Agents.AI;
 using Microsoft.Extensions.AI;
 using Secrets;
 
-namespace Samples.Providers;
+#pragma warning disable OPENAI001
 
-public static class Anthropic
+namespace Sandbox.Providers;
+
+public static class GitHub
 {
     public static async Task Run()
     {
         Secrets.Secrets secrets = SecretsManager.GetSecrets();
-        string apiKey = secrets.AnthropicApiKey;
+        GitHubAgentFactory factory = new(secrets.GitHubPatToken);
 
-//Create your AgentFactory
-        AnthropicAgentFactory agentFactory = new AnthropicAgentFactory("<apiKey>");
+        //Create your AgentFactory (using a connection object for more options)
+        GitHubAgentFactory agentFactory = new GitHubAgentFactory(new GitHubConnection
+        {
+            //Endpoint = "<endpoint>", //Optional: if targeting non-GitHub provider
+            AccessToken = "<Access Token>",
+            NetworkTimeout = TimeSpan.FromMinutes(5), //Set call timeout
+            AdditionalAzureAIInferenceClientOptions = options =>
+            {
+                //Set additional properties if needed
+            }
+        });
 
-
-//Create your Agent
-        AnthropicAgent agent = agentFactory.CreateAgent(new AnthropicAgentOptions
+        //Create your Agent
+        GitHubAgent agent = agentFactory.CreateAgent(new GitHubAgentOptions
         {
             //Mandatory
-            Model = AnthropicChatModels.ClaudeHaiku45, //Model to use
-            MaxOutputTokens = 2000, //Max allow token
+            Model = "gpt-5", //Model to use
 
             //Optional (Common)
             Name = "MyAgent", //Agent Name
-            Temperature = 0, //The Temperature of the LLM Call (1 = Normal; 0 = Less creativity)
-            BudgetTokens = 1024, //Set Thinking Budget
+            Temperature = 0, //The Temperature of the LLM Call (1 = Normal; 0 = Less creativity) [ONLY NON-REASONING MODELS]
             Instructions = "You are a nice AI", //The System Prompt for the Agent to Follow
             Tools = [], //Add your tools for Tool Calling here
             ToolCallingMiddleware = async (callingAgent, context, next, token) => //Tool Calling Middleware to Inspect, change, and cancel tool-calling
@@ -38,6 +46,7 @@ public static class Anthropic
             OpenTelemetryMiddleware = new OpenTelemetryMiddleware(source: "MyOpenTelemetrySource", telemetryAgent => telemetryAgent.EnableSensitiveData = true), //Configure OpenTelemetry Middleware
 
             //Optional (Rarely used)
+            MaxOutputTokens = 2000, //Max allow token
             Id = "1234", //Set the ID of Agent (else a random GUID is assigned as ID)
             Description = "My Description", //Description of the Agent (not used by the LLM)
             LoggingMiddleware = new LoggingMiddleware( /* Configure custom logging */),
@@ -53,7 +62,7 @@ public static class Anthropic
                 Console.WriteLine(details.RequestUrl);
                 Console.WriteLine(details.RequestData);
                 Console.WriteLine(details.ResponseData);
-            }
+            },
         });
 
         AgentRunResponse response = await agent.RunAsync("Hello World");

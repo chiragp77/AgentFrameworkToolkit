@@ -7,13 +7,13 @@ public class SecretsManager
     /* This SecretsManager relies on .NET User Secrets in the following format
     ************************************************************************************************************************************************
     {
-      "OpenAiApiKey": "todo", //URL of your OpenAI API Key
-      "AzureOpenAiEndpoint": "todo", //URL of your Azure OpenAI Service
-      "AzureOpenAiKey": "todo", //Key of your Azure OpenAI Service
-      "ChatDeploymentName": "todo", //DeploymentName of your Azure OpenAI Chat-model (example: "gpt-4o-mini")
-      "EmbeddingModelName": "todo", //[Optional] Embedding Model for RAG (example: "text-embedding-ada-002")
-      "AzureAiFoundryAgentEndpoint" : "todo", //[Optional] Endpoint for the Azure AI Foundry Agents (if you wish to test those demos)
-      "AzureAiFoundryAgentId" : "todo", //[Optional] ID of your agent for the Azure AI Foundry Agents (if you wish to test those demos)
+      "OpenAiApiKey": "todo",
+      "AzureOpenAiEndpoint": "todo",
+      "AzureOpenAiKey": "todo",
+      "ChatDeploymentName": "todo",
+      "EmbeddingModelName": "todo",
+      "AzureAiFoundryAgentEndpoint" : "todo",
+      "AzureAiFoundryAgentId" : "todo",
       "BingApiKey" : "todo",
       "HuggingFaceApiKey": "todo",
       "OpenRouterApiKet" : "todo",

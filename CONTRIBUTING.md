@@ -6,24 +6,20 @@ Thank you for your interest in contributing! This document provides guidelines a
 
 ```
 AgentFrameworkToolkit/
-├── src/                      # Library packages and tests
-│   ├── AgentFrameworkToolkit/              # Core library
-│   ├── AgentFrameworkToolkit.*/            # Provider-specific packages
-│   ├── AgentFrameworkToolkit.Tests/        # Unit tests
-│   ├── Directory.Packages.props            # Central package version management
-│   ├── Directory.Build.props               # Shared build properties
-│   ├── Directory.Build.targets             # Shared build targets
-│   └── nuget-package.props                 # NuGet package metadata
-│
-├── examples/Samples/         # Example console application
-├── tools/                    # Development tools
-│   ├── AppHost/             # Aspire orchestration host
-│   ├── DevUI/               # Web UI for testing agents
-│   └── ServiceDefaults/     # Shared service configuration
-│
-├── README.md                 # Package documentation (goes to NuGet)
-├── CHANGELOG.md              # Version history
-└── CONTRIBUTING.md           # This file
+├── src/                                # Library packages
+│   ├── AgentFrameworkToolkit/          # Core library
+│   └── AgentFrameworkToolkit.*/        # Provider-specific packages
+├── development/                        # Development resoures and tests
+│   ├── Sandbox/                        # Sandbox area for various testing while coding
+│   ├── Secrets/                        # UserSecrets LLM API Keys etc.
+│   └── Tests/                          # Unit tests
+├-─ nuget-package.props                 # NuGet package metadata
+├── Directory.Packages.props            # Central package version management
+├── Directory.Build.props               # Shared build properties
+├── Directory.Build.targets             # Shared build targets
+├── README.md                           # Package documentation (goes to NuGet)
+├── CHANGELOG.md                        # Version history
+└── CONTRIBUTING.md                     # This file
 ```
 
 ## Prerequisites
@@ -97,7 +93,7 @@ Common build properties are defined in:
            <Description>An opinionated C# Toolkit targeting NewProvider for Microsoft Agent Framework that makes life easier</Description>
        </PropertyGroup>
 
-       <Import Project="..\nuget-package.props" />
+       <Import Project="..\..\nuget-package.props" />
 
        <ItemGroup>
            <PackageReference Include="NewProvider.SDK" />
