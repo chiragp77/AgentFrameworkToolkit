@@ -1,117 +1,64 @@
-# AgentFramework Toolkit
-An opinionated C# Toolkit for Microsoft Agent Framework that makes life easier
+[![GitHub Actions Workflow Status](https://img.shields.io/github/actions/workflow/status/rwjdk/AgentFrameworkToolkit/Build.yml?style=for-the-badge)](https://github.com/rwjdk/AgentFrameworkToolkit/actions)
+[![GitHub Issues or Pull Requests by label](https://img.shields.io/github/issues/rwjdk/AgentFrameworkToolkit/bug?style=for-the-badge&label=Bugs)](https://github.com/rwjdk/AgentFrameworkToolkit/issues?q=is%3Aissue%20state%3Aopen%20label%3Abug)
+[![Libraries.io dependency status for GitHub repo](https://img.shields.io/librariesio/github/rwjdk/AgentFrameworkToolkit?style=for-the-badge)](https://github.com/rwjdk/AgentFrameworkToolkit/network/dependencies)
 
-## NuGet
-[OpenAI](https://www.nuget.org/packages/AgentFrameworkToolkit.OpenAI) |
-[Azure OpenAI](https://www.nuget.org/packages/AgentFrameworkToolkit.AzureOpenAI) |
-[Google (Gemini)](https://www.nuget.org/packages/AgentFrameworkToolkit.Google) | 
-[Anthropic (Claude)](https://www.nuget.org/packages/AgentFrameworkToolkit.Anthropic) | 
-[XAI (Grok)](https://www.nuget.org/packages/AgentFrameworkToolkit.XAI) |
-[Mistral](https://www.nuget.org/packages/AgentFrameworkToolkit.Mistral) | 
-[OpenRouter](https://www.nuget.org/packages/AgentFrameworkToolkit.OpenRouter) |
-[GitHub](https://www.nuget.org/packages/AgentFrameworkToolkit.GitHub)
+# Agent Framework Toolkit
+### Welcome to Agent Framework Toolkit; An opinionated C# Wrapper for [Microsoft Agent Framework](https://github.com/microsoft/agent-framework) that makes life easier
 
-## Examples of use
-> All agents have AIAgent as base, fully work the  rest of Microsoft Agent Framework)
+When using Microsoft Agent Framework, it is very simple, as long as you do not need to do anything advanced. So setting things like, model, instructions and tools are a breeze.
+But the second you need to something slightly more advanced you end up with questions:
 
-### OpenAI
+- How to work with Anthropic's Claude? 
+- How do you set reasoning effort in OpenAI? 
+- How do you add Tool Calling Middleware?
+- How do you create Tools from a class or MCP Server?
+
+Things like the above, while doable are very cumbersome and are not discoverable, as Microsoft Agent Framework have decided to be very generic.
+
+Agent Framework Toolkit resolves these issues, but offering Provider-specific wrappers around Microsoft Agent Framwork, that is tailored to the specific provider, while keeping 100% compatibility with the rest of Microsoft Agent Framework. The result is less and much more easy code for you to write.
+
+## Example (With and Without Agent Framwork Toolkit)
+The following sample show how code looks with and without Agent Framwork Toolkit. You can get more details in [this video](https://youtu.be/OWjy4vkj-8o)
+
+![With and Without Agent Framework Toolkit](https://i.imgur.com/NN18Ets.png)
+
+## Supported Providers
+The following providers are currently supported (check out the individual README's for details and samples)
+
+| Provider | Supported Features |   |  |
+|---|---|---|--|
+| **Antropic (Claude)** | `AgentFactory`, `AIToolsFactory` | [![NuGet](https://img.shields.io/badge/NuGet-blue?style=for-the-badge)](https://www.nuget.org/packages/AgentFrameworkToolkit.Anthropic) | [![README](https://img.shields.io/badge/-README-gray?style=for-the-badge)](https://github.com/rwjdk/AgentFrameworkToolkit/tree/main/src/AgentFrameworkToolkit.Anthropic/README.md) |
+| **Azure OpenAI** | `AgentFactory`, `AIToolsFactory`, `EmbeddingFactory` | [![NuGet](https://img.shields.io/badge/NuGet-blue?style=for-the-badge)](https://www.nuget.org/packages/AgentFrameworkToolkit.AzureOpenAI) | [![README](https://img.shields.io/badge/-README-gray?style=for-the-badge)](https://github.com/rwjdk/AgentFrameworkToolkit/tree/main/src/AgentFrameworkToolkit.AzureOpenAI/README.md) |
+| **GitHub Models** | `AgentFactory`, `AIToolsFactory` | [![NuGet](https://img.shields.io/badge/NuGet-blue?style=for-the-badge)](https://www.nuget.org/packages/AgentFrameworkToolkit.GitHub) | [![README](https://img.shields.io/badge/-README-gray?style=for-the-badge)](https://github.com/rwjdk/AgentFrameworkToolkit/tree/main/src/AgentFrameworkToolkit.GitHub/README.md) |
+| **Google (Gemini)** | `AgentFactory`, `AIToolsFactory` | [![NuGet](https://img.shields.io/badge/NuGet-blue?style=for-the-badge)](https://www.nuget.org/packages/AgentFrameworkToolkit.Google) | [![README](https://img.shields.io/badge/-README-gray?style=for-the-badge)](https://github.com/rwjdk/AgentFrameworkToolkit/tree/main/src/AgentFrameworkToolkit.Google/README.md) |
+| **Mistral** | `AgentFactory`, `AIToolsFactory`, `EmbeddingFactory`| [![NuGet](https://img.shields.io/badge/NuGet-blue?style=for-the-badge)](https://www.nuget.org/packages/AgentFrameworkToolkit.Mistral) | [![README](https://img.shields.io/badge/-README-gray?style=for-the-badge)](https://github.com/rwjdk/AgentFrameworkToolkit/tree/main/src/AgentFrameworkToolkit.Mistral/README.md) |
+| **OpenAI** | `AgentFactory`, `AIToolsFactory`, `EmbeddingFactory` | [![NuGet](https://img.shields.io/badge/NuGet-blue?style=for-the-badge)](https://www.nuget.org/packages/AgentFrameworkToolkit.OpenAI) | [![README](https://img.shields.io/badge/-README-gray?style=for-the-badge)](https://github.com/rwjdk/AgentFrameworkToolkit/tree/main/src/AgentFrameworkToolkit.OpenAI/README.md) |
+| **OpenRouter** | `AgentFactory`, `AIToolsFactory`, `EmbeddingFactory` | [![NuGet](https://img.shields.io/badge/NuGet-blue?style=for-the-badge)](https://www.nuget.org/packages/AgentFrameworkToolkit.OpenRouter) | [![README](https://img.shields.io/badge/-README-gray?style=for-the-badge)](https://github.com/rwjdk/AgentFrameworkToolkit/tree/main/src/AgentFrameworkToolkit.OpenRouter/README.md) |
+| **XAI (Grok)** | `AgentFactory`, `AIToolsFactory` | [![NuGet](https://img.shields.io/badge/NuGet-blue?style=for-the-badge)](https://www.nuget.org/packages/AgentFrameworkToolkit.XAI) | [![README](https://img.shields.io/badge/-README-gray?style=for-the-badge)](https://github.com/rwjdk/AgentFrameworkToolkit/tree/main/src/AgentFrameworkToolkit.XAI/README.md) |
+
+> Tip: For other OpenAI Based providers, you can use the OpenAI Package and provide a custom endpoint
+
+## Code sample (using Azure OpenAI, easily setting Reasoning Effort and Tool Calling Middleware)
 ```cs
-OpenAIAgentFactory factory = new OpenAIAgentFactory(new OpenAIConnection
+AzureOpenAIAgentFactory agentFactory = new("<endpoint>", "<apiKey>");
+
+AzureOpenAIAgent agent = agentFactory.CreateAgent(new AgentOptions
 {
-    ApiKey = configuration.OpenAiApiKey,
-    NetworkTimeout = TimeSpan.FromMinutes(5)
+    Model = OpenAIChatModels.Gpt5Mini,
+    ReasoningEffort = OpenAIReasoningEffort.Low,
+    Tools = [AIFunctionFactory.Create(WeatherTool.GetWeather)],
+    RawToolCallDetails = details => { Console.WriteLine(details.ToString()); }
 });
 
-OpenAIAgent agent = factory.CreateAgent(new AgentOptions
-{
-    Model = "gpt-5",
-    ReasoningEffort = OpenAIReasoningEffort.High,
-    ReasoningSummaryVerbosity = OpenAIReasoningSummaryVerbosity.Concise,    
-});
+string question = "What is the Weather like in Paris";
+ChatClientAgentRunResponse<WeatherReport> response = await agent.RunAsync<WeatherReport>(question);
+WeatherReport weatherReport = response.Result;
 ```
 
-### Google
-```cs
-GoogleAgentFactory factory = new(new GoogleConnection
-{
-    ApiKey = configuration.GoogleGeminiApiKey
-});
+**More Info**
 
-GoogleAgent agent = factory.CreateAgent(new GoogleAgentOptions
-{
-    Model = GenerativeAI.GoogleAIModels.Gemini25Pro,
-    Tools = [AIFunctionFactory.Create(GetWeather)]
-});
-
-```
-
-### Anthropic
-```cs
-AnthropicAgentFactory factory = new AnthropicAgentFactory("<AnthropicApiKey">);
-
-factory.CreateAgent(new AnthropicAgentOptions
-{
-    Model = "claude-sonnet-4-5",
-    MaxOutputTokens = 10000, // <-- Force the MaxToken property I always forget
-    BudgetTokens = 5000
-});
-```
-
-### X AI
-```cs
-XAIAgentFactory factory = new(new XAIConnection
-{
-    ApiKey = configuration.XAiGrokApiKey
-});
-
-XAIAgent agent = factory.CreateAgent(new AgentOptions
-{
-    Model = "grok-4-fast-non-reasoning",
-    Tools = [AIFunctionFactory.Create(GetWeather)]
-});
-```
-
-### Mistral
-```cs
-MistralAgentFactory mistralAgentFactory = new MistralAgentFactory("<MistralApiKey>");
-MistralAgent mistralAgent = mistralAgentFactory.CreateAgent(new MistralAgentOptions
-{
-    Model = Mistral.SDK.ModelDefinitions.MistralSmall
-});
-```
-
-### Azure AI (with every optional setting added for demonstration)
-
-```cs
-AzureOpenAIAgent fullBlownAgent = azureOpenAIAgentFactory.CreateAgent(new AgentOptions
-{
-    Id = "1234",
-    Name = "MyAgent",
-    Description = "The description of my agent",
-    Instructions = "Speak like a pirate",
-    Model = "gpt-5-mini",
-    ReasoningEffort = OpenAIReasoningEffort.High,
-    ReasoningSummaryVerbosity = OpenAIReasoningSummaryVerbosity.Concise,  
-    Tools = [AIFunctionFactory.Create(GetWeather)],
-    RawToolCallDetails = details => { Console.WriteLine(details.ToString()); },
-    RawHttpCallDetails = details =>
-    {
-        Console.WriteLine($"URL: {details.RequestUrl}");
-        Console.WriteLine($"Request: {details.RequestJson}");
-        Console.WriteLine($"Response: {details.ResponseJson}");
-    }
-});
-```
-
----
-
-## Repository layout
-- [src/](https://github.com/rwjdk/AgentFrameworkToolkit/tree/main/src) – Core libraries and tests (packages live under src/*, tests in [src/AgentFrameworkToolkit.Tests](https://github.com/rwjdk/AgentFrameworkToolkit/tree/main/src/AgentFrameworkToolkit.Tests)).
-- [examples/Samples](https://github.com/rwjdk/AgentFrameworkToolkit/tree/main/examples/Samples) – Console sample app with per-provider examples.
-- [tools/AppHost](https://github.com/rwjdk/AgentFrameworkToolkit/tree/main/tools/AppHost) – Aspire host to orchestrate DevUI and service defaults in dev.
-- [tools/DevUI](https://github.com/rwjdk/AgentFrameworkToolkit/tree/main/tools/DevUI) – Web UI to try all agents with your own keys.
-- [tools/ServiceDefaults](https://github.com/rwjdk/AgentFrameworkToolkit/tree/main/tools/ServiceDefaults) – Shared dev infra (health checks, telemetry defaults).
+[![WIKI](https://img.shields.io/badge/Wiki-brown?style=for-the-badge)](https://github.com/rwjdk/AgentFrameworkToolkit/wiki)
+[![Changelog](https://img.shields.io/badge/-Changelog-darkgreen?style=for-the-badge)](https://github.com/rwjdk/AgentFrameworkToolkit/blob/main/CHANGELOG.md)
+[![YouTube](https://img.shields.io/badge/-YouTube-darkred?style=for-the-badge)](https://www.youtube.com/playlist?list=PLhGl0l5La4sa2XT_K5ndgdStQNchSHe5x)
 
 > **Contributing**: See [CONTRIBUTING.md](https://github.com/rwjdk/AgentFrameworkToolkit/blob/main/CONTRIBUTING.md) for build instructions and development guidelines.
-
-
