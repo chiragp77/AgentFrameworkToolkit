@@ -1,5 +1,10 @@
 # Changelog - Agent Framework Toolkit
 
+## Unreleased
+- [BREAKING] Athropic: Renamed 'maxTokenCount' to 'maxOutputTokens' to have consitent naming in the simplified CreateAgent method
+
+---
+
 ## Version 1.0.0-preview.251224.1
 - Added support for easy Tool-Calling Middleware (allowing you to inspect, manipulate and cancel tool-calling)
 - Added support for easy OpenTelemetry Middleware (Logging in the OpenTelemetry standard)

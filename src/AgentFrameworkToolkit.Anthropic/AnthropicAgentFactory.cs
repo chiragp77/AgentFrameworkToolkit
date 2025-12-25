@@ -39,17 +39,17 @@ public class AnthropicAgentFactory
     /// Create a simple Agent (using the ChatClient) with default settings (For more advanced agents use the options overloads)
     /// </summary>
     /// <param name="model">Name of the Model to use</param>
-    /// <param name="maxTokenCount">Max Token Count this Agent may use per call</param>
+    /// <param name="maxOutputTokens">Max Token Count this Agent may use per call</param>
     /// <param name="instructions">Instructions for the Agent to follow (aka Developer Message)</param>
     /// <param name="name">Name of the Agent</param>
     /// <param name="tools">Tools for the Agent</param>
     /// <returns>An Agent</returns>
-    public AnthropicAgent CreateAgent(string model, int maxTokenCount, string? instructions = null, string? name = null, IList<AITool>? tools = null)
+    public AnthropicAgent CreateAgent(string model, int maxOutputTokens, string? instructions = null, string? name = null, IList<AITool>? tools = null)
     {
         return CreateAgent(new AnthropicAgentOptions
         {
             Model = model,
-            MaxOutputTokens = maxTokenCount,
+            MaxOutputTokens = maxOutputTokens,
             Name = name,
             Instructions = instructions,
             Tools = tools
