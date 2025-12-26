@@ -2,6 +2,7 @@ using AgentFrameworkToolkit.Tools;
 using AgentFrameworkToolkit.Tools.ModelContextProtocol;
 using JetBrains.Annotations;
 using Microsoft.Extensions.AI;
+using Microsoft.Extensions.DependencyInjection;
 
 namespace AgentFrameworkToolkit.Tests;
 
@@ -64,6 +65,19 @@ public class AIToolsFactoryTests
         Assert.Contains("browser_click", clientTools.Tools.Select(x => x.Name));
     }
 
+    [Fact]
+    public void InjectAIToolFactoryFactoryTest()
+    {
+        ServiceCollection services = new();
+        services.AddAIToolFactory();
+
+        ServiceProvider provider = services.BuildServiceProvider();
+
+        AIToolsFactory aiToolsFactory = provider.GetRequiredService<AIToolsFactory>();
+        IList<AITool> tools = aiToolsFactory.GetTools(typeof(DiTools));
+        Assert.Single(tools);
+    }
+
     [PublicAPI]
     private class TestToolsWithAttributes
     {
@@ -94,6 +108,15 @@ public class AIToolsFactoryTests
         private string NotATool(string input1)
         {
             return input1;
+        }
+    }
+
+    private class DiTools
+    {
+        [AITool]
+        public static string GetWeather(string city)
+        {
+            return "{ \"condition\": \"sunny\", \"degrees\":19 }";
         }
     }
 }

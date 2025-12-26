@@ -1,6 +1,7 @@
 using Microsoft.Agents.AI;
 using Microsoft.Extensions.AI;
 using Microsoft.Extensions.Logging;
+using static Microsoft.Agents.AI.ChatClientAgentOptions;
 
 namespace AgentFrameworkToolkit.Google;
 
@@ -20,7 +21,7 @@ public class GoogleAgentOptions
     public string? Id { get; set; }
 
     /// <summary>
-    /// The Name of the Agent (Optional in most cases, but some scenarios to require one)
+    /// The Name of the Agent (Optional in most cases, but some scenarios do require one)
     /// </summary>
     public string? Name { get; set; }
 
@@ -89,6 +90,19 @@ public class GoogleAgentOptions
     /// Enable Logging Middleware for custom Logging
     /// </summary>
     public LoggingMiddleware? LoggingMiddleware { get; set; }
+
+    /// <summary>
+    /// Gets or sets a factory function to create an instance of <see cref="ChatMessageStore"/>
+    /// which will be used to store chat messages for this agent.
+    /// </summary>
+    public Func<ChatMessageStoreFactoryContext, ChatMessageStore>? ChatMessageStoreFactory { get; set; }
+
+    /// <summary>
+    /// Gets or sets a factory function to create an instance of <see cref="AIContextProvider"/>
+    /// which will be used to create a context provider for each new thread, and can then
+    /// provide additional context for each agent run.
+    /// </summary>
+    public Func<AIContextProviderFactoryContext, AIContextProvider>? AIContextProviderFactory { get; set; }
 
     /// <summary>
     /// Apply Middleware to the Agent, if needed

@@ -97,7 +97,9 @@ public class MistralAgentFactory
             Name = options.Name,
             Description = options.Description,
             Id = options.Id,
-            ChatOptions = chatOptions
+            ChatOptions = chatOptions,
+            AIContextProviderFactory = options.AIContextProviderFactory,
+            ChatMessageStoreFactory = options.ChatMessageStoreFactory,
         };
 
         options.AdditionalChatClientAgentOptions?.Invoke(chatClientAgentOptions);

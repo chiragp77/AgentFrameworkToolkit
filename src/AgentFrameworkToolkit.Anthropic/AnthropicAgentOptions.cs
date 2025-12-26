@@ -1,6 +1,7 @@
 using Microsoft.Agents.AI;
 using Microsoft.Extensions.AI;
 using Microsoft.Extensions.Logging;
+using static Microsoft.Agents.AI.ChatClientAgentOptions;
 
 namespace AgentFrameworkToolkit.Anthropic;
 
@@ -59,6 +60,11 @@ public class AnthropicAgentOptions
     /// </summary>
     public required int MaxOutputTokens { get; set; }
 
+    /// <summary>
+    /// Reasoning effort knob, in tokens. Higher value --> more internal reasoning.
+    /// </summary>
+    public int BudgetTokens { get; set; }
+
     /// <summary>The temperature for generating chat responses.</summary>
     /// <remarks>
     /// This value controls the randomness of predictions made by the model. Use a lower value to decrease randomness in the response.
@@ -91,6 +97,19 @@ public class AnthropicAgentOptions
     public LoggingMiddleware? LoggingMiddleware { get; set; }
 
     /// <summary>
+    /// Gets or sets a factory function to create an instance of <see cref="ChatMessageStore"/>
+    /// which will be used to store chat messages for this agent.
+    /// </summary>
+    public Func<ChatMessageStoreFactoryContext, ChatMessageStore>? ChatMessageStoreFactory { get; set; }
+
+    /// <summary>
+    /// Gets or sets a factory function to create an instance of <see cref="AIContextProvider"/>
+    /// which will be used to create a context provider for each new thread, and can then
+    /// provide additional context for each agent run.
+    /// </summary>
+    public Func<AIContextProviderFactoryContext, AIContextProvider>? AIContextProviderFactory { get; set; }
+
+    /// <summary>
     /// Apply Middleware to the Agent, if needed
     /// </summary>
     /// <param name="innerAgent">The inner Agent</param>
@@ -121,9 +140,4 @@ public class AnthropicAgentOptions
         innerAgent = builder.Build(Services);
         return innerAgent;
     }
-
-    /// <summary>
-    /// Reasoning effort knob, in tokens. Higher value --> more internal reasoning.
-    /// </summary>
-    public int BudgetTokens { get; set; }
 }

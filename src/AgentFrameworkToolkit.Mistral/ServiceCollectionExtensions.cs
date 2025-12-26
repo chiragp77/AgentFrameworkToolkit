@@ -1,4 +1,4 @@
-﻿using JetBrains.Annotations;
+using JetBrains.Annotations;
 using Microsoft.Extensions.DependencyInjection;
 
 namespace AgentFrameworkToolkit.Mistral;
@@ -29,5 +29,28 @@ public static class ServiceCollectionExtensions
     public static IServiceCollection AddMistralAgentFactory(this IServiceCollection services, string apiKey)
     {
         return services.AddSingleton(new MistralAgentFactory(apiKey));
+    }
+
+
+    /// <summary>
+    /// Register an MistralEmbeddingFactory as a Singleton
+    /// </summary>
+    /// <param name="services">The IServiceCollection collection</param>
+    /// <param name="connection">Connection Details</param>
+    /// <returns>The ServiceCollection</returns>
+    public static IServiceCollection AddMistralEmbeddingFactory(this IServiceCollection services, MistralConnection connection)
+    {
+        return services.AddSingleton(new MistralEmbeddingFactory(connection));
+    }
+
+    /// <summary>
+    /// Register an MistralEmbeddingFactory as a Singleton
+    /// </summary>
+    /// <param name="services">The IServiceCollection collection</param>
+    /// <param name="apiKey">The API Key</param>
+    /// <returns>The ServiceCollection</returns>
+    public static IServiceCollection AddMistralEmbeddingFactory(this IServiceCollection services, string apiKey)
+    {
+        return services.AddSingleton(new MistralEmbeddingFactory(apiKey));
     }
 }

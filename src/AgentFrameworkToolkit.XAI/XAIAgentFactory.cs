@@ -64,48 +64,4 @@ public class XAIAgentFactory
     {
         return new XAIAgent(_openAIAgentFactory.CreateAgent(options));
     }
-
-    /// <summary>
-    /// Create a new Agent
-    /// </summary>
-    /// <param name="options">Options for the agent</param>
-    /// <returns>The Agent</returns>
-    [Obsolete("Use 'AgentOptions' variant instead (This method will be remove 1st of January 2026)")]
-    public XAIAgent CreateAgent(OpenAIAgentOptionsForResponseApiWithoutReasoning options)
-    {
-        return new XAIAgent(_openAIAgentFactory.CreateAgent(options));
-    }
-
-    /// <summary>
-    /// Create a new Agent
-    /// </summary>
-    /// <param name="options">Options for the agent</param>
-    /// <returns>The Agent</returns>
-    [Obsolete("Use 'AgentOptions' variant instead (This method will be remove 1st of January 2026)")]
-    public XAIAgent CreateAgent(OpenAIAgentOptionsForResponseApiWithReasoning options)
-    {
-        return new XAIAgent(_openAIAgentFactory.CreateAgent(options));
-    }
-
-    /// <summary>
-    /// Create a new Agent
-    /// </summary>
-    /// <param name="options">Options for the agent</param>
-    /// <returns>The Agent</returns>
-    [Obsolete("Use 'AgentOptions' variant instead (This method will be remove 1st of January 2026)")]
-    public XAIAgent CreateAgent(OpenAIAgentOptionsForChatClientWithoutReasoning options)
-    {
-        return new XAIAgent(_openAIAgentFactory.CreateAgent(options));
-    }
-
-    /// <summary>
-    /// Create a new Agent
-    /// </summary>
-    /// <param name="options">Options for the agent</param>
-    /// <returns>The Agent</returns>
-    [Obsolete("Use 'AgentOptions' variant instead (This method will be remove 1st of January 2026)")]
-    public XAIAgent CreateAgent(OpenAIAgentOptionsForChatClientWithReasoning options)
-    {
-        return new XAIAgent(_openAIAgentFactory.CreateAgent(options));
-    }
 }

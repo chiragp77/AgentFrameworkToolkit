@@ -1,7 +1,10 @@
 # Changelog - Agent Framework Toolkit
 
 ## Unreleased
-- [BREAKING] Athropic: Renamed 'maxTokenCount' to 'maxOutputTokens' to have consitent naming in the simplified CreateAgent method
+- Added support for setting `AIContextProviderFactory` and `ChatMessageStoreFactory` on Agents
+- Removed obsolete `OpenAIAgentOptionsForChatClientWithoutReasoning`, `OpenAIAgentOptionsForChatClientWithReasoning`, `OpenAIAgentOptionsForResponseApiWithoutReasoning` and `OpenAIAgentOptionsForResponseApiWithReasoning` (Use `AgentOptions` instead)
+- Added missing Dependency Injection options for EmbeddingFactory in Providers `Mistral` and `OpenRouter`
+- [BREAKING] Athropic: Renamed 'maxTokenCount' to 'maxOutputTokens' to have consistent naming in the simplified CreateAgent method
 
 ---
 
