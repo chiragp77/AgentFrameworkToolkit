@@ -27,8 +27,8 @@ public abstract class TestsBase
 {
     protected TracerProvider? TracerProvider;
     protected string? ToolCallingMiddlewareCity;
-    internal static string? OpenTelemetryDisplayName;
-    private static McpClientTools? _mcpClientTools;
+    private string? _openTelemetryDisplayName;
+    private McpClientTools? _mcpClientTools;
     private const string TestName = "MyAgent";
     private const string TestInstructions = "You are a nice AI and a weather expert";
     private const string TestDescription = "Sampledescription";
@@ -86,7 +86,7 @@ public abstract class TestsBase
 
     protected async Task OpenTelemetryAndLoggingMiddlewareTestsAsync(AgentProvider provider)
     {
-        OpenTelemetryDisplayName = null;
+        _openTelemetryDisplayName = null;
         TestLoggerFactory testLogger = new();
         AIAgent agent = await GetAgentForScenarioAsync(provider, AgentScenario.OpenTelemetryAndLoggingMiddleware, testLogger);
         Assert.NotNull(agent.Id);
@@ -100,7 +100,7 @@ public abstract class TestsBase
         Assert.True(idCondition);
         Assert.True(completedCondition);
         TracerProvider?.ForceFlush();
-        Assert.Equal($"invoke_agent {agent.Name}({agent.Id})", OpenTelemetryDisplayName);
+        Assert.Equal($"invoke_agent {agent.Name}({agent.Id})", _openTelemetryDisplayName);
 
         switch (provider)
         {
@@ -178,7 +178,7 @@ public abstract class TestsBase
         string sourceName = "AiSource";
         TracerProviderBuilder tracerProviderBuilder = Sdk.CreateTracerProviderBuilder()
             .AddSource(sourceName)
-            .AddProcessor(new BatchActivityExportProcessor(new CustomOpenTelemetryExporter()));
+            .AddProcessor(new BatchActivityExportProcessor(new CustomOpenTelemetryExporter(name => _openTelemetryDisplayName = name)));
         TracerProvider = tracerProviderBuilder.Build();
 
         ServiceCollection serviceCollection = new();
@@ -607,7 +607,7 @@ public abstract class TestsBase
         }
     }
 
-    private static async Task<IList<AITool>> GetToolsForScenarioAsync(AgentProvider provider, AgentScenario scenario)
+    private async Task<IList<AITool>> GetToolsForScenarioAsync(AgentProvider provider, AgentScenario scenario)
     {
         List<AITool> tools = [];
         switch (scenario)
@@ -626,7 +626,8 @@ public abstract class TestsBase
 
                 break;
             case AgentScenario.McpToolCall:
-                _mcpClientTools = await new AIToolsFactory().GetToolsFromRemoteMcpAsync("https://trellodotnetassistantbackend.azurewebsites.net/runtime/webhooks/mcp?code=Tools");
+                _mcpClientTools ??= await new AIToolsFactory()
+                    .GetToolsFromRemoteMcpAsync("https://trellodotnetassistantbackend.azurewebsites.net/runtime/webhooks/mcp?code=Tools");
                 return _mcpClientTools.Tools;
         }
 
@@ -667,13 +668,19 @@ public enum AgentProvider
 
 public sealed class CustomOpenTelemetryExporter : BaseExporter<Activity>
 {
+    private readonly Action<string> _onExport;
+
+    public CustomOpenTelemetryExporter(Action<string> onExport)
+    {
+        ArgumentNullException.ThrowIfNull(onExport);
+        _onExport = onExport;
+    }
+
     public override ExportResult Export(in Batch<Activity> batch)
     {
         foreach (Activity activity in batch)
         {
-            string name = activity.DisplayName;
-
-            TestsBase.OpenTelemetryDisplayName = name;
+            _onExport(activity.DisplayName);
             // Send to your destination (HTTP, queue, DB, etc.)
         }
 
