@@ -4,8 +4,7 @@ using Secrets;
 
 namespace AgentFrameworkToolkit.Tests;
 
-[Collection("AgentFactoryTests")]
-public sealed class GoogleAgentFactoryTests : TestsBase
+public sealed class GoogleTests : TestsBase
 {
     [Fact]
     public Task AgentFactory_Simple() => SimpleAgentTestsAsync(AgentProvider.Google);

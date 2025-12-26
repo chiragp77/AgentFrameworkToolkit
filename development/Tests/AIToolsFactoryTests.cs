@@ -114,6 +114,7 @@ public class AIToolsFactoryTests
     private class DiTools
     {
         [AITool]
+        [UsedImplicitly]
         public static string GetWeather(string city)
         {
             return "{ \"condition\": \"sunny\", \"degrees\":19 }";

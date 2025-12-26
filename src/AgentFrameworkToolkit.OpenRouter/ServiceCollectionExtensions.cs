@@ -1,4 +1,3 @@
-using AgentFrameworkToolkit.OpenAI;
 using JetBrains.Annotations;
 using Microsoft.Extensions.DependencyInjection;
 

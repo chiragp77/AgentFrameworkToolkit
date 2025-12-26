@@ -4,8 +4,7 @@ using Secrets;
 
 namespace AgentFrameworkToolkit.Tests;
 
-[Collection("AgentFactoryTests")]
-public sealed class GitHubAgentFactoryTests : TestsBase
+public sealed class GitHubTests : TestsBase
 {
     [Fact]
     public Task AgentFactory_Simple() => SimpleAgentTestsAsync(AgentProvider.GitHub);

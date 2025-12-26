@@ -4,8 +4,7 @@ using Secrets;
 
 namespace AgentFrameworkToolkit.Tests;
 
-[Collection("AgentFactoryTests")]
-public sealed class XAIChatClientAgentFactoryTests : TestsBase
+public sealed class XAITests : TestsBase
 {
     [Fact]
     public Task AgentFactory_Simple_ChatClient() => SimpleAgentTestsAsync(AgentProvider.XAIChatClient);

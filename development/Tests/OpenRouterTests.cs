@@ -1,4 +1,3 @@
-using AgentFrameworkToolkit.AzureOpenAI;
 using AgentFrameworkToolkit.OpenRouter;
 using Microsoft.Extensions.AI;
 using Microsoft.Extensions.DependencyInjection;
@@ -6,8 +5,7 @@ using Secrets;
 
 namespace AgentFrameworkToolkit.Tests;
 
-[Collection("AgentFactoryTests")]
-public sealed class OpenRouterChatClientAgentFactoryTests : TestsBase
+public sealed class OpenRouterTests : TestsBase
 {
     [Fact]
     public Task AgentFactory_Simple_ChatClient() => SimpleAgentTestsAsync(AgentProvider.OpenRouterChatClient);

@@ -6,8 +6,7 @@ using Secrets;
 
 namespace AgentFrameworkToolkit.Tests;
 
-[Collection("AgentFactoryTests")]
-public sealed class MistralAgentFactoryTests : TestsBase
+public sealed class MistralTests : TestsBase
 {
     [Fact]
     public async Task EmbeddingFactory()

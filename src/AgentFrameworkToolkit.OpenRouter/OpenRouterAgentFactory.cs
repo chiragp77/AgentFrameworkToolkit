@@ -1,7 +1,6 @@
 using AgentFrameworkToolkit.OpenAI;
 using JetBrains.Annotations;
 using Microsoft.Extensions.AI;
-using System.Net;
 
 namespace AgentFrameworkToolkit.OpenRouter;
 

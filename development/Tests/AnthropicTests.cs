@@ -4,8 +4,7 @@ using Secrets;
 
 namespace AgentFrameworkToolkit.Tests;
 
-[Collection("AgentFactoryTests")]
-public sealed class AnthropicAgentFactoryTests : TestsBase
+public sealed class AnthropicTests : TestsBase
 {
     [Fact]
     public Task AgentFactory_Simple() => SimpleAgentTestsAsync(AgentProvider.Anthropic);

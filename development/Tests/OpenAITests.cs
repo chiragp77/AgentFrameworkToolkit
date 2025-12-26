@@ -5,8 +5,7 @@ using Secrets;
 
 namespace AgentFrameworkToolkit.Tests;
 
-[Collection("AgentFactoryTests")]
-public sealed class OpenAIChatClientAgentFactoryTests : TestsBase
+public sealed class OpenAITests : TestsBase
 {
     [Fact]
     public Task AgentFactory_Simple_ChatClient() => SimpleAgentTestsAsync(AgentProvider.OpenAIChatClient);

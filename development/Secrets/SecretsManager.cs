@@ -74,16 +74,4 @@ public class SecretsManager
             anthropicApiKey,
             mistralApiKey);
     }
-
-    public static (string endpoint, string apiKey) GetAzureOpenAICredentials()
-    {
-        Secrets secrets = GetSecrets();
-        return (secrets.AzureOpenAiEndpoint, secrets.AzureOpenAiKey);
-    }
-
-    public static string GetOpenAICredentials()
-    {
-        Secrets secrets = GetSecrets();
-        return secrets.OpenAiApiKey;
-    }
 }

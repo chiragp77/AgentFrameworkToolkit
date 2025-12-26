@@ -1,5 +1,4 @@
 using AgentFrameworkToolkit.OpenAI;
-using Azure.AI.OpenAI;
 using Azure.Core;
 using JetBrains.Annotations;
 using Microsoft.Agents.AI;
