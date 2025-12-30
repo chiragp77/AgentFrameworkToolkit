@@ -4,6 +4,7 @@
 - Added `OpenAIEmbeddingModels` collection of Open AI Embedding Models
 - Exposed `Connection` as a Property on all Factories
 - NuGet: Changed Project URL to be the [Wiki](https://github.com/rwjdk/AgentFrameworkToolkit/wiki)
+- Upgraded 'Google_GenerativeAI.Microsoft' NuGet from 3.4.1 to 3.6.1
 
 ---
 

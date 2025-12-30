@@ -19,6 +19,9 @@ public sealed class GoogleTests : TestsBase
     public Task AgentFactory_ToolCall() => ToolCallAgentTestsAsync(AgentProvider.Google);
 
     [Fact]
+    public Task AgentFactory_StructuredOutput() => StructuredOutputAgentTestsAsync(AgentProvider.Google);
+
+    [Fact]
     public async Task AgentFactory_DependencyInjection()
     {
         var secrets = SecretsManager.GetSecrets();
