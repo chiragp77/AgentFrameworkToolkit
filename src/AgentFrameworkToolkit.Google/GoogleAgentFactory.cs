@@ -11,7 +11,10 @@ namespace AgentFrameworkToolkit.Google;
 [PublicAPI]
 public class GoogleAgentFactory
 {
-    private readonly GoogleConnection _connection;
+    /// <summary>
+    /// Connection
+    /// </summary>
+    public GoogleConnection Connection { get; }
 
     /// <summary>
     /// Constructor
@@ -19,7 +22,7 @@ public class GoogleAgentFactory
     /// <param name="apiKey">Your Google API Key (if you need a more advanced connection use the constructor overload)</param>
     public GoogleAgentFactory(string apiKey)
     {
-        _connection = new GoogleConnection
+        Connection = new GoogleConnection
         {
             ApiKey = apiKey
         };
@@ -31,7 +34,7 @@ public class GoogleAgentFactory
     /// <param name="connection">Connection Details</param>
     public GoogleAgentFactory(GoogleConnection connection)
     {
-        _connection = connection;
+        Connection = connection;
     }
 
     /// <summary>
@@ -134,13 +137,13 @@ public class GoogleAgentFactory
     private IChatClient GetClient(string model)
     {
         IChatClient client;
-        if (_connection.Adapter != null)
+        if (Connection.Adapter != null)
         {
-            client = new GenerativeAIChatClient(_connection.Adapter, model);
+            client = new GenerativeAIChatClient(Connection.Adapter, model);
         }
-        else if (_connection.ApiKey != null)
+        else if (Connection.ApiKey != null)
         {
-            client = new GenerativeAIChatClient(_connection.ApiKey, model);
+            client = new GenerativeAIChatClient(Connection.ApiKey, model);
         }
         else
         {

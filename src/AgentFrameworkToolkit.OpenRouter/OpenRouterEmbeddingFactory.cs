@@ -13,16 +13,23 @@ public class OpenRouterEmbeddingFactory
     private readonly OpenAIEmbeddingFactory _openAIEmbeddingFactory;
 
     /// <summary>
+    /// Connection
+    /// </summary>
+    public OpenRouterConnection Connection { get; }
+
+    /// <summary>
     /// Constructor
     /// </summary>
     /// <param name="apiKey">Your OpenRouter API Key (if you need a more advanced connection use the constructor overload)</param>
     public OpenRouterEmbeddingFactory(string apiKey)
     {
-        _openAIEmbeddingFactory = new OpenAIEmbeddingFactory(new OpenAIConnection
+        Connection = new OpenRouterConnection
         {
             ApiKey = apiKey,
             Endpoint = OpenRouterConnection.DefaultEndpoint
-        });
+        };
+
+        _openAIEmbeddingFactory = new OpenAIEmbeddingFactory(Connection);
     }
 
     /// <summary>
@@ -32,6 +39,7 @@ public class OpenRouterEmbeddingFactory
     public OpenRouterEmbeddingFactory(OpenRouterConnection connection)
     {
         connection.Endpoint ??= OpenRouterConnection.DefaultEndpoint;
+        Connection = connection;
         _openAIEmbeddingFactory = new OpenAIEmbeddingFactory(connection);
     }
 

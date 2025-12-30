@@ -10,7 +10,10 @@ namespace AgentFrameworkToolkit.Mistral;
 [PublicAPI]
 public class MistralAgentFactory
 {
-    private readonly MistralConnection _connection;
+    /// <summary>
+    /// Connection
+    /// </summary>
+    public MistralConnection Connection { get; }
 
     /// <summary>
     /// Constructor
@@ -18,7 +21,7 @@ public class MistralAgentFactory
     /// <param name="apiKey">Your Mistral API Key (if you need a more advanced connection use the constructor overload)</param>
     public MistralAgentFactory(string apiKey)
     {
-        _connection = new MistralConnection
+        Connection = new MistralConnection
         {
             ApiKey = apiKey
         };
@@ -30,7 +33,7 @@ public class MistralAgentFactory
     /// <param name="connection">Connection Details</param>
     public MistralAgentFactory(MistralConnection connection)
     {
-        _connection = connection;
+        Connection = connection;
     }
 
     /// <summary>
@@ -59,7 +62,7 @@ public class MistralAgentFactory
     /// <returns>The Agent</returns>
     public MistralAgent CreateAgent(MistralAgentOptions options)
     {
-        IChatClient client = _connection.GetClient(options.RawHttpCallDetails).Completions;
+        IChatClient client = Connection.GetClient(options.RawHttpCallDetails).Completions;
 
         AIAgent innerAgent = new ChatClientAgent(client, CreateChatClientAgentOptions(options), options.LoggerFactory, options.Services);
 

@@ -16,6 +16,9 @@ Use this file as a quick map for where code lives, how it is styled, and how to 
 - All public APIs require XML documentation; most public types use `[PublicAPI]` (JetBrains.Annotations).
 - Prefer primary constructors where the codebase already uses them.
 
+## Code Review rules
+- Check that new/changed/removed features are mentioned in CHANGELOG.md file.
+
 ## Adding a new provider package
 Pick the smallest implementation path that matches the provider API.
 

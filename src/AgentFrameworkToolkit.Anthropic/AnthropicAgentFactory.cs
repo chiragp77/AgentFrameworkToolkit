@@ -12,7 +12,10 @@ namespace AgentFrameworkToolkit.Anthropic;
 [PublicAPI]
 public class AnthropicAgentFactory
 {
-    private readonly AnthropicConnection _connection;
+    /// <summary>
+    /// Connection
+    /// </summary>
+    public AnthropicConnection Connection { get; }
 
     /// <summary>
     /// Constructor
@@ -20,7 +23,7 @@ public class AnthropicAgentFactory
     /// <param name="apiKey">Your Anthropic API Key (if you need a more advanced connection use the constructor overload)</param>
     public AnthropicAgentFactory(string apiKey)
     {
-        _connection = new AnthropicConnection
+        Connection = new AnthropicConnection
         {
             ApiKey = apiKey
         };
@@ -32,7 +35,7 @@ public class AnthropicAgentFactory
     /// <param name="connection">Connection Details</param>
     public AnthropicAgentFactory(AnthropicConnection connection)
     {
-        _connection = connection;
+        Connection = connection;
     }
 
     /// <summary>
@@ -63,7 +66,7 @@ public class AnthropicAgentFactory
     /// <returns>The Agent</returns>
     public AnthropicAgent CreateAgent(AnthropicAgentOptions options)
     {
-        IChatClient client = _connection.GetClient(options.RawHttpCallDetails).AsIChatClient();
+        IChatClient client = Connection.GetClient(options.RawHttpCallDetails).AsIChatClient();
 
         AIAgent innerAgent = new ChatClientAgent(client, CreateChatClientAgentOptions(options), options.LoggerFactory, options.Services);
 

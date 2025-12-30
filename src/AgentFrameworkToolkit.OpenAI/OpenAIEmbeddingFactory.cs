@@ -9,7 +9,10 @@ namespace AgentFrameworkToolkit.OpenAI;
 [PublicAPI]
 public class OpenAIEmbeddingFactory
 {
-    private readonly OpenAIConnection _connection;
+    /// <summary>
+    /// Connection
+    /// </summary>
+    public OpenAIConnection Connection { get; }
 
     /// <summary>
     /// Constructor
@@ -17,7 +20,7 @@ public class OpenAIEmbeddingFactory
     /// <param name="apiKey">Your OpenAI API Key (if you need a more advanced connection use the constructor overload)</param>
     public OpenAIEmbeddingFactory(string apiKey)
     {
-        _connection = new OpenAIConnection
+        Connection = new OpenAIConnection
         {
             ApiKey = apiKey,
         };
@@ -29,7 +32,7 @@ public class OpenAIEmbeddingFactory
     /// <param name="connection">Connection Details</param>
     public OpenAIEmbeddingFactory(OpenAIConnection connection)
     {
-        _connection = connection;
+        Connection = connection;
     }
 
     /// <summary>
@@ -39,7 +42,7 @@ public class OpenAIEmbeddingFactory
     /// <returns>An Embedding Generator</returns>
     public IEmbeddingGenerator<string, Embedding<float>> GetEmbeddingGenerator(string model)
     {
-        return _connection.GetClient().GetEmbeddingClient(model).AsIEmbeddingGenerator();
+        return Connection.GetClient().GetEmbeddingClient(model).AsIEmbeddingGenerator();
     }
 
     /// <summary>

@@ -11,7 +11,7 @@
 		<GeneratePackageOnBuild>true</GeneratePackageOnBuild>
 		<Authors>Rasmus Wulff Jensen</Authors>
 		<Copyright>2025</Copyright>
-		<PackageProjectUrl>https://github.com/rwjdk/AgentFrameworkToolkit</PackageProjectUrl>
+		<PackageProjectUrl>https://github.com/rwjdk/AgentFrameworkToolkit/wiki</PackageProjectUrl>
 		<PackageIcon>icon.png</PackageIcon>
 		<PackageTags>microsoft-agent-framework agent-framework-toolkit toolkit microsoft agent framework microsoft.agents.ai</PackageTags>
 		<Company>RWJDK</Company>

@@ -13,16 +13,23 @@ public class CohereAgentFactory
     private readonly OpenAIAgentFactory _openAIAgentFactory;
 
     /// <summary>
+    /// Connection
+    /// </summary>
+    public CohereConnection Connection { get; }
+
+    /// <summary>
     /// Constructor
     /// </summary>
     /// <param name="apiKey">Your Cohere API Key (if you need a more advanced connection use the constructor overload)</param>
     public CohereAgentFactory(string apiKey)
     {
-        _openAIAgentFactory = new OpenAIAgentFactory(new OpenAIConnection
+        Connection = new CohereConnection
         {
             ApiKey = apiKey,
             Endpoint = CohereConnection.DefaultEndpoint
-        });
+        };
+
+        _openAIAgentFactory = new OpenAIAgentFactory(Connection);
     }
 
     /// <summary>
@@ -32,6 +39,7 @@ public class CohereAgentFactory
     public CohereAgentFactory(CohereConnection connection)
     {
         connection.Endpoint ??= CohereConnection.DefaultEndpoint;
+        Connection = connection;
         _openAIAgentFactory = new OpenAIAgentFactory(connection);
     }
 

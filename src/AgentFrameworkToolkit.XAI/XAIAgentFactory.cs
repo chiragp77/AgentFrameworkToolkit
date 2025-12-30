@@ -13,16 +13,23 @@ public class XAIAgentFactory
     private readonly OpenAIAgentFactory _openAIAgentFactory;
 
     /// <summary>
+    /// Connection
+    /// </summary>
+    public XAIConnection Connection { get; }
+
+    /// <summary>
     /// Constructor
     /// </summary>
     /// <param name="apiKey">Your XAI API Key (if you need a more advanced connection use the constructor overload)</param>
     public XAIAgentFactory(string apiKey)
     {
-        _openAIAgentFactory = new OpenAIAgentFactory(new OpenAIConnection
+        Connection = new XAIConnection
         {
             ApiKey = apiKey,
             Endpoint = XAIConnection.DefaultEndpoint
-        });
+        };
+
+        _openAIAgentFactory = new OpenAIAgentFactory(Connection);
     }
 
     /// <summary>
@@ -32,6 +39,7 @@ public class XAIAgentFactory
     public XAIAgentFactory(XAIConnection connection)
     {
         connection.Endpoint ??= XAIConnection.DefaultEndpoint;
+        Connection = connection;
         _openAIAgentFactory = new OpenAIAgentFactory(connection);
     }
 

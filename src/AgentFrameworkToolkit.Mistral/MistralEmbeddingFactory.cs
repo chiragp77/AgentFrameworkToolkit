@@ -10,7 +10,10 @@ namespace AgentFrameworkToolkit.Mistral;
 [PublicAPI]
 public class MistralEmbeddingFactory
 {
-    private readonly MistralConnection _connection;
+    /// <summary>
+    /// Connection
+    /// </summary>
+    public MistralConnection Connection { get; }
 
     /// <summary>
     /// Constructor
@@ -18,7 +21,7 @@ public class MistralEmbeddingFactory
     /// <param name="apiKey">Your Mistral API Key (if you need a more advanced connection use the constructor overload)</param>
     public MistralEmbeddingFactory(string apiKey)
     {
-        _connection = new MistralConnection
+        Connection = new MistralConnection
         {
             ApiKey = apiKey
         };
@@ -30,7 +33,7 @@ public class MistralEmbeddingFactory
     /// <param name="connection">Connection Details</param>
     public MistralEmbeddingFactory(MistralConnection connection)
     {
-        _connection = connection;
+        Connection = connection;
     }
 
     /// <summary>
@@ -39,7 +42,7 @@ public class MistralEmbeddingFactory
     /// <returns>An Embedding Generator</returns>
     public IEmbeddingGenerator<string, Embedding<float>> GetEmbeddingGenerator()
     {
-        MistralClient client = _connection.GetClient();
+        MistralClient client = Connection.GetClient();
         IEmbeddingGenerator<string, Embedding<float>> embeddingGenerator = client.Embeddings;
         return embeddingGenerator;
     }

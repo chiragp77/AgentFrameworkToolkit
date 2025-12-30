@@ -1,7 +1,9 @@
 # Changelog - Agent Framework Toolkit
 
 ## Unreleased
-- Adde `OpenAIEmbeddingModels` collection of Open AI Embedding Models
+- Added `OpenAIEmbeddingModels` collection of Open AI Embedding Models
+- Exposed `Connection` as a Property on all Factories
+- NuGet: Changed Project URL to be the [Wiki](https://github.com/rwjdk/AgentFrameworkToolkit/wiki)
 
 ---
 

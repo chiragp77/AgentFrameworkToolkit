@@ -10,7 +10,10 @@ namespace AgentFrameworkToolkit.GitHub;
 [PublicAPI]
 public class GitHubAgentFactory
 {
-    private readonly GitHubConnection _connection;
+    /// <summary>
+    /// Connection
+    /// </summary>
+    public GitHubConnection Connection { get; }
 
     /// <summary>
     /// Constructor
@@ -18,7 +21,7 @@ public class GitHubAgentFactory
     /// <param name="personalAccessToken">The GitHub Personal Access Token with Models Access</param>
     public GitHubAgentFactory(string personalAccessToken)
     {
-        _connection = new GitHubConnection
+        Connection = new GitHubConnection
         {
             AccessToken = personalAccessToken
         };
@@ -30,7 +33,7 @@ public class GitHubAgentFactory
     /// <param name="connection">Connection Details</param>
     public GitHubAgentFactory(GitHubConnection connection)
     {
-        _connection = connection;
+        Connection = connection;
     }
 
     /// <summary>
@@ -59,7 +62,7 @@ public class GitHubAgentFactory
     /// <returns>The Agent</returns>
     public GitHubAgent CreateAgent(GitHubAgentOptions options)
     {
-        IChatClient client = _connection.GetClient(options.RawHttpCallDetails).AsIChatClient(options.Model);
+        IChatClient client = Connection.GetClient(options.RawHttpCallDetails).AsIChatClient(options.Model);
         AIAgent innerAgent = new ChatClientAgent(client, CreateChatClientAgentOptions(options), options.LoggerFactory, options.Services);
 
         // ReSharper disable once ConvertIfStatementToReturnStatement

@@ -10,7 +10,10 @@ namespace AgentFrameworkToolkit.AzureOpenAI;
 [PublicAPI]
 public class AzureOpenAIEmbeddingFactory
 {
-    private readonly AzureOpenAIConnection _connection;
+    /// <summary>
+    /// Connection
+    /// </summary>
+    public AzureOpenAIConnection Connection { get; }
 
     /// <summary>
     /// Constructor
@@ -19,7 +22,7 @@ public class AzureOpenAIEmbeddingFactory
     /// <param name="apiKey">Your AzureOpenAI API Key (if you need a more advanced connection use the constructor overload)</param>
     public AzureOpenAIEmbeddingFactory(string endpoint, string apiKey)
     {
-        _connection = new AzureOpenAIConnection
+        Connection = new AzureOpenAIConnection
         {
             Endpoint = endpoint,
             ApiKey = apiKey,
@@ -33,7 +36,7 @@ public class AzureOpenAIEmbeddingFactory
     /// <param name="credentials">Your RBAC Credentials (if you need a more advanced connection use the constructor overload)</param>
     public AzureOpenAIEmbeddingFactory(string endpoint, TokenCredential credentials)
     {
-        _connection = new AzureOpenAIConnection
+        Connection = new AzureOpenAIConnection
         {
             Endpoint = endpoint,
             Credentials = credentials
@@ -46,7 +49,7 @@ public class AzureOpenAIEmbeddingFactory
     /// <param name="connection">Connection Details</param>
     public AzureOpenAIEmbeddingFactory(AzureOpenAIConnection connection)
     {
-        _connection = connection;
+        Connection = connection;
     }
 
     /// <summary>
@@ -56,7 +59,7 @@ public class AzureOpenAIEmbeddingFactory
     /// <returns>An Embedding Generator</returns>
     public IEmbeddingGenerator<string, Embedding<float>> GetEmbeddingGenerator(string model)
     {
-        return _connection.GetClient().GetEmbeddingClient(model).AsIEmbeddingGenerator();
+        return Connection.GetClient().GetEmbeddingClient(model).AsIEmbeddingGenerator();
     }
 
 

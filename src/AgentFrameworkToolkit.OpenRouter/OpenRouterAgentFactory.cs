@@ -13,16 +13,22 @@ public class OpenRouterAgentFactory
     private readonly OpenAIAgentFactory _openAIAgentFactory;
 
     /// <summary>
+    /// Connection
+    /// </summary>
+    public OpenRouterConnection Connection { get; }
+
+    /// <summary>
     /// Constructor
     /// </summary>
     /// <param name="apiKey">Your OpenRouter API Key (if you need a more advanced connection use the constructor overload)</param>
     public OpenRouterAgentFactory(string apiKey)
     {
-        _openAIAgentFactory = new OpenAIAgentFactory(new OpenAIConnection
+        Connection = new OpenRouterConnection
         {
             ApiKey = apiKey,
             Endpoint = OpenRouterConnection.DefaultEndpoint
-        });
+        };
+        _openAIAgentFactory = new OpenAIAgentFactory(Connection);
     }
 
     /// <summary>
@@ -32,6 +38,7 @@ public class OpenRouterAgentFactory
     public OpenRouterAgentFactory(OpenRouterConnection connection)
     {
         connection.Endpoint ??= OpenRouterConnection.DefaultEndpoint;
+        Connection = connection;
         _openAIAgentFactory = new OpenAIAgentFactory(connection);
     }
 

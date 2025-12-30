@@ -15,7 +15,10 @@ namespace AgentFrameworkToolkit.OpenAI;
 [PublicAPI]
 public class OpenAIAgentFactory
 {
-    private readonly OpenAIConnection _connection;
+    /// <summary>
+    /// Connection
+    /// </summary>
+    public OpenAIConnection Connection { get; }
 
     /// <summary>
     /// Constructor
@@ -23,7 +26,7 @@ public class OpenAIAgentFactory
     /// <param name="apiKey">Your OpenAI API Key (if you need a more advanced connection use the constructor overload)</param>
     public OpenAIAgentFactory(string apiKey)
     {
-        _connection = new OpenAIConnection
+        Connection = new OpenAIConnection
         {
             ApiKey = apiKey
         };
@@ -35,7 +38,7 @@ public class OpenAIAgentFactory
     /// <param name="connection">Connection Details</param>
     public OpenAIAgentFactory(OpenAIConnection connection)
     {
-        _connection = connection;
+        Connection = connection;
     }
 
     /// <summary>
@@ -64,7 +67,7 @@ public class OpenAIAgentFactory
     /// <returns>The Agent</returns>
     public OpenAIAgent CreateAgent(AgentOptions options)
     {
-        OpenAIClient client = _connection.GetClient(options.RawHttpCallDetails);
+        OpenAIClient client = Connection.GetClient(options.RawHttpCallDetails);
 
         ChatClientAgentOptions chatClientAgentOptions = CreateChatClientAgentOptions(options);
 
@@ -82,7 +85,7 @@ public class OpenAIAgentFactory
                     .CreateAIAgent(chatClientAgentOptions, options.ClientFactory, options.LoggerFactory, options.Services);
                 break;
             case null:
-                innerAgent = _connection.DefaultClientType switch
+                innerAgent = Connection.DefaultClientType switch
                 {
                     ClientType.ChatClient => client
                         .GetChatClient(options.Model)
@@ -178,7 +181,7 @@ public class OpenAIAgentFactory
 
                     break;
                 case null:
-                    chatOptions = _connection.DefaultClientType switch
+                    chatOptions = Connection.DefaultClientType switch
                     {
                         ClientType.ChatClient => chatOptions.WithOpenAIChatClientReasoning(new ChatReasoningEffortLevel(reasoningEffortAsString)),
                         ClientType.ResponsesApi => options.ReasoningSummaryVerbosity switch

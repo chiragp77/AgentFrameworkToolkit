@@ -17,7 +17,10 @@ namespace AgentFrameworkToolkit.AzureOpenAI;
 [PublicAPI]
 public class AzureOpenAIAgentFactory
 {
-    private readonly AzureOpenAIConnection _connection;
+    /// <summary>
+    /// Connection
+    /// </summary>
+    public AzureOpenAIConnection Connection { get; }
 
     /// <summary>
     /// Constructor
@@ -26,7 +29,7 @@ public class AzureOpenAIAgentFactory
     /// <param name="apiKey">Your AzureOpenAI API Key (if you need a more advanced connection use the constructor overload)</param>
     public AzureOpenAIAgentFactory(string endpoint, string apiKey)
     {
-        _connection = new AzureOpenAIConnection
+        Connection = new AzureOpenAIConnection
         {
             Endpoint = endpoint,
             ApiKey = apiKey
@@ -40,7 +43,7 @@ public class AzureOpenAIAgentFactory
     /// <param name="credentials">Your RBAC Credentials (if you need a more advanced connection use the constructor overload)</param>
     public AzureOpenAIAgentFactory(string endpoint, TokenCredential credentials)
     {
-        _connection = new AzureOpenAIConnection
+        Connection = new AzureOpenAIConnection
         {
             Endpoint = endpoint,
             Credentials = credentials
@@ -53,7 +56,7 @@ public class AzureOpenAIAgentFactory
     /// <param name="connection">Connection Details</param>
     public AzureOpenAIAgentFactory(AzureOpenAIConnection connection)
     {
-        _connection = connection;
+        Connection = connection;
     }
 
 
@@ -83,7 +86,7 @@ public class AzureOpenAIAgentFactory
     /// <returns>The Agent</returns>
     public AzureOpenAIAgent CreateAgent(AgentOptions options)
     {
-        OpenAIClient client = _connection.GetClient(options.RawHttpCallDetails);
+        OpenAIClient client = Connection.GetClient(options.RawHttpCallDetails);
 
         ChatClientAgentOptions chatClientAgentOptions = CreateChatClientAgentOptions(options);
 
@@ -101,7 +104,7 @@ public class AzureOpenAIAgentFactory
                     .CreateAIAgent(chatClientAgentOptions, options.ClientFactory, options.LoggerFactory, options.Services);
                 break;
             case null:
-                innerAgent = _connection.DefaultClientType switch
+                innerAgent = Connection.DefaultClientType switch
                 {
                     ClientType.ChatClient => client
                         .GetChatClient(options.Model)
@@ -204,7 +207,7 @@ public class AzureOpenAIAgentFactory
 
                     break;
                 case null:
-                    chatOptions = _connection.DefaultClientType switch
+                    chatOptions = Connection.DefaultClientType switch
                     {
                         ClientType.ChatClient => chatOptions.WithOpenAIChatClientReasoning(new ChatReasoningEffortLevel(reasoningEffortAsString)),
                         ClientType.ResponsesApi => options.ReasoningSummaryVerbosity switch
