@@ -11,6 +11,7 @@
     <Project Path="src/AgentFrameworkToolkit.Tools.ModelContextProtocol/AgentFrameworkToolkit.Tools.ModelContextProtocol.csproj" />
     <Project Path="src/AgentFrameworkToolkit.XAI/AgentFrameworkToolkit.XAI.csproj" />
     <Project Path="src/AgentFrameworkToolkit/AgentFrameworkToolkit.csproj" />
+    <Project Path="src/AgentSkillsDotNet/AgentSkillsDotNet.csproj" Id="b6cf36bb-01cb-443f-a430-daff9b243742" />
   </Folder>
   <Folder Name="/Solution Items/">
     <File Path=".github/workflows/Build.yml" />
@@ -26,8 +27,8 @@
     <File Path="nuget-package.props" />
   </Folder>
   <Folder Name="/Development/">
-    <Project Path="development/Tests/Tests.csproj" />
     <Project Path="development/Sandbox/Sandbox.csproj" />
     <Project Path="development/Secrets/Secrets.csproj" />
+    <Project Path="development/Tests/Tests.csproj" />
   </Folder>
 </Solution>

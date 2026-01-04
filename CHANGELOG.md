@@ -1,6 +1,7 @@
 # Changelog - Agent Framework Toolkit
 
-## Unreleased
+## Version 1.0.0-preview.260104.1
+- Added option to work with [AgentSkills](https://agentskills.io) in the `AIToolsFactory` or with the dedicated `AgentSkillsFactory`
 - Anthropic: Added `Endpoint` property to connection so you can override the default BaseUrl (and example consume an Anthropic model from Microsoft Foundry using the Anthropic API)
 
 ---

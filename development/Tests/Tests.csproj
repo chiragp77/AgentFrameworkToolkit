@@ -40,7 +40,24 @@
     <ProjectReference Include="..\..\src\AgentFrameworkToolkit.Tools.ModelContextProtocol\AgentFrameworkToolkit.Tools.ModelContextProtocol.csproj" />
     <ProjectReference Include="..\..\src\AgentFrameworkToolkit.XAI\AgentFrameworkToolkit.XAI.csproj" />
     <ProjectReference Include="..\..\src\AgentFrameworkToolkit\AgentFrameworkToolkit.csproj" />
+    <ProjectReference Include="..\..\src\AgentSkillsDotNet\AgentSkillsDotNet.csproj" />
     <ProjectReference Include="..\Secrets\Secrets.csproj" />
+  </ItemGroup>
+
+  <ItemGroup>
+    <Folder Include="TestData\personas\scripts\" />
+  </ItemGroup>
+
+  <ItemGroup>
+    <None Update="TestData\personas\license.txt">
+      <CopyToOutputDirectory>PreserveNewest</CopyToOutputDirectory>
+    </None>
+    <None Update="TestData\personas\scripts\test.py">
+      <CopyToOutputDirectory>PreserveNewest</CopyToOutputDirectory>
+    </None>
+    <None Update="TestData\personas\SKILL.md">
+      <CopyToOutputDirectory>PreserveNewest</CopyToOutputDirectory>
+    </None>
   </ItemGroup>
 
 </Project>

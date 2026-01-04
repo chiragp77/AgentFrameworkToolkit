@@ -1,5 +1,8 @@
 using AgentFrameworkToolkit.OpenAI;
+using AgentFrameworkToolkit.Tools;
+using AgentSkillsDotNet;
 using Microsoft.Agents.AI;
+using Microsoft.Extensions.AI;
 using Secrets;
 
 #pragma warning disable OPENAI001
@@ -17,18 +20,30 @@ public static class OpenAI
             DefaultClientType = ClientType.ResponsesApi
         });
 
-        OpenAIAgent agent = factory.CreateAgent(new AgentOptions
+        var agentSkillsFactory = new AgentSkillsFactory();
+        AgentSkills agentSkills = agentSkillsFactory.GetAgentSkills("TestData\\AgentSkills");
+        IList<AITool> tools = agentSkills.GetAsTools(AgentSkillsAsToolsStrategy.AvailableSkillsAndLookupTools, new AgentSkillsAsToolsOptions
         {
-            Id = "1111",
-            ClientType = ClientType.ResponsesApi,
-            ReasoningEffort = OpenAIReasoningEffort.High,
-            ReasoningSummaryVerbosity = OpenAIReasoningSummaryVerbosity.Concise,
-            Model = OpenAIChatModels.Gpt5Mini,
-            MaxOutputTokens = 2000,
-            RawHttpCallDetails = details => { Console.WriteLine(details.RequestData); },
+            IncludeToolForFileContentRead = false
         });
 
-        AgentRunResponse response = await agent.RunAsync("Hello");
+        tools.Add(AIFunctionFactory.Create(PythonRunner.RunPhytonScript, name: "execute_python"));
+
+        OpenAIAgent agent = factory.CreateAgent(new AgentOptions
+        {
+            ClientType = ClientType.ResponsesApi,
+            Instructions = agentSkills.GetInstructions(),
+            Model = OpenAIChatModels.Gpt5Nano,
+            Tools = tools,
+            RawToolCallDetails = details =>
+            {
+                Console.ForegroundColor = ConsoleColor.Yellow;
+                Console.WriteLine(details.ToString());
+                Console.ResetColor();
+            }
+        });
+
+        AgentRunResponse response = await agent.RunAsync("What is the answer to the extra secret formula (Only return the result)");
         Console.WriteLine(response);
     }
 }

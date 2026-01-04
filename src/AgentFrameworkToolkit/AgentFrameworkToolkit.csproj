@@ -16,4 +16,7 @@
       <PackagePath>\</PackagePath>
     </None>
 	</ItemGroup>
+	<ItemGroup>
+	  <ProjectReference Include="..\AgentSkillsDotNet\AgentSkillsDotNet.csproj" />
+	</ItemGroup>
 </Project>

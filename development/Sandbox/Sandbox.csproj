@@ -27,4 +27,35 @@
     <ProjectReference Include="..\..\src\AgentFrameworkToolkit\AgentFrameworkToolkit.csproj" />
     <ProjectReference Include="..\Secrets\Secrets.csproj" />
   </ItemGroup>
+
+  <ItemGroup>
+    <None Update="TestData\AgentSkills\employee-handbook\references\Benefits.md">
+      <CopyToOutputDirectory>PreserveNewest</CopyToOutputDirectory>
+    </None>
+    <None Update="TestData\AgentSkills\employee-handbook\references\CultureAndValues.md">
+      <CopyToOutputDirectory>PreserveNewest</CopyToOutputDirectory>
+    </None>
+    <None Update="TestData\AgentSkills\employee-handbook\references\HoursAndAttendance.md">
+      <CopyToOutputDirectory>PreserveNewest</CopyToOutputDirectory>
+    </None>
+    <None Update="TestData\AgentSkills\employee-handbook\references\Pay.md">
+      <CopyToOutputDirectory>PreserveNewest</CopyToOutputDirectory>
+    </None>
+    <None Update="TestData\AgentSkills\employee-handbook\SKILL.md">
+      <CopyToOutputDirectory>PreserveNewest</CopyToOutputDirectory>
+    </None>
+    <None Update="TestData\AgentSkills\secret-formulas\scripts\TheExtraSecretFormula.py">
+      <CopyToOutputDirectory>PreserveNewest</CopyToOutputDirectory>
+    </None>
+    <None Update="TestData\AgentSkills\secret-formulas\SKILL.md">
+      <CopyToOutputDirectory>PreserveNewest</CopyToOutputDirectory>
+    </None>
+    <None Update="TestData\AgentSkills\speak-like-a-pirate\SKILL.md">
+      <CopyToOutputDirectory>PreserveNewest</CopyToOutputDirectory>
+    </None>
+  </ItemGroup>
+
+  <ItemGroup>
+    <Folder Include="TestData\AgentSkills\secret-formulas\scripts\" />
+  </ItemGroup>
 </Project>

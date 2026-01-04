@@ -1,5 +1,6 @@
 using AgentFrameworkToolkit.Tools;
 using AgentFrameworkToolkit.Tools.ModelContextProtocol;
+using AgentSkillsDotNet;
 using JetBrains.Annotations;
 using Microsoft.Extensions.AI;
 using Microsoft.Extensions.DependencyInjection;

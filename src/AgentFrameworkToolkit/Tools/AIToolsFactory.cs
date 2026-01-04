@@ -1,4 +1,5 @@
 using System.Reflection;
+using AgentSkillsDotNet;
 using Microsoft.Extensions.AI;
 
 namespace AgentFrameworkToolkit.Tools;
@@ -8,6 +9,18 @@ namespace AgentFrameworkToolkit.Tools;
 /// </summary>
 public class AIToolsFactory
 {
+    /// <summary>
+    /// Get tools from AgentSkills
+    /// </summary>
+    /// <param name="folderPath">The Local folder with skills sub-folders</param>
+    /// <param name="agentSkillsOptions">Options when getting skills</param>
+    /// <returns>Tools related to the AgentTools</returns>
+    public AgentSkills GetToolsFromAgentSkills(string folderPath, AgentSkillsOptions? agentSkillsOptions = null)
+    {
+        AgentSkillsFactory agentSkillsFactory = new();
+        return agentSkillsFactory.GetAgentSkills(folderPath, agentSkillsOptions);
+    }
+
     /// <summary>
     /// Get all Tools in an object Type with the [AITool] attribute (require an empty constructor)
     /// </summary>
