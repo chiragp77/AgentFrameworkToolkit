@@ -3,6 +3,7 @@ using Azure.AI.OpenAI;
 using Azure.Core;
 using System.ClientModel;
 using System.ClientModel.Primitives;
+using System.Text.RegularExpressions;
 
 namespace AgentFrameworkToolkit.AzureOpenAI;
 
@@ -20,6 +21,11 @@ public class AzureOpenAIConnection
     /// The Endpoint of your Azure OpenAI Resource
     /// </summary>
     public required string Endpoint { get; set; }
+
+    /// <summary>
+    /// Autocorrect of the given endpoint if the pattern 'https://[name].services.ai.azure.com/api/projects/[project]' is detected to the valid 'https://[name].services.ai.azure.com' (Default = true)
+    /// </summary>
+    public bool AutoCorrectFoundryEndpoint { get; set; } = true;
 
     /// <summary>
     /// The API Key (or use Credentials instead for RBAC)
@@ -62,7 +68,14 @@ public class AzureOpenAIConnection
 
         AdditionalAzureOpenAIClientOptions?.Invoke(azureOpenAIClientOptions);
 
-        Uri endpoint = new(Endpoint);
+
+        string endpointUrl = Endpoint;
+        if (AutoCorrectFoundryEndpoint)
+        {
+            endpointUrl = AzureAiUrlHelper.RemoveSuffixIfMatches(endpointUrl);
+        }
+
+        Uri endpoint = new(endpointUrl);
         if (!string.IsNullOrWhiteSpace(ApiKey))
         {
             return new AzureOpenAIClient(endpoint, new ApiKeyCredential(ApiKey!), azureOpenAIClientOptions);
@@ -75,5 +88,24 @@ public class AzureOpenAIConnection
         }
 
         throw new AgentFrameworkToolkitException("Neither APIKey nor TokenCredentials was provided in the AzureConnection");
+    }
+
+    internal static class AzureAiUrlHelper
+    {
+        private static readonly Regex Pattern = new(
+            @"^https://.+?\.services\.ai\.azure\.com(?<suffix>/api/projects/.+)$",
+            RegexOptions.CultureInvariant | RegexOptions.Compiled);
+
+        public static string RemoveSuffixIfMatches(string input)
+        {
+            Match match = Pattern.Match(input);
+            if (!match.Success)
+            {
+                return input;
+            }
+
+            string suffix = match.Groups["suffix"].Value;
+            return input[..^suffix.Length];
+        }
     }
 }

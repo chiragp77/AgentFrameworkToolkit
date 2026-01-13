@@ -1,7 +1,11 @@
-﻿using JetBrains.Annotations;
+using JetBrains.Annotations;
 using Microsoft.Agents.AI;
 using Microsoft.Extensions.AI;
+using System.Reflection;
+using System.Runtime.CompilerServices;
+using System.Text.Encodings.Web;
 using System.Text.Json;
+using System.Text.Json.Nodes;
 using System.Text.Json.Serialization;
 using System.Text.Json.Serialization.Metadata;
 
@@ -11,7 +15,7 @@ namespace AgentFrameworkToolkit;
 /// Various Extensions for an AI Agent
 /// </summary>
 [PublicAPI]
-public static class AIToolsExtensions
+public static class AIAgentExtensions
 {
     /// <summary>
     /// Runs the agent with a collection of chat messages, requesting a response of the specified type <typeparamref name="T"/>.
@@ -56,22 +60,69 @@ public static class AIToolsExtensions
             return await chatClientAgent.RunAsync<T>(messages, thread, serializerOptions, options, useJsonSchemaResponseFormat, cancellationToken);
         }
 
-        JsonSerializerOptions jsonSerializerOptions = new()
+        JsonSerializerOptions jsonSerializerOptions;
+        if (serializerOptions != null)
         {
-            PropertyNameCaseInsensitive = true,
-            TypeInfoResolver = new DefaultJsonTypeInfoResolver(),
-            Converters = { new JsonStringEnumConverter() }
-        };
+            jsonSerializerOptions = serializerOptions;
+        }
+        else
+        {
+            jsonSerializerOptions = new()
+            {
+                Encoder = JavaScriptEncoder.UnsafeRelaxedJsonEscaping,
+                PropertyNameCaseInsensitive = true,
+                TypeInfoResolver = new DefaultJsonTypeInfoResolver(),
+            };
+            if (JsonSerializer.IsReflectionEnabledByDefault)
+            {
+                jsonSerializerOptions.Converters.Add(new JsonStringEnumConverter());
+            }
+
+            jsonSerializerOptions.MakeReadOnly();
+        }
+
+        ChatResponseFormatJson responseFormat = ChatResponseFormat.ForJsonSchema<T>(jsonSerializerOptions);
+
+        bool isWrappedInObject = false;
+        if (RuntimeFeature.IsDynamicCodeSupported)
+        {
+            JsonElement schema = responseFormat.Schema!.Value;
+            if (!SchemaRepresentsObject(schema))
+            {
+                // For non-object-representing schemas, we wrap them in an object schema, because all
+                // the real LLM providers today require an object schema as the root. This is currently
+                // true even for providers that support native structured output.
+                isWrappedInObject = true;
+                schema = JsonSerializer.SerializeToElement(new JsonObject
+                {
+                    { "$schema", "https://json-schema.org/draft/2020-12/schema" },
+                    { "type", "object" },
+                    { "properties", new JsonObject { { "data", JsonElementToJsonNode(schema) } } },
+                    { "additionalProperties", false },
+                    { "required", new JsonArray("data") },
+                }, AIJsonUtilities.DefaultOptions.GetTypeInfo(typeof(JsonObject)));
+                responseFormat = ChatResponseFormat.ForJsonSchema(schema, responseFormat.SchemaName, responseFormat.SchemaDescription);
+            }
+
+            static JsonNode? JsonElementToJsonNode(JsonElement element) =>
+                element.ValueKind switch
+                {
+                    JsonValueKind.Null => null,
+                    JsonValueKind.Array => JsonArray.Create(element),
+                    JsonValueKind.Object => JsonObject.Create(element),
+                    _ => JsonValue.Create(element)
+                };
+        }
 
         if (options != null)
         {
             if (options is ChatClientAgentRunOptions { ChatOptions: not null } chatClientAgentRunOptions)
             {
-                chatClientAgentRunOptions.ChatOptions.ResponseFormat = ChatResponseFormat.ForJsonSchema<T>(jsonSerializerOptions);
+                chatClientAgentRunOptions.ChatOptions.ResponseFormat = responseFormat;
             }
             else
             {
-                throw new NotSupportedException("Structure Output is not possible in this scenario");
+                throw new NotSupportedException("Structure Output is not possible when provided options are not ChatClientAgentRunOptions");
             }
         }
         else
@@ -80,15 +131,43 @@ public static class AIToolsExtensions
             {
                 ChatOptions = new()
                 {
-                    ResponseFormat = ChatResponseFormat.ForJsonSchema<T>(jsonSerializerOptions)
+                    ResponseFormat = responseFormat
                 }
             };
         }
 
-        //Normal other agent (Lets try and see if it works)
         AgentRunResponse response = await agent.RunAsync(messages, thread, options, cancellationToken);
-        return new ChatClientAgentRunResponse<T>(new ChatResponse<T>(response.AsChatResponse(), jsonSerializerOptions));
+        ChatResponse<T> chatResponse = new(response.AsChatResponse(), jsonSerializerOptions);
+        if (isWrappedInObject)
+        {
+            Type type = chatResponse.GetType();
+            PropertyInfo? propertyInfo = type.GetProperty("IsWrappedInObject", BindingFlags.Instance | BindingFlags.NonPublic | BindingFlags.Public);
+            if (propertyInfo != null)
+            {
+                propertyInfo.SetValue(chatResponse, isWrappedInObject);
+            }
+        }
+
+        return new ChatClientAgentRunResponse<T>(chatResponse);
     }
+
+    static bool SchemaRepresentsObject(JsonElement schemaElement)
+    {
+        if (schemaElement.ValueKind is JsonValueKind.Object)
+        {
+            foreach (JsonProperty property in schemaElement.EnumerateObject())
+            {
+                if (property.NameEquals("type"u8))
+                {
+                    return property.Value.ValueKind == JsonValueKind.String
+                           && property.Value.ValueEquals("object"u8);
+                }
+            }
+        }
+
+        return false;
+    }
+
 
     /// <summary>
     /// Runs the agent with a collection of chat messages, requesting a response of the specified type <typeparamref name="T"/>.

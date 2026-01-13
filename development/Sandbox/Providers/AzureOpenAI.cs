@@ -1,9 +1,11 @@
 using AgentFrameworkToolkit;
 using AgentFrameworkToolkit.AzureOpenAI;
 using AgentFrameworkToolkit.OpenAI;
+using AgentFrameworkToolkit.OpenRouter;
 using AgentFrameworkToolkit.Tools;
 using Microsoft.Agents.AI;
 using Microsoft.Extensions.AI;
+using OpenAI.Chat;
 using Secrets;
 
 #pragma warning disable OPENAI001
@@ -23,66 +25,32 @@ public static class AzureOpenAI
         Secrets.Secrets secrets = SecretsManager.GetSecrets();
 
         //Create your AgentFactory (using a connection object for more options)
-        AzureOpenAIAgentFactory agentFactory = new AzureOpenAIAgentFactory(new AzureOpenAIConnection
+        AzureOpenAIAgentFactory factory = new AzureOpenAIAgentFactory(new AzureOpenAIConnection
         {
-            Endpoint = "<endpoint>",
-            ApiKey = "<apiKey>",
-            NetworkTimeout = TimeSpan.FromMinutes(5), //Set call timeout
-            Credentials = null, //Set RBAC Credentials
-            DefaultClientType = ClientType.ResponsesApi, //Set default Client Type for each agent (ChatClient or ResponsesAPI)
-            AdditionalAzureOpenAIClientOptions = options =>
-            {
-                //Set additional properties if needed
-            }
+            Endpoint = secrets.AzureOpenAiEndpoint,
+            ApiKey = secrets.AzureOpenAiKey,
         });
 
-        //Create your Agent
-        AzureOpenAIAgent agent = agentFactory.CreateAgent(new AgentOptions
+        ChatClientAgent a = factory.Connection.GetClient().GetChatClient(OpenAIChatModels.Gpt41Nano).CreateAIAgent();
+
+        ChatClientAgentRunResponse<Movie[]> response = await a.RunAsync<Movie[]>("Give me the top 3 movies according to IMDB");
+
+        AzureOpenAIAgent agent = factory.CreateAgent(new AgentOptions
         {
-            //Mandatory
-            Model = "gpt-5", //Model to use
-
-            //Optional (Common)
-            ClientType = ClientType.ChatClient, //Choose ClientType (ChatClient or Responses API)
-            Name = "MyAgent", //Agent Name
-            Temperature = 0, //The Temperature of the LLM Call (1 = Normal; 0 = Less creativity) [ONLY NON-REASONING MODELS]
-            ReasoningEffort = OpenAIReasoningEffort.Low, //Set Reasoning Effort [ONLY REASONING MODELS]
-            ReasoningSummaryVerbosity = OpenAIReasoningSummaryVerbosity.Detailed, //Only used in Responses API [ONLY REASONING MODELS]
-            Instructions = "You are a nice AI", //The System Prompt for the Agent to Follow
-            Tools = [], //Add your tools for Tool Calling here
-            ToolCallingMiddleware = async (callingAgent, context, next, token) => //Tool Calling Middleware to Inspect, change, and cancel tool-calling
-            {
-                AIFunctionArguments arguments = context.Arguments; //Details on the tool-call that is about to happen
-                return await next(context, token);
-            },
-            OpenTelemetryMiddleware = new OpenTelemetryMiddleware(source: "MyOpenTelemetrySource", telemetryAgent => telemetryAgent.EnableSensitiveData = true), //Configure OpenTelemetry Middleware
-
-            //Optional (Rarely used)
-            MaxOutputTokens = 2000, //Max allow token
-            Id = "1234", //Set the ID of Agent (else a random GUID is assigned as ID)
-            Description = "My Description", //Description of the Agent (not used by the LLM)
-            LoggingMiddleware = new LoggingMiddleware( /* Configure custom logging */),
-            Services = null, //Setup Tool Calling Service Injection (See https://youtu.be/EGs-Myf5MB4 for more details)
-            LoggerFactory = null, //Setup logger Factory (Alternative to Middleware)
-            AdditionalChatClientAgentOptions = options =>
-            {
-                //Option to set even more options if not covered by AgentFrameworkToolkit
-            },
-            RawToolCallDetails = Console.WriteLine, //Raw Tool calling Middleware (if you just wish to log what tools are being called. ToolCallingMiddleware is a more advanced version of this)
-            RawHttpCallDetails = details => //Intercept the raw HTTP Call to the LLM (great for advanced debugging sessions)
-            {
-                Console.WriteLine(details.RequestUrl);
-                Console.WriteLine(details.RequestData);
-                Console.WriteLine(details.ResponseData);
-            },
-            ClientFactory = client =>
-            {
-                //Interact with the underlying Client-factory
-                return client;
-            }
+            Model = OpenAIChatModels.Gpt41Nano,
+            RawToolCallDetails = Console.WriteLine
         });
 
-        AgentRunResponse response = await agent.RunAsync("Hello World");
-        Console.WriteLine(response);
+        ChatClientAgentRunResponse<Movie[]> response2 = await agent.RunAsync<Movie[]>("Give me the top 3 movies according to IMDB");
+    }
+
+    private class MovieResult
+    {
+        public required List<Movie> List { get; set; }
+    }
+
+    private class Movie
+    {
+        public required string Title { get; set; }
     }
 }
