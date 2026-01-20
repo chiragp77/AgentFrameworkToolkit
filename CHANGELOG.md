@@ -1,5 +1,12 @@
 # Changelog - Agent Framework Toolkit
 
+## Version 1.0.0-preview.260120.1
+- Added `GetTextReasoningContent` extension method to easily get the Reasoning text (if any) from an AgentRunResponse.
+- Added `GetContainerFileCitationMessageAnnotations` extension method to easily get ContainerFileCitations from example a Code Interpreter usage (OpenAI-based agents only).
+- Google: Bump internal NuGet to 0.12.0
+
+---
+
 ## Version 1.0.0-preview.260115.1
 - Google: [BREAKING] Switched to the official Google NuGet Package (only breaking in Connection part if Google Vertex is used)
 - Google: Added GoogleEmbeddingFactory
