@@ -1,5 +1,6 @@
 <Solution>
   <Folder Name="/Packages/">
+    <Project Path="src/AgentFrameworkToolkit.AmazonBedrock/AgentFrameworkToolkit.AmazonBedrock.csproj" />
     <Project Path="src/AgentFrameworkToolkit.Anthropic/AgentFrameworkToolkit.Anthropic.csproj" />
     <Project Path="src/AgentFrameworkToolkit.AzureOpenAI/AgentFrameworkToolkit.AzureOpenAI.csproj" />
     <Project Path="src/AgentFrameworkToolkit.Cohere/AgentFrameworkToolkit.Cohere.csproj" />
@@ -9,6 +10,7 @@
     <Project Path="src/AgentFrameworkToolkit.OpenAI/AgentFrameworkToolkit.OpenAI.csproj" />
     <Project Path="src/AgentFrameworkToolkit.OpenRouter/AgentFrameworkToolkit.OpenRouter.csproj" />
     <Project Path="src/AgentFrameworkToolkit.Tools.ModelContextProtocol/AgentFrameworkToolkit.Tools.ModelContextProtocol.csproj" />
+    <Project Path="src/AgentFrameworkToolkit.Tools/AgentFrameworkToolkit.Tools.csproj" />
     <Project Path="src/AgentFrameworkToolkit.XAI/AgentFrameworkToolkit.XAI.csproj" />
     <Project Path="src/AgentFrameworkToolkit/AgentFrameworkToolkit.csproj" />
     <Project Path="src/AgentSkillsDotNet/AgentSkillsDotNet.csproj" Id="b6cf36bb-01cb-443f-a430-daff9b243742" />
@@ -30,5 +32,12 @@
     <Project Path="development/Sandbox/Sandbox.csproj" />
     <Project Path="development/Secrets/Secrets.csproj" />
     <Project Path="development/Tests/Tests.csproj" />
+  </Folder>
+  <Folder Name="/Solution Items/create-new-provider-skill/">
+    <File Path=".codex/skills/create-agent-provider/references/CustomProviderTemplate.md" />
+    <File Path=".codex/skills/create-agent-provider/references/OpenAICompatibleTemplate.md" />
+    <File Path=".codex/skills/create-agent-provider/references/ProviderChecklist.md" />
+    <File Path=".codex/skills/create-agent-provider/references/TestingGuide.md" />
+    <File Path=".codex/skills/create-agent-provider/SKILL.md" />
   </Folder>
 </Solution>

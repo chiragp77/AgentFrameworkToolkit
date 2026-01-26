@@ -1,54 +1,32 @@
-# AgentFrameworkToolkit AI Agent Notes
+# Conversation start rule (MANDATORY)
+Whenever a **new conversation** begins, do **not** start coding immediately.
 
-Use this file as a quick map for where code lives, how it is styled, and how to add new providers.
+1. Investigate the codebase (read relevant files; search for existing patterns).
+2. Identify what’s unclear, risky, or ambiguous about the requested change.
+3. Ask the user **3–10 clarifying questions in a numbered list** (not bullets).
+4. Only after those are answered, start implementing. (For follow-ups in the same conversation, skip this step.)
 
-## Repo layout
-- `src/AgentFrameworkToolkit/`: Core library (middleware, tooling, shared extensions).
+# Repo map (where things live)
+- `src/AgentFrameworkToolkit/`: Core library (middleware + shared helpers).
 - `src/AgentFrameworkToolkit.*`: Provider packages (one per provider).
+- `src/AgentFrameworkToolkit.Tools/`: Tools integration.
 - `src/AgentFrameworkToolkit.Tools.ModelContextProtocol/`: MCP tooling integration.
-- `development/`: Sandbox, Secrets utility, and Tests.
-- `Directory.Packages.props`: Central package versions.
-- `Directory.Build.props`/`Directory.Build.targets`: Shared build and analyzer settings.
+- `src/AgentSkillsDotNet/`: Skills integration for agents.
+- `development/`: Sandbox + repo utilities (may include tests; do not run them).
+- `Directory.Packages.props`: Central package version management (no versions in `.csproj`).
+- `Directory.Build.props` / `Directory.Build.targets`: Shared build + analyzer configuration.
 
-## Code style and build rules
-- Follow `.editorconfig` (root + `src/.editorconfig`); `src` enforces CRLF, braces, explicit types, collection expressions, and namespace matches folder.
-- Nullable is enabled, analyzers are on, and warnings are errors (see `Directory.Build.props`).
-- All public APIs require XML documentation; most public types use `[PublicAPI]` (JetBrains.Annotations).
+# New Provider Guidelines
+Use the built-in skill `create-agent-provider` (see `.codex/skills/create-agent-provider/SKILL.md`).
+
+# Code style and build rules
+- Follow `.editorconfig` (root + `src/.editorconfig`).
+- `src` enforces CRLF, braces, explicit types, collection expressions, and namespaces matching folders.
+- Nullable is enabled; analyzers are enabled; warnings are errors (see `Directory.Build.props`).
+- In `src`, prefer `new()` when the type is apparent and prefer collection expressions (`[]`) where applicable.
+- Public members require XML documentation. Use `[PublicAPI]` (JetBrains.Annotations) where existing patterns do.
 - Prefer primary constructors where the codebase already uses them.
 
-## Code Review rules
-- Check that new/changed/removed features are mentioned in CHANGELOG.md file.
-
-## Adding a new provider package
-Pick the smallest implementation path that matches the provider API.
-
-### OpenAI-compatible providers
-Use the OpenAI package as the base (see `src/AgentFrameworkToolkit.OpenRouter/` and `src/AgentFrameworkToolkit.XAI/`).
-1. Add `src/AgentFrameworkToolkit.<Provider>/` with a `.csproj` that references `AgentFrameworkToolkit.OpenAI` and `AgentFrameworkToolkit`.
-2. Create `<Provider>Connection : OpenAIConnection` with a `DefaultEndpoint`.
-3. Implement `<Provider>AgentFactory` that wraps `OpenAIAgentFactory` and defaults the endpoint.
-4. Implement `<Provider>Agent` that wraps `OpenAIAgent`.
-5. Add DI helpers in `ServiceCollectionExtensions`.
-6. Reuse `AgentFrameworkToolkit.OpenAI.AgentOptions` and `OpenAIEmbeddingFactory` if applicable.
-
-### Custom providers
-Follow patterns in `src/AgentFrameworkToolkit.GitHub/`, `src/AgentFrameworkToolkit.Google/`, or `src/AgentFrameworkToolkit.Mistral/`.
-1. Create `src/AgentFrameworkToolkit.<Provider>/` and a `.csproj` that references `AgentFrameworkToolkit`.
-2. Add a `<Provider>Connection` that builds the SDK client and supports raw HTTP inspection.
-3. Add `<Provider>AgentOptions` (model, instructions, tools, middleware, telemetry, logging, etc.).
-4. Add `<Provider>AgentFactory` that creates a `ChatClientAgent` and applies middleware (copy the `ApplyMiddleware` pattern).
-5. Add `<Provider>Agent` that subclasses `AIAgent` and delegates to an inner agent.
-6. Add `<Provider>ChatModels` constants for model IDs.
-7. Add DI helpers in `ServiceCollectionExtensions` and optional embedding factory if the provider supports it.
-8. Add a provider `README.md` with install + usage samples.
-
-### Repo updates for any provider
-- Add package versions to `Directory.Packages.props` (no versions in `.csproj`).
-- Add the project to `AgentFrameworkToolkit.slnx` under `/Packages/`.
-- Update `README.md` provider table and `CHANGELOG.md` for user-facing changes.
-- Add or extend tests in `development/Tests/` when behavior changes.
-
-## Local validation
-- Build: `dotnet build --configuration Release`
-- Tests: `dotnet test --configuration Release`
-- Sandbox: `dotnet run --project development/Sandbox/Sandbox.csproj`
+## Repo update checklist (when user-facing behavior changes)
+- If a new project/package is added: add it to `AgentFrameworkToolkit.slnx` (and keep versions centralized in `Directory.Packages.props`).
+- If documentation/examples change: update `README.md` and provider READMEs as needed.
