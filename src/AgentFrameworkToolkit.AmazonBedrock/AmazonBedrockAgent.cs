@@ -51,26 +51,26 @@ public class AmazonBedrockAgent(AIAgent innerAgent) : AIAgent
     }
 
     /// <inheritdoc />
-    public override ValueTask<AgentThread> GetNewThreadAsync(CancellationToken cancellationToken = default)
+    public override ValueTask<AgentSession> GetNewSessionAsync(CancellationToken cancellationToken = default)
     {
-        return innerAgent.GetNewThreadAsync(cancellationToken);
+        return innerAgent.GetNewSessionAsync(cancellationToken);
     }
 
     /// <inheritdoc />
-    public override ValueTask<AgentThread> DeserializeThreadAsync(JsonElement serializedThread, JsonSerializerOptions? jsonSerializerOptions = null, CancellationToken cancellationToken = default)
+    public override ValueTask<AgentSession> DeserializeSessionAsync(JsonElement serializedSession, JsonSerializerOptions? jsonSerializerOptions = null, CancellationToken cancellationToken = default)
     {
-        return innerAgent.DeserializeThreadAsync(serializedThread, jsonSerializerOptions, cancellationToken);
+        return innerAgent.DeserializeSessionAsync(serializedSession, jsonSerializerOptions, cancellationToken);
     }
 
     /// <inheritdoc />
-    protected override Task<AgentResponse> RunCoreAsync(IEnumerable<ChatMessage> messages, AgentThread? thread = null, AgentRunOptions? options = null, CancellationToken cancellationToken = default)
+    protected override Task<AgentResponse> RunCoreAsync(IEnumerable<ChatMessage> messages, AgentSession? session = null, AgentRunOptions? options = null, CancellationToken cancellationToken = default)
     {
-        return innerAgent.RunAsync(messages, thread, options, cancellationToken);
+        return innerAgent.RunAsync(messages, session, options, cancellationToken);
     }
 
     /// <inheritdoc />
-    protected override IAsyncEnumerable<AgentResponseUpdate> RunCoreStreamingAsync(IEnumerable<ChatMessage> messages, AgentThread? thread = null, AgentRunOptions? options = null, CancellationToken cancellationToken = default)
+    protected override IAsyncEnumerable<AgentResponseUpdate> RunCoreStreamingAsync(IEnumerable<ChatMessage> messages, AgentSession? session = null, AgentRunOptions? options = null, CancellationToken cancellationToken = default)
     {
-        return innerAgent.RunStreamingAsync(messages, thread, options, cancellationToken);
+        return innerAgent.RunStreamingAsync(messages, session, options, cancellationToken);
     }
 }

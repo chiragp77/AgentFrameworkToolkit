@@ -97,10 +97,10 @@ public class AnthropicAgentOptions
     public LoggingMiddleware? LoggingMiddleware { get; set; }
 
     /// <summary>
-    /// Gets or sets a factory function to create an instance of <see cref="ChatMessageStore"/>
+    /// Gets or sets a factory function to create an instance of <see cref="ChatHistoryMemoryProvider"/>
     /// which will be used to store chat messages for this agent.
     /// </summary>
-    public Func<ChatMessageStoreFactoryContext, CancellationToken, ValueTask<ChatMessageStore>>? ChatMessageStoreFactory { get; set; }
+    public Func<ChatHistoryProviderFactoryContext, CancellationToken, ValueTask<ChatHistoryProvider>>? ChatHistoryProviderFactory { get; set; }
 
     /// <summary>
     /// Gets or sets a factory function to create an instance of <see cref="AIContextProvider"/>

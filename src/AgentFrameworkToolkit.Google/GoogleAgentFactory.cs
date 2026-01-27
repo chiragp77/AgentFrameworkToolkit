@@ -145,7 +145,7 @@ public class GoogleAgentFactory
             Description = options.Description,
             Id = options.Id,
             AIContextProviderFactory = options.AIContextProviderFactory,
-            ChatMessageStoreFactory = options.ChatMessageStoreFactory,
+            ChatHistoryProviderFactory = options.ChatHistoryProviderFactory,
         };
         if (anyOptionsSet)
         {

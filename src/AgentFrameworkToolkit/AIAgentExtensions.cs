@@ -22,9 +22,9 @@ public static class AIAgentExtensions
     /// </summary>
     /// <param name="agent">The Agent to use</param>
     /// <param name="messages">The collection of messages to send to the agent for processing.</param>
-    /// <param name="thread">
-    /// The conversation thread to use for this invocation. If <see langword="null"/>, a new thread will be created.
-    /// The thread will be updated with the input messages and any response messages generated during invocation.
+    /// <param name="session">
+    /// The conversation sessions to use for this invocation. If <see langword="null"/>, a new session will be created.
+    /// The sessions will be updated with the input messages and any response messages generated during invocation.
     /// </param>
     /// <param name="serializerOptions">The JSON serialization options to use.</param>
     /// <param name="options">Optional configuration parameters for controlling the agent's invocation behavior.</param>
@@ -43,13 +43,13 @@ public static class AIAgentExtensions
     /// </para>
     /// <para>
     /// The messages are processed in the order provided and become part of the conversation history.
-    /// The agent's response will also be added to <paramref name="thread"/> if one is provided.
+    /// The agent's response will also be added to <paramref name="session"/> if one is provided.
     /// </para>
     /// </remarks>
     public static async Task<ChatClientAgentResponse<T>> RunAsync<T>(
         this AIAgent agent,
         IEnumerable<ChatMessage> messages,
-        AgentThread? thread = null,
+        AgentSession? session = null,
         JsonSerializerOptions? serializerOptions = null,
         AgentRunOptions? options = null,
         bool? useJsonSchemaResponseFormat = null,
@@ -57,7 +57,7 @@ public static class AIAgentExtensions
     {
         if (agent is ChatClientAgent chatClientAgent)
         {
-            return await chatClientAgent.RunAsync<T>(messages, thread, serializerOptions, options, useJsonSchemaResponseFormat, cancellationToken);
+            return await chatClientAgent.RunAsync<T>(messages, session, serializerOptions, options, useJsonSchemaResponseFormat, cancellationToken);
         }
 
         JsonSerializerOptions jsonSerializerOptions;
@@ -136,7 +136,7 @@ public static class AIAgentExtensions
             };
         }
 
-        AgentResponse response = await agent.RunAsync(messages, thread, options, cancellationToken);
+        AgentResponse response = await agent.RunAsync(messages, session, options, cancellationToken);
         ChatResponse<T> chatResponse = new(response.AsChatResponse(), jsonSerializerOptions);
         if (isWrappedInObject)
         {
@@ -173,9 +173,9 @@ public static class AIAgentExtensions
     /// Runs the agent with a collection of chat messages, requesting a response of the specified type <typeparamref name="T"/>.
     /// </summary>
     /// <param name="agent">The Agent to Use</param>
-    /// <param name="thread">
-    /// The conversation thread to use for this invocation. If <see langword="null"/>, a new thread will be created.
-    /// The thread will be updated with the input messages and any response messages generated during invocation.
+    /// <param name="session">
+    /// The conversation session to use for this invocation. If <see langword="null"/>, a new session will be created.
+    /// The session will be updated with the input messages and any response messages generated during invocation.
     /// </param>
     /// <param name="serializerOptions">The JSON serialization options to use.</param>
     /// <param name="options">Optional configuration parameters for controlling the agent's invocation behavior.</param>
@@ -194,26 +194,26 @@ public static class AIAgentExtensions
     /// </para>
     /// <para>
     /// The messages are processed in the order provided and become part of the conversation history.
-    /// The agent's response will also be added to <paramref name="thread"/> if one is provided.
+    /// The agent's response will also be added to <paramref name="session"/> if one is provided.
     /// </para>
     /// </remarks>
     public static async Task<ChatClientAgentResponse<T>> RunAsync<T>(
         this AIAgent agent,
-        AgentThread? thread = null,
+        AgentSession? session = null,
         JsonSerializerOptions? serializerOptions = null,
         AgentRunOptions? options = null,
         bool? useJsonSchemaResponseFormat = null,
         CancellationToken cancellationToken = default) =>
-        await agent.RunAsync<T>([], thread, serializerOptions, options, useJsonSchemaResponseFormat, cancellationToken);
+        await agent.RunAsync<T>([], session, serializerOptions, options, useJsonSchemaResponseFormat, cancellationToken);
 
     /// <summary>
     /// Runs the agent with a collection of chat messages, requesting a response of the specified type <typeparamref name="T"/>.
     /// </summary>
     /// <param name="agent">The agent to use</param>
     /// <param name="message">The message to send to the agent for processing.</param>
-    /// <param name="thread">
-    /// The conversation thread to use for this invocation. If <see langword="null"/>, a new thread will be created.
-    /// The thread will be updated with the input messages and any response messages generated during invocation.
+    /// <param name="session">
+    /// The conversation session to use for this invocation. If <see langword="null"/>, a new session will be created.
+    /// The session will be updated with the input messages and any response messages generated during invocation.
     /// </param>
     /// <param name="serializerOptions">The JSON serialization options to use.</param>
     /// <param name="options">Optional configuration parameters for controlling the agent's invocation behavior.</param>
@@ -232,19 +232,19 @@ public static class AIAgentExtensions
     /// </para>
     /// <para>
     /// The messages are processed in the order provided and become part of the conversation history.
-    /// The agent's response will also be added to <paramref name="thread"/> if one is provided.
+    /// The agent's response will also be added to <paramref name="session"/> if one is provided.
     /// </para>
     /// </remarks>
     public static async Task<ChatClientAgentResponse<T>> RunAsync<T>(
         this AIAgent agent,
         string message,
-        AgentThread? thread = null,
+        AgentSession? session = null,
         JsonSerializerOptions? serializerOptions = null,
         AgentRunOptions? options = null,
         bool? useJsonSchemaResponseFormat = null,
         CancellationToken cancellationToken = default)
     {
-        return await agent.RunAsync<T>(new ChatMessage(ChatRole.User, message), thread, serializerOptions, options, useJsonSchemaResponseFormat, cancellationToken);
+        return await agent.RunAsync<T>(new ChatMessage(ChatRole.User, message), session, serializerOptions, options, useJsonSchemaResponseFormat, cancellationToken);
     }
 
     /// <summary>
@@ -252,9 +252,9 @@ public static class AIAgentExtensions
     /// </summary>
     /// <param name="agent">The agent to use</param>
     /// <param name="message">The message to send to the agent for processing.</param>
-    /// <param name="thread">
-    /// The conversation thread to use for this invocation. If <see langword="null"/>, a new thread will be created.
-    /// The thread will be updated with the input messages and any response messages generated during invocation.
+    /// <param name="session">
+    /// The conversation session to use for this invocation. If <see langword="null"/>, a new session will be created.
+    /// The session will be updated with the input messages and any response messages generated during invocation.
     /// </param>
     /// <param name="serializerOptions">The JSON serialization options to use.</param>
     /// <param name="options">Optional configuration parameters for controlling the agent's invocation behavior.</param>
@@ -273,18 +273,18 @@ public static class AIAgentExtensions
     /// </para>
     /// <para>
     /// The messages are processed in the order provided and become part of the conversation history.
-    /// The agent's response will also be added to <paramref name="thread"/> if one is provided.
+    /// The agent's response will also be added to <paramref name="session"/> if one is provided.
     /// </para>
     /// </remarks>
     public static async Task<ChatClientAgentResponse<T>> RunAsync<T>(
         this AIAgent agent,
         ChatMessage message,
-        AgentThread? thread = null,
+        AgentSession? session = null,
         JsonSerializerOptions? serializerOptions = null,
         AgentRunOptions? options = null,
         bool? useJsonSchemaResponseFormat = null,
         CancellationToken cancellationToken = default)
     {
-        return await agent.RunAsync<T>([message], thread, serializerOptions, options, useJsonSchemaResponseFormat, cancellationToken);
+        return await agent.RunAsync<T>([message], session, serializerOptions, options, useJsonSchemaResponseFormat, cancellationToken);
     }
 }

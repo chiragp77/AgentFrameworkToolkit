@@ -56,7 +56,7 @@ public static class AzureOpenAI
             RawToolCallDetails = Console.WriteLine
         });
 
-        AgentThread thread = await agent.GetNewThreadAsync();
+        AgentSession session = await agent.GetNewSessionAsync();
         while (true)
         {
             Console.Write("> ");
@@ -64,10 +64,10 @@ public static class AzureOpenAI
             if (input == "/new")
             {
                 Console.Clear();
-                thread = await agent.GetNewThreadAsync();
+                session = await agent.GetNewSessionAsync();
                 continue;
             }
-            AgentResponse response = await agent.RunAsync(input, thread);
+            AgentResponse response = await agent.RunAsync(input, session);
             Console.WriteLine(response);
             Console.WriteLine($"(Input: {response.Usage!.InputTokenCount} - Output: {response.Usage.OutputTokenCount})");
 

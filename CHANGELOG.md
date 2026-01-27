@@ -1,5 +1,10 @@
 # Changelog - Agent Framework Toolkit
 
+## Version 1.0.0-preview.260127.1
+- [BREAKING] Upgraded and fixed breaking changes from Microsoft Agent Framework v.1.0.0-preview.260127.1 (`ChatMessageStoreFactory` is now called `ChatHistoryProviderFactory`)
+
+---
+
 ## Version 1.0.0-preview.260126.1
 - Added Amazon Bedrock provider (`AgentFrameworkToolkit.AmazonBedrock`)
 - Moved AIToolsFactory to its own NuGetPackage (`AgentFrameworkToolkit.Tool` to allow usage without dependency on `Microsoft.Agents.AI`)
