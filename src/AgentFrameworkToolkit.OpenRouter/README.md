@@ -102,7 +102,7 @@ OpenRouterAgent agent = agentFactory.CreateAgent(new AgentOptions
     LoggingMiddleware = new LoggingMiddleware( /* Configure custom logging */),
     Services = null, //Setup Tool Calling Service Injection (See https://youtu.be/EGs-Myf5MB4 for more details)
     LoggerFactory = null, //Setup logger Factory (Alternative to Middleware)
-    ChatMessageStoreFactory = context => new MyChatMessageStore(), //Set a custom message store
+    ChatHistoryProviderFactory = context => new MyChatMessageStore(), //Set a custom message store
     AIContextProviderFactory = context => new MyAIContextProvider(), //Set a custom AI context provider
     AdditionalChatClientAgentOptions = options =>
     {

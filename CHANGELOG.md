@@ -1,7 +1,7 @@
 # Changelog - Agent Framework Toolkit
 
 ## Version 1.0.0-preview.260127.1
-- [BREAKING] Upgraded and fixed breaking changes from Microsoft Agent Framework v.1.0.0-preview.260127.1 (`ChatMessageStoreFactory` is now called `ChatHistoryProviderFactory`)
+- [BREAKING] Upgraded and fixed breaking changes from Microsoft Agent Framework v.1.0.0-preview.260127.1 (`ChatHistoryProviderFactory` is now called `ChatHistoryProviderFactory`)
 
 ---
 
@@ -59,7 +59,7 @@
 ---
 
 ## Version 1.0.0-preview.251226.1
-- Added support for setting `AIContextProviderFactory` and `ChatMessageStoreFactory` on Agents
+- Added support for setting `AIContextProviderFactory` and `ChatHistoryProviderFactory` on Agents
 - Removed obsolete `OpenAIAgentOptionsForChatClientWithoutReasoning`, `OpenAIAgentOptionsForChatClientWithReasoning`, `OpenAIAgentOptionsForResponseApiWithoutReasoning` and `OpenAIAgentOptionsForResponseApiWithReasoning` (Use `AgentOptions` instead)
 - Added missing Dependency Injection options for EmbeddingFactory in Providers `Mistral` and `OpenRouter`
 - Added Cohere as provider
