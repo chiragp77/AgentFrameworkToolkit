@@ -1,5 +1,4 @@
 using AgentFrameworkToolkit.Google;
-using AgentFrameworkToolkit.OpenAI;
 using Microsoft.Extensions.AI;
 using Microsoft.Extensions.DependencyInjection;
 using Secrets;
