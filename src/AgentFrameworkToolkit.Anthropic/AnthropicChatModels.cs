@@ -1,4 +1,4 @@
-﻿using JetBrains.Annotations;
+using JetBrains.Annotations;
 
 namespace AgentFrameworkToolkit.Anthropic;
 
@@ -39,6 +39,21 @@ public static class AnthropicChatModels
     public const string ClaudeOpus41 = "claude-opus-4-1";
 
     /// <summary>
+    /// Claude Opus 4.5
+    /// </summary>
+    public const string ClaudeOpus45 = "claude-opus-4-5";
+
+    /// <summary>
+    /// Claude Opus 4.6
+    /// </summary>
+    public const string ClaudeOpus46 = "claude-opus-4-6";
+    
+    /// <summary>
+    /// Claude Haiku 3
+    /// </summary>
+    public const string ClaudeHaiku3 = "claude-3-haiku";
+
+    /// <summary>
     /// Claude Haiku 3.5
     /// </summary>
     public const string ClaudeHaiku35 = "claude-3-5-haiku";
@@ -48,8 +63,4 @@ public static class AnthropicChatModels
     /// </summary>
     public const string ClaudeHaiku45 = "claude-haiku-4-5";
 
-    /// <summary>
-    /// Claude Haiku 3
-    /// </summary>
-    public const string ClaudeHaiku3 = "claude-3-haiku";
 }

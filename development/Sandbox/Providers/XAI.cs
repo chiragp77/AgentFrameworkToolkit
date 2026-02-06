@@ -1,3 +1,4 @@
+using AgentFrameworkToolkit;
 using AgentFrameworkToolkit.OpenAI;
 using AgentFrameworkToolkit.XAI;
 using Microsoft.Agents.AI;

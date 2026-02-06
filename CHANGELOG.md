@@ -1,5 +1,15 @@
 # Changelog - Agent Framework Toolkit
 
+## Version 1.0.0-preview.260206.1
+- [BREAKING] Upgraded and fixed breaking changes from Microsoft Agent Framework v.1.0.0-preview.260205.1
+  - `GetNewSessionAsync` is now called ``
+- Bump Google.GenAI to 0.15.0
+- Bump AWSSDK.BedrockRuntime to 4.0.16
+- Bump ModelContextProtocol to 0.8.0-preview.1
+- All Provider-specific Agents now derive from a generic `Agent` (with the raw AIAgent as the Inner Agent) to reduce code redundency
+
+---
+
 ## Version 1.0.0-preview.260203.1
 - Bump Google.GenAI from 0.13.1 to 0.14.0 (PR#42)
 - Bump AWSSDK.BedrockRuntime and AWSSDK.Extensions.Bedrock.MEAI (PR#41)
@@ -12,7 +22,8 @@
 ---
 
 ## Version 1.0.0-preview.260127.1
-- [BREAKING] Upgraded and fixed breaking changes from Microsoft Agent Framework v.1.0.0-preview.260127.1 (`ChatHistoryProviderFactory` is now called `ChatHistoryProviderFactory`)
+- [BREAKING] Upgraded and fixed breaking changes from Microsoft Agent Framework v.1.0.0-preview.260127.1 
+  - `ChatHistoryProviderFactory` is now called `ChatHistoryProviderFactory`
 
 ---
 

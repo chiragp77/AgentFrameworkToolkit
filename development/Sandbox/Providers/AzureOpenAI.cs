@@ -48,7 +48,7 @@ public static class AzureOpenAI
         }));
         tools.AddRange(toolsFactory.GetWebsiteTools());
         
-        AIAgent agent = factory.CreateAgent(new AgentOptions
+        Agent agent = factory.CreateAgent(new AgentOptions
         {
             Instructions = $"Using Trello API Key: '{secrets.TrelloApiKey}' and Token '{secrets.TrelloToken}' - your file operating folder it C:\\TestAI",
             Model = OpenAIChatModels.Gpt41Nano,
@@ -56,7 +56,7 @@ public static class AzureOpenAI
             RawToolCallDetails = Console.WriteLine
         });
 
-        AgentSession session = await agent.GetNewSessionAsync();
+        AgentSession session = await agent.CreateSessionAsync();
         while (true)
         {
             Console.Write("> ");
@@ -64,7 +64,7 @@ public static class AzureOpenAI
             if (input == "/new")
             {
                 Console.Clear();
-                session = await agent.GetNewSessionAsync();
+                session = await agent.CreateSessionAsync();
                 continue;
             }
             AgentResponse response = await agent.RunAsync(input, session);

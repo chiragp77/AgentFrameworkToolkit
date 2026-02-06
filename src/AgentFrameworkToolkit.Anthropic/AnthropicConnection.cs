@@ -46,13 +46,13 @@ public class AnthropicConnection
 
         ClientOptions clientOptions = new()
         {
-            APIKey = ApiKey,
+            ApiKey = ApiKey,
             Timeout = NetworkTimeout
         };
 
         if (!string.IsNullOrWhiteSpace(Endpoint))
         {
-            clientOptions.BaseUrl = new Uri(Endpoint);
+            clientOptions.BaseUrl = Endpoint;
         }
 
         if (httpClient != null)
