@@ -1,5 +1,10 @@
 # Changelog - Agent Framework Toolkit
 
+## Unreleased
+- Added domain confinement options for `HttpClientTools` and `WebsiteTools` to allow restricting calls to exact allowed domains.
+
+---
+
 ## Version 1.0.0-preview.260206.1
 - [BREAKING] Upgraded and fixed breaking changes from Microsoft Agent Framework v.1.0.0-preview.260205.1
   - `GetNewSessionAsync` is now called ``

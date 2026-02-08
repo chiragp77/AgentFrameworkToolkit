@@ -48,6 +48,8 @@ public static class WebsiteTools
             throw new ArgumentException("URL must be an absolute HTTP/HTTPS URL.", nameof(url));
         }
 
+        GuardThatOperationsAreWithinConfinedDomains(uri, options);
+
         HttpClient httpClient = GetHttpClient(options);
         HttpResponseMessage response = await httpClient.GetAsync(uri, HttpCompletionOption.ResponseHeadersRead).ConfigureAwait(false);
         response.EnsureSuccessStatusCode();
@@ -80,6 +82,47 @@ public static class WebsiteTools
     {
         return options.HttpClientFactory?.Invoke() ?? new HttpClient();
     }
+
+    private static void GuardThatOperationsAreWithinConfinedDomains(Uri uri, GetContentOfPageOptions options)
+    {
+        if (options.ConfinedToTheseDomains == null)
+        {
+            return; //No confinements defined
+        }
+
+        string normalizedHost = uri.Host.TrimEnd('.');
+        foreach (string domain in options.ConfinedToTheseDomains)
+        {
+            string normalizedDomain = NormalizeDomain(domain);
+            if (string.Equals(normalizedHost, normalizedDomain, StringComparison.OrdinalIgnoreCase))
+            {
+                return; //Allowed domain
+            }
+        }
+
+        //If we reach here, then it means that we are not in an allowed domain
+        throw new InvalidOperationException($"Operations on URL '{uri}' is not defined as an allowed domain");
+    }
+
+    private static string NormalizeDomain(string domain)
+    {
+        if (string.IsNullOrWhiteSpace(domain))
+        {
+            return string.Empty;
+        }
+
+        if (Uri.TryCreate(domain, UriKind.Absolute, out Uri? domainUri))
+        {
+            return domainUri.Host.TrimEnd('.');
+        }
+
+        if (Uri.TryCreate($"https://{domain}", UriKind.Absolute, out Uri? domainAsUri))
+        {
+            return domainAsUri.Host.TrimEnd('.');
+        }
+
+        return domain.Trim().TrimEnd('.');
+    }
 }
 
 /// <summary>
@@ -88,6 +131,11 @@ public static class WebsiteTools
 [PublicAPI]
 public class GetContentOfPageOptions
 {
+    /// <summary>
+    /// If set all operations will be checked if they happen on these exact domain names (if not set then no restrictions apply)
+    /// </summary>
+    public IList<string>? ConfinedToTheseDomains { get; set; }
+
     /// <summary>
     /// HTTP Client Factory (if not specified a new HttpClient is generated)
     /// </summary>

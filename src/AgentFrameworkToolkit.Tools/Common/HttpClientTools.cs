@@ -41,6 +41,7 @@ public static class HttpClientTools
         return AIFunctionFactory.Create(async (string url, string? acceptHeader = null) =>
         {
             HttpClient httpClient = GetHttpClient(options);
+            GuardThatOperationsAreWithinConfinedDomains(url, httpClient.BaseAddress, options);
             if (!string.IsNullOrWhiteSpace(acceptHeader))
             {
                 httpClient.DefaultRequestHeaders.Accept.Clear();
@@ -63,6 +64,7 @@ public static class HttpClientTools
         return AIFunctionFactory.Create(async (string url, string body, string contentType = "application/json") =>
         {
             HttpClient httpClient = GetHttpClient(options);
+            GuardThatOperationsAreWithinConfinedDomains(url, httpClient.BaseAddress, options);
             StringContent content = new(body, Encoding.UTF8, contentType);
             HttpResponseMessage response = await httpClient.PostAsync(url, content);
             return await FormatResponseAsync(response, options);
@@ -81,6 +83,7 @@ public static class HttpClientTools
         return AIFunctionFactory.Create(async (string url, string body, string contentType = "application/json") =>
         {
             HttpClient httpClient = GetHttpClient(options);
+            GuardThatOperationsAreWithinConfinedDomains(url, httpClient.BaseAddress, options);
             StringContent content = new(body, Encoding.UTF8, contentType);
             HttpResponseMessage response = await httpClient.PutAsync(url, content);
             return await FormatResponseAsync(response, options);
@@ -99,6 +102,7 @@ public static class HttpClientTools
         return AIFunctionFactory.Create(async (string url, string body, string contentType = "application/json") =>
         {
             HttpClient httpClient = GetHttpClient(options);
+            GuardThatOperationsAreWithinConfinedDomains(url, httpClient.BaseAddress, options);
             StringContent content = new(body, Encoding.UTF8, contentType);
             HttpResponseMessage response = await httpClient.PatchAsync(url, content);
             return await FormatResponseAsync(response, options);
@@ -117,6 +121,7 @@ public static class HttpClientTools
         return AIFunctionFactory.Create(async (string url) =>
         {
             HttpClient httpClient = GetHttpClient(options);
+            GuardThatOperationsAreWithinConfinedDomains(url, httpClient.BaseAddress, options);
             HttpResponseMessage response = await httpClient.DeleteAsync(url);
             return await FormatResponseAsync(response, options);
         }, toolName ?? "http_delete", toolDescription ?? "Send an HTTP DELETE request to remove data at a URL");
@@ -134,6 +139,7 @@ public static class HttpClientTools
         return AIFunctionFactory.Create(async (string url) =>
         {
             HttpClient httpClient = GetHttpClient(options);
+            GuardThatOperationsAreWithinConfinedDomains(url, httpClient.BaseAddress, options);
             HttpRequestMessage request = new(HttpMethod.Head, url);
             HttpResponseMessage response = await httpClient.SendAsync(request);
             return await FormatResponseAsync(response, options, includeBody: false);
@@ -143,6 +149,68 @@ public static class HttpClientTools
     private static HttpClient GetHttpClient(HttpClientToolsOptions? options)
     {
         return options?.HttpClientFactory?.Invoke() ?? new HttpClient();
+    }
+
+    private static void GuardThatOperationsAreWithinConfinedDomains(string url, Uri? baseAddress, HttpClientToolsOptions? options)
+    {
+        if (options?.ConfinedToTheseDomains == null)
+        {
+            return; //No confinements defined
+        }
+
+        Uri? uri = GetAbsoluteUri(url, baseAddress);
+        if (uri == null)
+        {
+            throw new InvalidOperationException($"Operations on URL '{url}' cannot be validated against allowed domains.");
+        }
+
+        string normalizedHost = uri.Host.TrimEnd('.');
+        foreach (string domain in options.ConfinedToTheseDomains)
+        {
+            string normalizedDomain = NormalizeDomain(domain);
+            if (string.Equals(normalizedHost, normalizedDomain, StringComparison.OrdinalIgnoreCase))
+            {
+                return; //Allowed domain
+            }
+        }
+
+        //If we reach here, then it means that we are not in an allowed domain
+        throw new InvalidOperationException($"Operations on URL '{url}' is not defined as an allowed domain");
+    }
+
+    private static Uri? GetAbsoluteUri(string url, Uri? baseAddress)
+    {
+        if (Uri.TryCreate(url, UriKind.Absolute, out Uri? absoluteUri))
+        {
+            return absoluteUri;
+        }
+
+        if (baseAddress != null && Uri.TryCreate(baseAddress, url, out Uri? uriWithBaseAddress))
+        {
+            return uriWithBaseAddress;
+        }
+
+        return null;
+    }
+
+    private static string NormalizeDomain(string domain)
+    {
+        if (string.IsNullOrWhiteSpace(domain))
+        {
+            return string.Empty;
+        }
+
+        if (Uri.TryCreate(domain, UriKind.Absolute, out Uri? domainUri))
+        {
+            return domainUri.Host.TrimEnd('.');
+        }
+
+        if (Uri.TryCreate($"https://{domain}", UriKind.Absolute, out Uri? domainAsUri))
+        {
+            return domainAsUri.Host.TrimEnd('.');
+        }
+
+        return domain.Trim().TrimEnd('.');
     }
 
     private static async Task<string> FormatResponseAsync(HttpResponseMessage response, HttpClientToolsOptions? options, bool includeBody = true)
@@ -191,6 +259,11 @@ public static class HttpClientTools
 [PublicAPI]
 public class HttpClientToolsOptions
 {
+    /// <summary>
+    /// If set all operations will be checked if they happen on these exact domain names (if not set then no restrictions apply)
+    /// </summary>
+    public IList<string>? ConfinedToTheseDomains { get; set; }
+
     /// <summary>
     /// HTTP Client Factory (if not specified a new HttpClient is generated)
     /// </summary>

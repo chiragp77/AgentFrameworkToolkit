@@ -298,7 +298,7 @@ public static class FileSystemTools
         }
 
         //If we reach here, then it means that we are not in an allowed folder
-        throw new Exception($"Operations on FolderPath '{folderPath}' is not defined as an allowed Path");
+        throw new InvalidOperationException($"Operations on FolderPath '{folderPath}' is not defined as an allowed Path");
     }
 
     private static void CopyDirectory(string sourceFolderPath, string destinationFolderPath, bool overwrite)
