@@ -1,5 +1,11 @@
 # Changelog - Agent Framework Toolkit
 
+## Unreleased
+- Added `RandomTools` (Suggest random number since AI is not good at that)
+- Added `EmailTools` (Send basic SMTP Emails via AI)
+
+---
+
 ## Version 1.0.0-preview.260209.1
 - [BREAKING] Upgraded and fixed breaking changes from Microsoft Agent Framework v.1.0.0-preview.260209.1
 - Added domain confinement options for `HttpClientTools` and `WebsiteTools` to allow restricting calls to exact allowed domains.

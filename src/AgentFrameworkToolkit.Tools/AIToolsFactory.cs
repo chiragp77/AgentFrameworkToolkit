@@ -121,6 +121,32 @@ public class AIToolsFactory
     }
 
     /// <summary>
+    /// Get Random-related Tools
+    /// </summary>
+    /// <param name="options">Optional options</param>
+    /// <returns>Tools</returns>
+    public IList<AITool> GetRandomTools(GetRandomToolsOptions? options = null)
+    {
+        GetRandomToolsOptions optionsToUse = options ?? new GetRandomToolsOptions();
+        List<AITool> result = [];
+        if (optionsToUse.GetRandomInteger)
+        {
+            result.Add(RandomTools.GetRandomInteger(
+                optionsToUse.GetRandomIntegerOptions,
+                optionsToUse.GetRandomIntegerToolName,
+                optionsToUse.GetRandomIntegerToolDescription));
+        }
+        if (optionsToUse.GetRandomDouble)
+        {
+            result.Add(RandomTools.GetRandomDouble(
+                optionsToUse.GetRandomDoubleOptions,
+                optionsToUse.GetRandomDoubleToolName,
+                optionsToUse.GetRandomDoubleToolDescription));
+        }
+        return result;
+    }
+
+    /// <summary>
     /// Get Website-related Tools
     /// </summary>
     /// <param name="options">Optional options</param>
@@ -312,6 +338,25 @@ public class AIToolsFactory
         return result;
     }
 
+    /// <summary>
+    /// Get Email-related Tools
+    /// </summary>
+    /// <param name="options">Optional options</param>
+    /// <returns>Tools</returns>
+    public IList<AITool> GetEmailTools(GetEmailToolsOptions? options = null)
+    {
+        GetEmailToolsOptions optionsToUse = options ?? new GetEmailToolsOptions();
+        List<AITool> result = [];
+        if (optionsToUse.SendEmail)
+        {
+            result.Add(EmailTools.Send(
+                optionsToUse.EmailToolsOptions,
+                optionsToUse.SendEmailToolName,
+                optionsToUse.SendEmailToolDescription));
+        }
+        return result;
+    }
+
     private static IEnumerable<MethodInfo> GetMethodsWithAttribute(Type type)
     {
         MethodInfo[] methods = type.GetMethods(
@@ -390,6 +435,52 @@ public class GetTimeToolsOptions
     /// Optional description override for GetLocalNow tool (Default: null)
     /// </summary>
     public string? GetLocalNowToolDescription { get; set; }
+}
+
+/// <summary>
+/// Options for GetRandomTools method
+/// </summary>
+public class GetRandomToolsOptions
+{
+    /// <summary>
+    /// Include random integer tool (Default: true)
+    /// </summary>
+    public bool GetRandomInteger { get; set; } = true;
+
+    /// <summary>
+    /// Include random double tool (Default: true)
+    /// </summary>
+    public bool GetRandomDouble { get; set; } = true;
+
+    /// <summary>
+    /// Options for random integer tool
+    /// </summary>
+    public GetRandomIntegerOptions? GetRandomIntegerOptions { get; set; }
+
+    /// <summary>
+    /// Options for random double tool
+    /// </summary>
+    public GetRandomDoubleOptions? GetRandomDoubleOptions { get; set; }
+
+    /// <summary>
+    /// Optional name override for random integer tool (Default: null)
+    /// </summary>
+    public string? GetRandomIntegerToolName { get; set; }
+
+    /// <summary>
+    /// Optional description override for random integer tool (Default: null)
+    /// </summary>
+    public string? GetRandomIntegerToolDescription { get; set; }
+
+    /// <summary>
+    /// Optional name override for random double tool (Default: null)
+    /// </summary>
+    public string? GetRandomDoubleToolName { get; set; }
+
+    /// <summary>
+    /// Optional description override for random double tool (Default: null)
+    /// </summary>
+    public string? GetRandomDoubleToolDescription { get; set; }
 }
 
 /// <summary>
@@ -703,4 +794,30 @@ public class GetHttpClientToolsOptions
     /// Optional description override for HEAD tool (Default: null)
     /// </summary>
     public string? HeadToolDescription { get; set; }
+}
+
+/// <summary>
+/// Options for GetEmailTools method
+/// </summary>
+public class GetEmailToolsOptions
+{
+    /// <summary>
+    /// Include send email tool (Default: true)
+    /// </summary>
+    public bool SendEmail { get; set; } = true;
+
+    /// <summary>
+    /// Options for EmailTools
+    /// </summary>
+    public EmailToolsOptions? EmailToolsOptions { get; set; }
+
+    /// <summary>
+    /// Optional name override for send email tool (Default: null)
+    /// </summary>
+    public string? SendEmailToolName { get; set; }
+
+    /// <summary>
+    /// Optional description override for send email tool (Default: null)
+    /// </summary>
+    public string? SendEmailToolDescription { get; set; }
 }

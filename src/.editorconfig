@@ -57,3 +57,8 @@ dotnet_style_qualification_for_event = false:error
 # Enforce: Namespace must match folder structure
 dotnet_style_namespace_match_folder = true:error
 dotnet_diagnostic.IDE0130.severity = error
+
+# Explicitly suppress the 'Use var' diagnostic
+dotnet_diagnostic.IDE0007.severity = none
+# Explicitly enable the 'Use explicit type' diagnostic
+dotnet_diagnostic.IDE0008.severity = error

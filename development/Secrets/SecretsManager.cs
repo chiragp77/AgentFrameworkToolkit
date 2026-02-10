@@ -26,7 +26,9 @@ public class SecretsManager
       "TrelloToken" : "todo",
       "AnthropicApiKey" : "todo",
       "MistralApiKey" : "todo",
-      "AmazonBedrockApiKey" : "todo"
+      "AmazonBedrockApiKey" : "todo",
+      "EmailUsername" : "todo",
+      "EmailPassword" : "todo"
     }
     ************************************************************************************************************************************************
     - See the how-to guides on how to create your Azure Resources in the ReadMe
@@ -58,6 +60,8 @@ public class SecretsManager
         string mistralApiKey = configurationRoot["MistralApiKey"] ?? string.Empty;
         string openWeatherApiKey = configurationRoot["OpenWeatherApiKey"] ?? string.Empty;
         string amazonBedrockApiKey = configurationRoot["AmazonBedrockApiKey"] ?? string.Empty;
+        string emailUsername = configurationRoot["EmailUsername"] ?? string.Empty;
+        string emailPassword = configurationRoot["EmailPassword"] ?? string.Empty;
 
         return new Secrets(
             openAiApiKey,
@@ -80,6 +84,8 @@ public class SecretsManager
             anthropicApiKey,
             mistralApiKey,
             openWeatherApiKey,
-            amazonBedrockApiKey);
+            amazonBedrockApiKey,
+            emailUsername,
+            emailPassword);
     }
 }

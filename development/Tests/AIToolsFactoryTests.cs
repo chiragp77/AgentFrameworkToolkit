@@ -1,4 +1,5 @@
 using AgentFrameworkToolkit.Tools;
+using AgentFrameworkToolkit.Tools.Common;
 using AgentFrameworkToolkit.Tools.ModelContextProtocol;
 using AgentSkillsDotNet;
 using JetBrains.Annotations;
@@ -77,6 +78,50 @@ public class AIToolsFactoryTests
         AIToolsFactory aiToolsFactory = provider.GetRequiredService<AIToolsFactory>();
         IList<AITool> tools = aiToolsFactory.GetTools(typeof(DiTools));
         Assert.Single(tools);
+    }
+
+    [Fact]
+    public void GetRandomTools_Default_ReturnsIntegerAndDecimalTools()
+    {
+        AIToolsFactory factory = new();
+        IList<AITool> tools = factory.GetRandomTools();
+
+        Assert.Equal(2, tools.Count);
+        Assert.Equal("get_random_integer", tools[0].Name);
+        Assert.Equal("get_random_decimal", tools[1].Name);
+    }
+
+    [Fact]
+    public void GetRandomTools_CanDisableDecimalTool()
+    {
+        AIToolsFactory factory = new();
+        IList<AITool> tools = factory.GetRandomTools(new GetRandomToolsOptions
+        {
+            GetRandomInteger = true,
+            GetRandomDouble = false
+        });
+
+        Assert.Single(tools);
+        Assert.Equal("get_random_integer", tools[0].Name);
+    }
+
+    [Fact]
+    public void GetRandomTools_CanOverrideToolName()
+    {
+        AIToolsFactory factory = new();
+        IList<AITool> tools = factory.GetRandomTools(new GetRandomToolsOptions
+        {
+            GetRandomIntegerOptions = new GetRandomIntegerOptions
+            {
+                DefaultMin = 10,
+                DefaultMax = 20
+            },
+            GetRandomIntegerToolName = "random_between_10_and_20",
+            GetRandomDouble = false
+        });
+
+        Assert.Single(tools);
+        Assert.Equal("random_between_10_and_20", tools[0].Name);
     }
 
     [PublicAPI]

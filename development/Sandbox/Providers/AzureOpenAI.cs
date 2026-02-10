@@ -5,6 +5,7 @@ using AgentFrameworkToolkit.Tools;
 using AgentFrameworkToolkit.Tools.Common;
 using Microsoft.Agents.AI;
 using Microsoft.Extensions.AI;
+using OpenAI.Responses;
 using Secrets;
 
 #pragma warning disable OPENAI001
@@ -29,87 +30,27 @@ public static class AzureOpenAI
             Endpoint = secrets.AzureOpenAiEndpoint,
             ApiKey = secrets.AzureOpenAiKey,
         });
-
-        AIToolsFactory toolsFactory = new();
-
-        List<AITool> tools = [];
-        tools.AddRange(toolsFactory.GetHttpClientTools());
-        tools.AddRange(toolsFactory.GetTimeTools());
-        tools.AddRange(toolsFactory.GetWeatherTools(new OpenWeatherMapOptions
-        {
-            ApiKey = secrets.OpenWeatherApiKey
-        }));
-        tools.AddRange(toolsFactory.GetFileSystemTools(new GetFileSystemToolsOptions
-        {
-            FileSystemToolsOptions = new FileSystemToolsOptions
-            {
-                ConfinedToTheseFolderPaths = ["C:\\TestAI"]
-            }
-        }));
-        tools.AddRange(toolsFactory.GetWebsiteTools());
         
-        Agent agent = factory.CreateAgent(new AgentOptions
+        List<AITool> tools = [];
+        tools.AddRange(EmailTools.All(new EmailToolsOptions
         {
-            Instructions = $"Using Trello API Key: '{secrets.TrelloApiKey}' and Token '{secrets.TrelloToken}' - your file operating folder it C:\\TestAI",
-            Model = OpenAIChatModels.Gpt41Nano,
+            Host = "send.one.com",
+            FromAddress = "mail@rwj.dk",
+            ConfineSendingToTheseDomains = ["gmail.com"],
+            FromDisplayName = "RWJ",
+            Port = 587,
+            UseSecureConnection = true,
+            Username = secrets.EmailUsername,
+            Password = secrets.EmailPassword
+        }));
+
+        AzureOpenAIAgent agent = factory.CreateAgent(new AgentOptions
+        {
+            Model = "gpt-4.1-mini",
             Tools = tools,
-            RawToolCallDetails = Console.WriteLine
+            RawToolCallDetails = Console.WriteLine 
         });
 
-        AgentSession session = await agent.CreateSessionAsync();
-        while (true)
-        {
-            Console.Write("> ");
-            string input = Console.ReadLine() ?? "";
-            if (input == "/new")
-            {
-                Console.Clear();
-                session = await agent.CreateSessionAsync();
-                continue;
-            }
-            AgentResponse response = await agent.RunAsync(input, session);
-            Console.WriteLine(response);
-            Console.WriteLine($"(Input: {response.Usage!.InputTokenCount} - Output: {response.Usage.OutputTokenCount})");
-
-
-            Console.WriteLine();
-            Console.WriteLine("---");
-            Console.WriteLine();
-        }
-    }
-
-    static string MyTool()
-    {
-        return "1234";
-    }
-
-    private class MyToolsInType
-    {
-        [AITool("my_type_tool1")]
-        public string MyTypeTool1()
-        {
-            return "42";
-        }
-
-        [AITool("my_type_tool2")]
-        public string MyTypeTool2()
-        {
-            return "999";
-        }
-    }
-
-    private class MyToolsInInstance
-    {
-        [AITool("my_instance_tool1")]
-        public string MyInstanceTool1()
-        {
-            return "42";
-        }
-
-        [AITool("my_instance_tool2")]
-        public string MyInstanceTool2()
-        {
-            return "999";
-        }
+        AgentResponse agentResponse = await agent.RunAsync("send a mail to rwj@relewise.com with a poem about ducks");
     }
 }
