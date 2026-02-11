@@ -3,7 +3,7 @@ namespace AgentFrameworkToolkit.OpenAI;
 /// <summary>
 /// The different OpenAI Service Tiers
 /// </summary>
-public enum OpenAiServiceTier
+public enum OpenAIServiceTier
 {
     /// <summary>
     /// Automatic

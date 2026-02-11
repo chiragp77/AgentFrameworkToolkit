@@ -127,5 +127,5 @@ public class AgentOptions
     /// <summary>
     /// What service Tier to use (Only works for OpenAI directly)
     /// </summary>
-    public OpenAiServiceTier? ServiceTier { get; set; }
+    public OpenAIServiceTier? ServiceTier { get; set; }
 }
