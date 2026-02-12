@@ -1,9 +1,10 @@
 # Changelog - Agent Framework Toolkit
 
-## Unreleased
+## Version 1.0.0-preview.260212.1
 - Added `RandomTools` (Suggest random number since AI is not good at that)
 - Added `EmailTools` (Send basic SMTP Emails via AI)
 - OpenAI: Added option to set `service_tier`
+- Upgraded Google.GenAI NuGet from 0.15.0 to 1.0.0
 
 ---
 

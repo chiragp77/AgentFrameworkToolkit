@@ -20,7 +20,7 @@ public static class OpenAI
             DefaultClientType = ClientType.ResponsesApi
         });
 
-        var agentSkillsFactory = new AgentSkillsFactory();
+        AgentSkillsFactory agentSkillsFactory = new();
         AgentSkills agentSkills = agentSkillsFactory.GetAgentSkills("TestData\\AgentSkills");
         IList<AITool> tools = agentSkills.GetAsTools(AgentSkillsAsToolsStrategy.AvailableSkillsAndLookupTools, new AgentSkillsAsToolsOptions
         {

@@ -88,7 +88,7 @@ public class AIToolsFactoryTests
 
         Assert.Equal(2, tools.Count);
         Assert.Equal("get_random_integer", tools[0].Name);
-        Assert.Equal("get_random_decimal", tools[1].Name);
+        Assert.Equal("get_random_double", tools[1].Name);
     }
 
     [Fact]
