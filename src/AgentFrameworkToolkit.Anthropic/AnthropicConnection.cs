@@ -1,3 +1,4 @@
+using System.Diagnostics.CodeAnalysis;
 using Anthropic;
 using Anthropic.Core;
 
@@ -8,6 +9,24 @@ namespace AgentFrameworkToolkit.Anthropic;
 /// </summary>
 public class AnthropicConnection
 {
+    /// <summary>
+    /// Constructor
+    /// </summary>
+    public AnthropicConnection()
+    {
+        //Empty
+    }
+
+    /// <summary>
+    /// The API Key to be used
+    /// </summary>
+    /// <param name="apiKey"></param>
+    [SetsRequiredMembers]
+    public AnthropicConnection(string apiKey)
+    {
+        ApiKey = apiKey;
+    }
+
     /// <summary>
     /// The API Key to be used
     /// </summary>

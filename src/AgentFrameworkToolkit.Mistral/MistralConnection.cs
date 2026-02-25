@@ -1,3 +1,4 @@
+using System.Diagnostics.CodeAnalysis;
 using JetBrains.Annotations;
 using Mistral.SDK;
 
@@ -9,6 +10,24 @@ namespace AgentFrameworkToolkit.Mistral;
 [PublicAPI]
 public class MistralConnection
 {
+    /// <summary>
+    /// Constructor
+    /// </summary>
+    public MistralConnection()
+    {
+        //Empty
+    }
+
+    /// <summary>
+    /// Constructor
+    /// </summary>
+    /// <param name="apiKey">The API Key to be used</param>
+    [SetsRequiredMembers]
+    public MistralConnection(string apiKey)
+    {
+        ApiKey = apiKey;
+    }
+
     /// <summary>
     /// The API Key to be used
     /// </summary>

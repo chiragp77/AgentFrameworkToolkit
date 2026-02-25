@@ -1,4 +1,5 @@
-﻿using AgentFrameworkToolkit.OpenAI;
+using System.Diagnostics.CodeAnalysis;
+using AgentFrameworkToolkit.OpenAI;
 using JetBrains.Annotations;
 
 namespace AgentFrameworkToolkit.XAI;
@@ -9,6 +10,23 @@ namespace AgentFrameworkToolkit.XAI;
 [PublicAPI]
 public class XAIConnection : OpenAIConnection
 {
+    /// <summary>
+    /// Constructor
+    /// </summary>
+    public XAIConnection()
+    {
+        //Empty
+    }
+
+    /// <summary>
+    /// Constructor
+    /// </summary>
+    /// <param name="apiKey">The API Key to be used</param>
+    [SetsRequiredMembers]
+    public XAIConnection(string apiKey) : base(apiKey)
+    {
+        //Empty
+    }
     /// <summary>
     /// The Default XAI Endpoint
     /// </summary>

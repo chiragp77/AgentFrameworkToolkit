@@ -3,6 +3,7 @@ using Azure.AI.OpenAI;
 using Azure.Core;
 using System.ClientModel;
 using System.ClientModel.Primitives;
+using System.Diagnostics.CodeAnalysis;
 using System.Text.RegularExpressions;
 
 namespace AgentFrameworkToolkit.AzureOpenAI;
@@ -12,6 +13,38 @@ namespace AgentFrameworkToolkit.AzureOpenAI;
 /// </summary>
 public class AzureOpenAIConnection
 {
+    /// <summary>
+    /// Constructor
+    /// </summary>
+    public AzureOpenAIConnection()
+    {
+        //Empty
+    }
+
+    /// <summary>
+    /// Constructor
+    /// </summary>
+    /// <param name="endpoint">The Endpoint of your Azure OpenAI Resource</param>
+    /// <param name="apiKey">The API Key</param>
+    [SetsRequiredMembers]
+    public AzureOpenAIConnection(string endpoint, string apiKey)
+    {
+        Endpoint = endpoint;
+        ApiKey = apiKey;
+    }
+
+    /// <summary>
+    /// Constructor
+    /// </summary>
+    /// <param name="endpoint">The Endpoint of your Azure OpenAI Resource</param>
+    /// <param name="credentials">Credentials for Role-Based Access Control (Example 'DefaultAzureCredential' or 'AzureCliCredential')</param>
+    [SetsRequiredMembers]
+    public AzureOpenAIConnection(string endpoint, TokenCredential credentials)
+    {
+        Endpoint = endpoint;
+        Credentials = credentials;
+    }
+
     /// <summary>
     /// The Default ClientType (ChatClient or ResponsesAPI) to use for Agents
     /// </summary>

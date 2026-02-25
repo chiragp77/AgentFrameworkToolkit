@@ -1,3 +1,4 @@
+using System.Diagnostics.CodeAnalysis;
 using Azure;
 using Azure.AI.Inference;
 using Azure.Core.Pipeline;
@@ -11,6 +12,24 @@ namespace AgentFrameworkToolkit.GitHub;
 [PublicAPI]
 public class GitHubConnection
 {
+    /// <summary>
+    /// Constructor
+    /// </summary>
+    public GitHubConnection()
+    {
+        //Empty
+    }
+
+    /// <summary>
+    /// Constructor
+    /// </summary>
+    /// <param name="accessToken">The GitHub Personal Access Token (fine-grained with Models Access) </param>
+    [SetsRequiredMembers]
+    public GitHubConnection(string accessToken)
+    {
+        AccessToken = accessToken;
+    }
+
     /// <summary>
     /// The GitHub Personal Access Token (fine-grained with Models Access) 
     /// </summary>

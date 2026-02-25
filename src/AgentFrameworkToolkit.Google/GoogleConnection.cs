@@ -10,6 +10,35 @@ namespace AgentFrameworkToolkit.Google;
 public class GoogleConnection
 {
     /// <summary>
+    /// Constructor
+    /// </summary>
+    public GoogleConnection()
+    {
+        //Empty
+    }
+
+    /// <summary>
+    /// Constructor (Gemini)
+    /// </summary>
+    /// <param name="apiKey">Optional String for the <a href="https://ai.google.dev/gemini-api/docs/api-key">API key</a>. Gemini API only.</param>
+    public GoogleConnection(string? apiKey)
+    {
+        ApiKey = apiKey;
+    }
+
+    /// <summary>
+    /// Constructor (Vertex)
+    /// </summary>
+    /// <param name="project">Project ID</param>
+    /// <param name="location">Location</param>
+    public GoogleConnection(string project, string location)
+    {
+        VertexAI = true;
+        Project = project;
+        Location = location;
+    }
+
+    /// <summary>
     /// Optional String for the <a href="https://ai.google.dev/gemini-api/docs/api-key">API key</a>. Gemini API only.
     /// </summary>
     public string? ApiKey { get; set; }
@@ -47,7 +76,7 @@ public class GoogleConnection
     /// <summary>
     /// Get a Raw Client
     /// </summary>
-    /// <returns></returns>
+    /// <returns>The Raw Client</returns>
     public Client GetClient()
     {
         HttpOptions? httpOptions = HttpOptions;

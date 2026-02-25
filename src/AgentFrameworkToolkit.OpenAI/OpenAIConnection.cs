@@ -2,6 +2,7 @@ using JetBrains.Annotations;
 using OpenAI;
 using System.ClientModel;
 using System.ClientModel.Primitives;
+using System.Diagnostics.CodeAnalysis;
 
 namespace AgentFrameworkToolkit.OpenAI;
 
@@ -11,6 +12,24 @@ namespace AgentFrameworkToolkit.OpenAI;
 [PublicAPI]
 public class OpenAIConnection
 {
+    /// <summary>
+    /// Constructor
+    /// </summary>
+    public OpenAIConnection()
+    {
+        //Empty
+    }
+
+    /// <summary>
+    /// Constructor
+    /// </summary>
+    /// <param name="apiKey">The API Key to be used</param>
+    [SetsRequiredMembers]
+    public OpenAIConnection(string apiKey)
+    {
+        ApiKey = apiKey;
+    }
+
     /// <summary>
     /// The Default ClientType (ChatClient or ResponsesAPI) to use for Agents
     /// </summary>

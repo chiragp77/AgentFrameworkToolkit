@@ -14,6 +14,7 @@ public static class OpenAI
     public static async Task RunAsync()
     {
         Secrets.Secrets secrets = SecretsManager.GetSecrets();
+
         OpenAIAgentFactory factory = new(new OpenAIConnection
         {
             ApiKey = secrets.OpenAiApiKey,

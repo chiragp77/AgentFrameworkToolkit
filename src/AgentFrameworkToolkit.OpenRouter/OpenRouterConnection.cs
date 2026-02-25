@@ -1,5 +1,6 @@
-﻿using AgentFrameworkToolkit.OpenAI;
+using AgentFrameworkToolkit.OpenAI;
 using JetBrains.Annotations;
+using System.Diagnostics.CodeAnalysis;
 
 namespace AgentFrameworkToolkit.OpenRouter;
 
@@ -9,6 +10,24 @@ namespace AgentFrameworkToolkit.OpenRouter;
 [PublicAPI]
 public class OpenRouterConnection : OpenAIConnection
 {
+    /// <summary>
+    /// Constructor
+    /// </summary>
+    public OpenRouterConnection()
+    {
+        //Empty
+    }
+
+    /// <summary>
+    /// Constructor
+    /// </summary>
+    /// <param name="apiKey">The API Key to be used</param>
+    [SetsRequiredMembers]
+    public OpenRouterConnection(string apiKey) : base(apiKey)
+    {
+        //Empty
+    }
+
     /// <summary>
     /// The Default OpenRouter Endpoint
     /// </summary>

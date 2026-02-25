@@ -1,3 +1,4 @@
+using System.Diagnostics.CodeAnalysis;
 using Amazon;
 using Amazon.BedrockRuntime;
 using JetBrains.Annotations;
@@ -10,6 +11,25 @@ namespace AgentFrameworkToolkit.AmazonBedrock;
 [PublicAPI]
 public class AmazonBedrockConnection
 {
+    /// <summary>
+    /// Constructor
+    /// </summary>
+    public AmazonBedrockConnection()
+    {
+        //Empty
+    }
+
+    /// <summary>
+    /// Constructor
+    /// </summary>
+    /// <param name="region">AWS region for Amazon Bedrock Runtime</param>
+    /// <param name="apiKey">Amazon Bedrock API key</param>
+    [SetsRequiredMembers]
+    public AmazonBedrockConnection(RegionEndpoint region, string apiKey)
+    {
+        Region = region;
+    }
+
     /// <summary>
     /// Amazon Bedrock API key (Bearer token). It will be applied via the
     /// <c>AWS_BEARER_TOKEN_BEDROCK</c> environment variable if not already defined

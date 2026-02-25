@@ -16,8 +16,9 @@ public static class Anthropic
 //Create your AgentFactory
         AnthropicAgentFactory agentFactory = new AnthropicAgentFactory("<apiKey>");
 
+        AnthropicConnection anthropicConnection = new AnthropicConnection("");
 
-//Create your Agent
+        //Create your Agent
         AIAgent agent = agentFactory.CreateAgent(new AnthropicAgentOptions
         {
             //Mandatory
