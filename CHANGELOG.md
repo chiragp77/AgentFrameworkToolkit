@@ -1,5 +1,12 @@
 # Changelog - Agent Framework Toolkit
 
+## Version 1.16.0 (30th of July 2026)
+- Updated Agent Framework from 1.15.0 to 1.16.0
+- Updated all NuGet packages to the latest
+- Updated the ModelContextProtocol NuGet package from 1.4.1 to 2.0.0
+
+---
+
 ## Version 1.15.0 (23rd of July 2026)
 - Updated Agent Framework from 1.14.0 to 1.15.0
 - Updated all NuGet packages to the latest
