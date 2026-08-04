@@ -1,5 +1,10 @@
 # Changelog - Agent Framework Toolkit
 
+## Unreleased
+- Add Microsoft Foundry HostedAgentFactory
+
+---
+
 ## Version 1.16.1 (3rd of August 2026)
 - Fixed request-specific state leaking between sequential tool-call rounds by returning fresh provider request options for OpenAI, Anthropic, and Google agents
 
