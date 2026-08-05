@@ -1,8 +1,9 @@
 # Changelog - Agent Framework Toolkit
 
-## Unreleased
+## Version 1.17.0 (5th of August 2026)
+- Updated Agent Framework from 1.16.0 to 1.17.0
+- Updated all NuGet packages to the latest
 - Add Microsoft Foundry HostedAgentFactory
-
 ---
 
 ## Version 1.16.1 (3rd of August 2026)
