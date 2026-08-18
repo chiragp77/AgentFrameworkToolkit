@@ -1,5 +1,11 @@
 # Changelog - Agent Framework Toolkit
 
+## Version 1.18.0 (18th of August 2026)
+- Updated Agent Framework from 1.17.0 to 1.18.0
+- Updated all NuGet packages to the latest
+
+---
+
 ## Version 1.17.0 (5th of August 2026)
 - Updated Agent Framework from 1.16.0 to 1.17.0
 - Updated all NuGet packages to the latest

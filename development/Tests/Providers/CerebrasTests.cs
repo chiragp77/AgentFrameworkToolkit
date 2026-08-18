@@ -2,7 +2,7 @@ using AgentFrameworkToolkit.Cerebras;
 using Microsoft.Extensions.DependencyInjection;
 using Secrets;
 
-namespace AgentFrameworkToolkit.Tests.FreeModels;
+namespace AgentFrameworkToolkit.Tests.Providers;
 
 public sealed class CerebrasTests : TestsBase
 {

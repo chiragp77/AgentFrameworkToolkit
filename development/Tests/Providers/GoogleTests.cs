@@ -3,7 +3,7 @@ using Microsoft.Extensions.AI;
 using Microsoft.Extensions.DependencyInjection;
 using Secrets;
 
-namespace AgentFrameworkToolkit.Tests.PaidModels;
+namespace AgentFrameworkToolkit.Tests.Providers;
 
 public sealed class GoogleTests : TestsBase
 {

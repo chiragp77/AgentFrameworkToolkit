@@ -4,7 +4,7 @@ using Microsoft.Extensions.DependencyInjection;
 using Mistral.SDK;
 using Secrets;
 
-namespace AgentFrameworkToolkit.Tests.PaidModels;
+namespace AgentFrameworkToolkit.Tests.Providers;
 
 public sealed class MistralTests : TestsBase
 {

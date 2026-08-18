@@ -1,4 +1,3 @@
-using AgentFrameworkToolkit.AzureOpenAI;
 using AgentFrameworkToolkit.MicrosoftFoundry;
 using AgentFrameworkToolkit.OpenAI;
 using Azure.AI.Projects.Agents;
@@ -10,7 +9,7 @@ using Secrets;
 
 #pragma warning disable OPENAI001
 
-namespace AgentFrameworkToolkit.Tests.PaidModels;
+namespace AgentFrameworkToolkit.Tests.Providers;
 
 public sealed class MicrosoftFoundryTests : TestsBase
 {

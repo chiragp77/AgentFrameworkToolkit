@@ -2,7 +2,7 @@ using AgentFrameworkToolkit.Groq;
 using Microsoft.Extensions.DependencyInjection;
 using Secrets;
 
-namespace AgentFrameworkToolkit.Tests.FreeModels;
+namespace AgentFrameworkToolkit.Tests.Providers;
 
 public sealed class GroqTests : TestsBase
 {
