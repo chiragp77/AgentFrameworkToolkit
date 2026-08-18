@@ -5,6 +5,7 @@
   </PropertyGroup>
   <ItemGroup>
     <!-- Microsoft Agents AI Framework -->
+    <PackageVersion Include="AWS.Bedrock.MEAI" Version="1.0.0" />
     <PackageVersion Include="Microsoft.Agents.AI" Version="1.18.0" />
     <PackageVersion Include="Microsoft.Agents.AI.OpenAI" Version="1.18.0" />
     <PackageVersion Include="Microsoft.Agents.AI.Anthropic" Version="1.18.0-preview.260818.1" />
