@@ -7,7 +7,7 @@ AgentFramework Toolkit ships coordinated releases for all NuGet packages. Only t
 ## Reporting a Vulnerability
 
 1. **Do not** open a public GitHub issue for security problems.
-2. Submit a private report via the GitHub security advisory form: https://github.com/rwjdk/AgentFrameworkToolkit/security/advisories/new
+2. Submit a private report via the GitHub security advisory form: https://github.com/rwjdk/agent-framework-toolkit/security/advisories/new
 3. Include:
    - A clear description of the issue and why it is a vulnerability.
    - Steps to reproduce (including sample code, environment details, and configuration values where possible).

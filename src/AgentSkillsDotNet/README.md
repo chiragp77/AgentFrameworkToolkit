@@ -2,7 +2,7 @@
 
 This is a C# Implementation of the [AgentSkills Format](https://agentskills.io/)
 
-> This is part of [AgentFrameworkToolkit](https://github.com/rwjdk/AgentFrameworkToolkit) but can also be used on its own.
+> This is part of [AgentFrameworkToolkit](https://github.com/rwjdk/agent-framework-toolkit) but can also be used on its own.
 
 ## Getting Started
 1. Install the 'AgentSkillsDotNet' NuGet Package (`dotnet add package AgentSkillsDotNet`)

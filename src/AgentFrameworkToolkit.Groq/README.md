@@ -1,6 +1,6 @@
 # Agent Framework Toolkit @ Groq
 
-> This package targets Groq as an LLM provider. Check out the [general README](https://github.com/rwjdk/AgentFrameworkToolkit/blob/main/README.md) for other providers and shared features in Agent Framework Toolkit.
+> This package targets Groq as an LLM provider. Check out the [general README](https://github.com/rwjdk/agent-framework-toolkit/blob/main/README.md) for other providers and shared features in Agent Framework Toolkit.
 
 ## What is Agent Framework Toolkit?
 

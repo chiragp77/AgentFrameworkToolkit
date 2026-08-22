@@ -5,18 +5,18 @@
 		<Configurations>Debug;Release;Publish</Configurations>
 		<Title>Microsoft Agent Framework</Title>
 		<PackageReadmeFile>README.md</PackageReadmeFile>
-		<RepositoryUrl>https://github.com/rwjdk/AgentFrameworkToolkit</RepositoryUrl>
+		<RepositoryUrl>https://github.com/rwjdk/agent-framework-toolkit</RepositoryUrl>
 		<GenerateDocumentationFile>True</GenerateDocumentationFile>
 		<IsPackable>true</IsPackable>
 		<GeneratePackageOnBuild>true</GeneratePackageOnBuild>
 		<Authors>Rasmus Wulff Jensen</Authors>
 		<Copyright>© RWJDK. All rights reserved.</Copyright>
-		<PackageProjectUrl>https://github.com/rwjdk/AgentFrameworkToolkit/wiki</PackageProjectUrl>
+		<PackageProjectUrl>https://github.com/rwjdk/agent-framework-toolkit/wiki</PackageProjectUrl>
 		<PackageIcon>icon.png</PackageIcon>
 		<PackageTags>microsoft-agent-framework agent-framework-toolkit toolkit microsoft agent framework microsoft.agents.ai</PackageTags>
 		<Company>RWJDK</Company>
 		<PackageLicenseExpression>MIT</PackageLicenseExpression>
-		<PackageReleaseNotes>https://github.com/rwjdk/AgentFrameworkToolkit/blob/main/CHANGELOG.md</PackageReleaseNotes>
+		<PackageReleaseNotes>https://github.com/rwjdk/agent-framework-toolkit/blob/main/CHANGELOG.md</PackageReleaseNotes>
 	</PropertyGroup>
 	<ItemGroup>
 		<None Include="..\..\icon.png">

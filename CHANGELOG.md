@@ -104,8 +104,8 @@
 
 ## Version 1.6.2 (20th of May 2026)
 - Google: Added support for inspecting HttpRawCall Details
-- OpenAI: Added support for the `store` = true/false setting via `StoredOutputEnabled` [#10](https://github.com/rwjdk/AgentFrameworkToolkit/issues/10)
-- Anthropic: Added support for `CacheControlTimeToLive` to control caching strategy. [#62](https://github.com/rwjdk/AgentFrameworkToolkit/issues/62)
+- OpenAI: Added support for the `store` = true/false setting via `StoredOutputEnabled` [#10](https://github.com/rwjdk/agent-framework-toolkit/issues/10)
+- Anthropic: Added support for `CacheControlTimeToLive` to control caching strategy. [#62](https://github.com/rwjdk/agent-framework-toolkit/issues/62)
 
 ---
 
@@ -123,7 +123,7 @@
 
 ## Version 1.4.0 (5th of May 2026)
 - Updated Agent Framework from 1.3.0 to 1.4.0 
-- Fix that AgentSkills License/Compatibility/AllowedTools information was not correctly included ([PR#64](https://github.com/rwjdk/AgentFrameworkToolkit/pull/64) - Thank you to [UrienZhang](https://github.com/UrienZhang))
+- Fix that AgentSkills License/Compatibility/AllowedTools information was not correctly included ([PR#64](https://github.com/rwjdk/agent-framework-toolkit/pull/64) - Thank you to [UrienZhang](https://github.com/UrienZhang))
 - Made Tools, Tools.ModelContextProtocol and AgentSkills dependent on Microsoft.Agents.AI instead of Microsoft.Extensions.AI.Abstractions as latter package tend to be ahead of AF and cause incompatible states.
 - Updated all NuGet packages to the latest
 
@@ -213,7 +213,7 @@
 ## Version 1.0.0-rc1 (21st of Feb 2026)
 - [BREAKING] Upgraded and fixed breaking changes from Microsoft Agent Framework v.1.0-rc1
   - Important Note: AF now has `.RunAsync<T>(...)` directly on AIAgent, which, on paper, makes `AIAgentExtensions.cs` not needed anymore, but due to a bug in RC1 (https://github.com/microsoft/agent-framework/issues/4118) it is currently used as a polyfill for Microsoft's bug. This however, has a side-effect that if you use the AgentFactories, but consume the agents as `AIAgent` I can't serve the polyfill version to you due to new real (buggy) implementation and polyfill have same name. Workaround for this is to consume factor as named Agent (example `OpenAIAgent` or my generic version `Agent` or use the extension method like this `AIAgentExtensions.RunAsync<T>()`). Once Microsoft fix their issue the polyfill workaround can go away and all scenarions will work again
-- AgentSkills: Fixed the body of the skill did not add line breaks ([PR#46](https://github.com/rwjdk/AgentFrameworkToolkit/pull/46) : Thanks to [@visasnouski](https://github.com/) for the fix 👍)
+- AgentSkills: Fixed the body of the skill did not add line breaks ([PR#46](https://github.com/rwjdk/agent-framework-toolkit/pull/46) : Thanks to [@visasnouski](https://github.com/) for the fix 👍)
 
 ---
 
@@ -311,7 +311,7 @@
 ## Version 1.0.0-preview.251230.1
 - Added `OpenAIEmbeddingModels` const-collection of Open AI Embedding Models
 - Exposed `Connection` as a Property on all Factories
-- NuGet: Changed Project URL to be the [Wiki](https://github.com/rwjdk/AgentFrameworkToolkit/wiki)
+- NuGet: Changed Project URL to be the [Wiki](https://github.com/rwjdk/agent-framework-toolkit/wiki)
 - Upgraded 'Google_GenerativeAI.Microsoft' NuGet from 3.4.1 to 3.6.1
 
 ---
@@ -347,13 +347,13 @@
 ---
 
 ## Version 1.0.0-preview.251220.1
-- Fixed that not all OpenAI based `CreateAgent` methods would set the `LoggerFactory`, `ClientFactory` and `Services` (Thank you to [LennartJohansen](https://github.com/LennartJohansen) for pointing it out in [#26](https://github.com/rwjdk/AgentFrameworkToolkit/issues/26)
+- Fixed that not all OpenAI based `CreateAgent` methods would set the `LoggerFactory`, `ClientFactory` and `Services` (Thank you to [LennartJohansen](https://github.com/LennartJohansen) for pointing it out in [#26](https://github.com/rwjdk/agent-framework-toolkit/issues/26)
 
 ---
 
 ## Version 1.0.0-preview.251219.1
-- Added central build management and reorganized project structure (Huge thanks to [gurolg](https://github.com/gurolg) for [PR#24](https://github.com/rwjdk/AgentFrameworkToolkit/pull/24) doing the work)
-- Add [CONTRIBUTING.md](https://github.com/rwjdk/AgentFrameworkToolkit/blob/main/CONTRIBUTING.md) (Again thanks to [gurolg](https://github.com/gurolg))
+- Added central build management and reorganized project structure (Huge thanks to [gurolg](https://github.com/gurolg) for [PR#24](https://github.com/rwjdk/agent-framework-toolkit/pull/24) doing the work)
+- Add [CONTRIBUTING.md](https://github.com/rwjdk/agent-framework-toolkit/blob/main/CONTRIBUTING.md) (Again thanks to [gurolg](https://github.com/gurolg))
 - Bumped `Microsoft.Agents.AI` version to latest (1.0.0-preview.251219.1) to be compatible with [latest breaking changes](https://github.com/microsoft/agent-framework/releases/tag/dotnet-1.0.0-preview.251219.1)
   - Removed Agent Display name as AF does not have it anymore
   - Remove Agent ID as an override, as it is not overridable anymore 

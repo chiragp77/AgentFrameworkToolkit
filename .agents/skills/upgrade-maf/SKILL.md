@@ -5,7 +5,7 @@ description: Upgrade AgentFrameworkToolkit to a new Microsoft Agent Framework re
 
 # Upgrade Microsoft Agent Framework
 
-Perform the upgrade in two phases with a mandatory user-confirmation hold after each phase.
+Perform the upgrade in three phases. Hold after Phase 1 before committing the toolkit, and hold after Phase 2 before upgrading dependent repositories.
 
 ## Initial inspection
 
@@ -108,7 +108,7 @@ Upgrade Microsoft Agent Framework to <version>
 ### Prepare the GitHub release
 
 1. Use the Chrome browser skill and the user's existing signed-in Chrome session.
-2. Open `https://github.com/rwjdk/AgentFrameworkToolkit/releases`.
+2. Open `https://github.com/rwjdk/agent-framework-toolkit/releases`.
 3. Inspect the immediately previous release and reproduce its tag, title, and body conventions.
 4. Open the new-release form and prepare:
    - Tag: `<version>`, targeting the pushed branch (normally `main`)
@@ -127,3 +127,61 @@ GitHub creates a newly entered release tag when the release is published. State 
 Stop with the prepared form open. Report the commit, push, selected tag, title, release-note content, and label.
 
 The user must review and press **Publish release**. Never publish on their behalf unless they issue a new, explicit instruction to do so.
+
+## Phase 3: Upgrade dependent repositories
+
+Proceed only after the user explicitly approves Phase 3. The user may approve it independently of publishing the prepared GitHub release.
+
+### Discover repositories
+
+1. Inspect immediate child directories of `X:\` that are Git repositories.
+2. Exclude:
+   - The current `agent-framework-toolkit` repository and its wiki repository.
+   - The upstream `agent-framework` source repository, whose framework references are normally project references rather than NuGet consumption.
+   - The `extensions` repository.
+3. Read each candidate repository's applicable `AGENTS.md` or equivalent repository instructions.
+4. Include only repositories with actual NuGet `PackageReference` or `PackageVersion` entries for at least one of:
+   - `Microsoft.Agents.AI` or any package whose ID starts with `Microsoft.Agents.AI.`
+   - `AgentFrameworkToolkit` or any package whose ID starts with `AgentFrameworkToolkit.`
+   - `AgentSkillsDotNet`, which is part of AgentFrameworkToolkit.
+5. Inspect every included repository's branch, upstream, remotes, working-tree status, package-version structure, and build entry point. Preserve unrelated changes, including changes that overlap a package file.
+
+### Update scoped packages only
+
+1. Query NuGet live for every matching package. Do not rely on cached knowledge.
+2. Update only the Agent Framework and AgentFrameworkToolkit packages listed above. Ignore every other NuGet package, even when a newer version is available.
+3. Never cross a major-version boundary.
+4. For packages currently on a stable release, use the latest stable version in the current major. For packages currently on a prerelease, allow the latest prerelease in the current major.
+5. Set all `AgentFrameworkToolkit.*` packages and `AgentSkillsDotNet` to the new stable toolkit version produced by Phase 1 when that version exists on NuGet.
+6. Leave a matching package unchanged when NuGet has no newer eligible version.
+7. Preserve central package management where a repository uses it. Do not move versions between files or change unrelated package declarations.
+
+### Build, commit, and push each repository
+
+Process every included repository independently:
+
+1. Build using its repository-native instructions and widest practical solution or build entry point. When a repository contains multiple relevant solutions, build all of them.
+2. If the build fails:
+   - Do not make compatibility fixes.
+   - Do not commit or push that repository.
+   - Leave its package edits uncommitted and record the exact failure.
+   - Continue processing the other repositories.
+3. If the build succeeds:
+   - Recheck the diff and status.
+   - Stage only the scoped package-version edits. Do not stage unrelated user changes, even when they are in the same files.
+   - Commit with a concise message such as `Upgrade Agent Framework packages to <version>`.
+   - Push the current branch to its configured upstream.
+   - Record the build result, commit hash, and push destination.
+4. Confirm excluded repositories remain untouched and every successfully pushed repository is clean and synchronized with its upstream.
+
+## Hold 3: Completion report
+
+Report:
+
+- Every repository discovered and whether it was included or excluded.
+- Package upgrades performed in each included repository.
+- Build result and warning/error counts for each included repository.
+- Commit hash and push destination for each successfully built repository.
+- Every failed or uncommitted repository with the exact reason.
+- Matching packages intentionally left unchanged because no newer eligible version existed.
+- Any unrelated pre-existing changes that remain uncommitted.

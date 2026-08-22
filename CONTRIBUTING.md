@@ -33,7 +33,7 @@ AgentFrameworkToolkit/
 ### 1. Clone the Repository
 
 ```bash
-git clone https://github.com/rwjdk/AgentFrameworkToolkit.git
+git clone https://github.com/rwjdk/agent-framework-toolkit.git
 cd AgentFrameworkToolkit
 ```
 
@@ -244,8 +244,8 @@ public void CreateAgent_WithValidOptions_ReturnsAgent()
 
 ## Questions or Issues?
 
-- **Bugs**: [Open an issue](https://github.com/rwjdk/AgentFrameworkToolkit/issues/new)
-- **Questions**: [Start a discussion](https://github.com/rwjdk/AgentFrameworkToolkit/discussions)
+- **Bugs**: [Open an issue](https://github.com/rwjdk/agent-framework-toolkit/issues/new)
+- **Questions**: [Start a discussion](https://github.com/rwjdk/agent-framework-toolkit/discussions)
 
 ## License
 
