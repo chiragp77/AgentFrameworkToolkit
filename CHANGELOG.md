@@ -1,6 +1,8 @@
 # Changelog - Agent Framework Toolkit
 
-## Unreleased
+## Version 1.19.0 (22nd of August 2026)
+- Updated Agent Framework from 1.18.0 to 1.19.0
+- Updated all NuGet packages to the latest
 - Moved from deprecated 'AWSSDK.Extensions.Bedrock.MEAI' NuGet to the new 'AWS.Bedrock.MEAI' NuGet
 
 ---

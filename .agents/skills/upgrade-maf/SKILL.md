@@ -27,13 +27,14 @@ Perform the upgrade in two phases with a mandatory user-confirmation hold after 
 
 1. Query NuGet for the current latest versions; do not rely on cached knowledge.
 2. Update every centrally declared or directly referenced NuGet package, including packages used only by `development`.
-3. Use the latest available version with these prerelease rules:
+3. Never upgrade a package across a major-version boundary. "Latest" means the latest eligible version within the package's currently referenced major version. If the requested Agent Framework target crosses a major-version boundary, stop and report the conflict instead of upgrading.
+4. Use the latest available version with these prerelease rules:
    - Allow prereleases for `Microsoft.Agents.AI.Anthropic`.
    - Allow prereleases for `Microsoft.Agents.AI.Foundry`.
    - Allow prereleases for `Azure.AI.OpenAI`.
    - Require stable releases for every other package, including `Microsoft.Agents.AI` and `Microsoft.Agents.AI.OpenAI`.
-4. Keep versions centralized in `Directory.Packages.props`. Do not add inline versions to project files.
-5. Make only the package-version edits required by the upgrade.
+5. Keep versions centralized in `Directory.Packages.props`. Do not add inline versions to project files.
+6. Make only the package-version edits required by the upgrade.
 
 ### Build
 
@@ -51,12 +52,13 @@ Do not mistake a command-wrapper timeout or a transient overlapping-build file-l
 
 Only after a successful build:
 
-1. Add a new entry at the top of `CHANGELOG.md`, matching the existing date and separator style:
+1. Convert the top `## Unreleased` section into the new release entry: replace the `Unreleased` heading with the version heading, preserve every existing unreleased bullet, add the two upgrade bullets, and keep exactly one separator after the combined entry. If no `Unreleased` section exists, add the release entry at the top. Match the existing date and separator style:
 
 ```markdown
 ## Version <new-version> (<ordinal date>)
 - Updated Agent Framework from <old-version> to <new-version>
 - Updated all NuGet packages to the latest
+- <all bullets preserved from the former Unreleased section, when present>
 
 ---
 ```
