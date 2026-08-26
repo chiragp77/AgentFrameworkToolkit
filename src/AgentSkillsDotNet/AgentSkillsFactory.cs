@@ -6,6 +6,30 @@ namespace AgentSkillsDotNet;
 public class AgentSkillsFactory
 {
     /// <summary>
+    /// Get a set of Agent Skills from the given set of folder and its sub-folders of skills
+    /// </summary>
+    /// <param name="folderPaths">The Local folders with skills sub-folders</param>
+    /// <param name="options">Options when getting skills</param>
+    /// <returns>The skills found</returns>
+    public AgentSkills GetAgentSkills(IEnumerable<string> folderPaths, AgentSkillsOptions? options = null)
+    {
+        List<AgentSkill> allSkills = [];
+        List<string> allExcluded = [];
+        List<string> paths = folderPaths.ToList();
+        foreach (string folderPath in paths)
+        {
+            AgentSkills skills = GetAgentSkills(folderPath, options);
+            allSkills.AddRange(skills.Skills);
+            allExcluded.AddRange(skills.ExcludedSkillsLog);
+        }
+        return new AgentSkills
+        {
+            Skills = allSkills,
+            ExcludedSkillsLog = allExcluded
+        };
+    }
+
+    /// <summary>
     /// Get a set of Agent Skills from the given folder and its sub-folders of skills
     /// </summary>
     /// <param name="folderPath">The Local folder with skills sub-folders</param>

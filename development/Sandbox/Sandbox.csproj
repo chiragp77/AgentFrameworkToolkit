@@ -54,7 +54,7 @@
     <None Update="TestData\AgentSkills\secret-formulas\SKILL.md">
       <CopyToOutputDirectory>PreserveNewest</CopyToOutputDirectory>
     </None>
-    <None Update="TestData\AgentSkills\speak-like-a-pirate\SKILL.md">
+    <None Update="TestData\SecondFolder\speak-like-a-pirate\SKILL.md">
       <CopyToOutputDirectory>PreserveNewest</CopyToOutputDirectory>
     </None>
   </ItemGroup>

@@ -1,11 +1,47 @@
+using System;
+using System.Collections.Generic;
 using System.Text;
 using AgentFrameworkToolkit.Tools;
+using AgentSkillsDotNet;
+using Microsoft.Extensions.AI;
 using Sandbox.Providers;
 
 #pragma warning disable CS8321 // Local function is declared but never used
 Console.Clear();
 
 Console.OutputEncoding = Encoding.UTF8;
+
+
+AgentSkills allSkills = new AgentSkillsFactory().GetAgentSkills("TestData");
+
+string instructionsAll = allSkills.GetInstructions();
+IList<AITool> toolsAll = allSkills.GetAsTools();
+
+AgentSkills folder1Skills = new AgentSkillsFactory().GetAgentSkills("TestData\\AgentSkills");
+AgentSkills folder2Skills = new AgentSkillsFactory().GetAgentSkills("TestData\\SecondFolder");
+
+AgentSkills combined = new AgentSkills
+{
+    Skills = [..folder1Skills.Skills, ..folder2Skills.Skills ],
+    ExcludedSkillsLog = [..folder1Skills.ExcludedSkillsLog, ..folder2Skills.ExcludedSkillsLog]
+};
+
+string instructionsCombined = combined.GetInstructions();
+IList<AITool> toolsCombines = combined.GetAsTools();
+
+//New option from next release
+AgentSkills twoSourceSkills = new AgentSkillsFactory().GetAgentSkills(
+    [
+        "TestData\\AgentSkills",
+        "TestData\\SecondFolder"
+    ]);
+
+string instructionsTwoSource = twoSourceSkills.GetInstructions();
+IList<AITool> toolsTwoSources = twoSourceSkills.GetAsTools();
+
+
+
+
 //await Sandbox.Providers.AnthropicDemo.RunAsync();
 await Sandbox.Providers.MicrosoftFoundry.RunAsync();
 //await Sandbox.Providers.AmazonBedrock.RunAsync();
@@ -17,6 +53,7 @@ await Sandbox.Providers.MicrosoftFoundry.RunAsync();
 //await Sandbox.Providers.XAI.RunAsync();
 //await Sandbox.Providers.OpenRouter.RunAsync();
 //await Sandbox.Providers.Cerebras.RunAsync();
+
 
 Console.WriteLine("Done");
 return;
