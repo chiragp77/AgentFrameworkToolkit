@@ -1,6 +1,6 @@
-[![GitHub Actions Workflow Status](https://img.shields.io/github/actions/workflow/status/rwjdk/AgentFrameworkToolkit/Build.yml?style=for-the-badge)](https://github.com/rwjdk/agent-framework-toolkit/actions)
-[![GitHub Issues or Pull Requests by label](https://img.shields.io/github/issues/rwjdk/AgentFrameworkToolkit/bug?style=for-the-badge&label=Bugs)](https://github.com/rwjdk/agent-framework-toolkit/issues?q=is%3Aissue%20state%3Aopen%20label%3Abug)
-[![Libraries.io dependency status for GitHub repo](https://img.shields.io/librariesio/github/rwjdk/AgentFrameworkToolkit?style=for-the-badge)](https://github.com/rwjdk/agent-framework-toolkit/network/dependencies)
+[![GitHub Actions Workflow Status](https://img.shields.io/github/actions/workflow/status/rwjdk/agent-framework-toolkit/Build.yml?style=for-the-badge)](https://github.com/rwjdk/agent-framework-toolkit/actions)
+[![GitHub Issues or Pull Requests by label](https://img.shields.io/github/issues/rwjdk/agent-framework-toolkit/bug?style=for-the-badge&label=Bugs)](https://github.com/rwjdk/agent-framework-toolkit/issues?q=is%3Aissue%20state%3Aopen%20label%3Abug)
+[![Libraries.io dependency status for GitHub repo](https://img.shields.io/librariesio/github/rwjdk/agent-framework-toolkit?style=for-the-badge)](https://github.com/rwjdk/agent-framework-toolkit/network/dependencies)
 
 # Agent Framework Toolkit
 ### Welcome to Agent Framework Toolkit; An opinionated C# Wrapper for [Microsoft Agent Framework](https://github.com/microsoft/agent-framework) that makes life easier
