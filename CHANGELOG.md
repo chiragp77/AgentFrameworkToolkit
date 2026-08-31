@@ -1,6 +1,8 @@
 # Changelog - Agent Framework Toolkit
 
-## Unreleased
+## Version 1.20.0 (31st of August 2026)
+- Updated Agent Framework from 1.19.0 to 1.20.0
+- Updated all NuGet packages to the latest
 - Added options to point `AgentSkillsFactory` >  `GetAgentSkills(...)` to multiple folders to collect skills from multiple sources
 
 ---
