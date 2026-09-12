@@ -4,9 +4,9 @@ using AgentFrameworkToolkit.AzureOpenAI;
 using AgentFrameworkToolkit.AzureOpenAI.Batching;
 using AgentFrameworkToolkit.OpenAI;
 using AgentFrameworkToolkit.OpenAI.Batching;
-using Azure.AI.OpenAI;
 using Microsoft.Agents.AI;
 using Microsoft.Extensions.AI;
+using OpenAI;
 using OpenAI.Responses;
 using Secrets;
 #pragma warning disable OPENAI001
@@ -26,15 +26,9 @@ public static class AzureOpenAI
     public static async Task RunAsync()
     {
         Secrets.Secrets secrets = SecretsManager.GetSecrets();
-
-        AzureOpenAIClient client = new AzureOpenAIClient(new Uri(secrets.AzureOpenAiEndpoint), new ApiKeyCredential(secrets.AzureOpenAiKey));
-        ChatClientAgent agent2 = client.GetResponsesClient().AsAIAgent(model: "gpt-4.1");
-        AgentResponse agentResponse = await agent2.RunAsync("Hello");
-
-
         AzureOpenAIConnection connection = new AzureOpenAIConnection
         {
-            Endpoint = secrets.AzureOpenAiEndpoint,
+            Endpoint = "https://sensum365ai.openai.azure.com/openai/v1/",
             ApiKey = secrets.AzureOpenAiKey,
         };
         
@@ -42,13 +36,12 @@ public static class AzureOpenAI
 
         AzureOpenAIAgent agent = factory.CreateAgent(new AgentOptions
         {
-            Model = "gpt-5-mini",
+            Model = "gpt-5.6-luna",
             ReasoningEffort = OpenAIReasoningEffort.Low,
             ClientType = ClientType.ResponsesApi,
             
             RawToolCallDetails = Console.WriteLine
         });
-
         AgentSession session = await agent.CreateSessionAsync();
 
         AgentResponse response = await agent.RunAsync("What is the capital of France?", session);
