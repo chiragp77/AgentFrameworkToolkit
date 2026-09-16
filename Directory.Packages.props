@@ -17,7 +17,7 @@
     <PackageVersion Include="Microsoft.Extensions.Configuration.UserSecrets" Version="10.0.12" />
     <PackageVersion Include="Microsoft.Extensions.DependencyInjection.Abstractions" Version="10.0.12" />
     <!-- Third-party AI SDKs -->
-    <PackageVersion Include="Google.GenAI" Version="1.21.0" />
+    <PackageVersion Include="Google.GenAI" Version="1.21.1" />
     <PackageVersion Include="Anthropic" Version="12.47.0" />
     <PackageVersion Include="Mistral.SDK" Version="2.3.1" />
     <PackageVersion Include="ModelContextProtocol" Version="2.2.0" />
@@ -26,7 +26,7 @@
     <!-- Code analysis -->
     <PackageVersion Include="JetBrains.Annotations" Version="2026.2.0" />
     <!-- Testing -->
-    <PackageVersion Include="Microsoft.NET.Test.Sdk" Version="18.10.0" />
+    <PackageVersion Include="Microsoft.NET.Test.Sdk" Version="18.10.1" />
     <PackageVersion Include="xunit.v3" Version="3.2.2" />
     <PackageVersion Include="xunit.runner.visualstudio" Version="3.1.5" />
     <PackageVersion Include="OpenTelemetry" Version="1.18.0" />
