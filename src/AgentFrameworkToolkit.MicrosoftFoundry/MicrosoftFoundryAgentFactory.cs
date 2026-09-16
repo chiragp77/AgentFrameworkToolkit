@@ -81,7 +81,7 @@ public class MicrosoftFoundryAgentFactory
     /// <returns>The Agent</returns>
     public MicrosoftFoundryAgent CreateAgent(AgentOptions options)
     {
-        AIProjectClient client = Connection.GetClient(options.RawHttpCallDetails);
+        AIProjectClient client = Connection.GetClient(options.RawHttpCallDetails, options);
         ChatClientAgent innerAgent = OpenAIAgentFactory.GetChatClientAgent(options, client.ProjectOpenAIClient, options.Model, Connection.DefaultClientType);
         return new MicrosoftFoundryAgent(MiddlewareHelper.ApplyMiddleware(
             innerAgent,

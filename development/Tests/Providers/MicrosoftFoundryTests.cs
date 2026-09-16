@@ -3,6 +3,7 @@ using AgentFrameworkToolkit.OpenAI;
 using Azure.AI.Projects.Agents;
 using Azure.Identity;
 using JetBrains.Annotations;
+using Microsoft.Agents.AI;
 using Microsoft.Extensions.AI;
 using Microsoft.Extensions.DependencyInjection;
 using Secrets;
@@ -54,6 +55,40 @@ public sealed class MicrosoftFoundryTests : TestsBase
 
     [Fact]
     public Task AgentFactory_StructuredOutput_ResponsesApi() => StructuredOutputAgentTestsAsync(AgentProvider.MicrosoftFoundryResponsesApi);
+
+    [Fact]
+    public async Task AgentFactory_ImageGeneration_ResponsesApi()
+    {
+        Secrets.Secrets secrets = SecretsManager.GetSecrets();
+        MicrosoftFoundryAgentFactory factory = new(new MicrosoftFoundryConnection
+        {
+            Endpoint = secrets.MicrosoftFoundryEndpoint,
+            AuthenticationTokenProvider = new AzureCliCredential(),
+            DefaultClientType = ClientType.ResponsesApi,
+            NetworkTimeout = TimeSpan.FromMinutes(5)
+        });
+        MicrosoftFoundryAgent agent = factory.CreateAgent(new AgentOptions
+        {
+            Model = OpenAIChatModels.Gpt5Nano,
+            Tools = [new HostedImageGenerationTool
+            {
+                Options = new ImageGenerationOptions
+                {
+                    ModelId = "gpt-image-1",
+                    MediaType = "image/png"
+                }
+            }]
+        });
+
+        AgentResponse response = await agent.RunAsync(
+            "Create a simple image of a red circle on a white background.",
+            cancellationToken: TestContext.Current.CancellationToken);
+
+        Assert.Contains(
+            response.Messages.SelectMany(message => message.Contents),
+            content => content is ImageGenerationToolResultContent result &&
+                       result.Outputs?.Any(output => output is DataContent data && !data.Data.IsEmpty) == true);
+    }
 
     [Fact]
     public async Task AgentFactory_DependencyInjection()

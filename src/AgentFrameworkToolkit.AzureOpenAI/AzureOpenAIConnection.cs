@@ -90,6 +90,11 @@ public class AzureOpenAIConnection
     /// <returns>The Raw Client</returns>
     public OpenAIClient GetClient(Action<RawCallDetails>? rawHttpCallDetails = null)
     {
+        return GetClient(rawHttpCallDetails, null);
+    }
+
+    internal OpenAIClient GetClient(Action<RawCallDetails>? rawHttpCallDetails, AgentOptions? agentOptions)
+    {
         OpenAIClientOptions openAIClientOptions = new()
         {
             Endpoint = new Uri($"{GetEndpointUrl().TrimEnd('/')}/openai/v1/"),
@@ -104,6 +109,11 @@ public class AzureOpenAIConnection
         }
 
         AdditionalOpenAIClientOptions?.Invoke(openAIClientOptions);
+
+        if (agentOptions != null)
+        {
+            AzureImageGenerationSupport.Configure(openAIClientOptions, agentOptions, DefaultClientType);
+        }
 
         if (!string.IsNullOrWhiteSpace(ApiKey))
         {

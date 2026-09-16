@@ -82,7 +82,7 @@ public class AzureOpenAIAgentFactory
     /// <returns>The Agent</returns>
     public AzureOpenAIAgent CreateAgent(AgentOptions options)
     {
-        OpenAIClient client = Connection.GetClient(options.RawHttpCallDetails);
+        OpenAIClient client = Connection.GetClient(options.RawHttpCallDetails, options);
         ChatClientAgent innerAgent = OpenAIAgentFactory.GetChatClientAgent(options, client, options.Model, Connection.DefaultClientType);
         return new AzureOpenAIAgent(MiddlewareHelper.ApplyMiddleware(
             innerAgent,

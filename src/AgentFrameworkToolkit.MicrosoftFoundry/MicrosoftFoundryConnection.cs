@@ -68,6 +68,11 @@ public class MicrosoftFoundryConnection
     /// <returns>The Raw Client</returns>
     public AIProjectClient GetClient(Action<RawCallDetails>? rawHttpCallDetails = null)
     {
+        return GetClient(rawHttpCallDetails, null);
+    }
+
+    internal AIProjectClient GetClient(Action<RawCallDetails>? rawHttpCallDetails, AgentOptions? agentOptions)
+    {
         AIProjectClientOptions options = new()
         {
             NetworkTimeout = NetworkTimeout
@@ -81,6 +86,11 @@ public class MicrosoftFoundryConnection
         }
 
         AdditionalProjectClientOptions?.Invoke(options);
+
+        if (agentOptions != null)
+        {
+            AzureImageGenerationSupport.Configure(options, agentOptions, DefaultClientType);
+        }
 
         return new AIProjectClient(
             new Uri(Endpoint),
