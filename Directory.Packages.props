@@ -6,10 +6,10 @@
   <ItemGroup>
     <!-- Microsoft Agents AI Framework -->
     <PackageVersion Include="AWS.Bedrock.MEAI" Version="1.0.0" />
-    <PackageVersion Include="Microsoft.Agents.AI" Version="1.21.0" />
-    <PackageVersion Include="Microsoft.Agents.AI.OpenAI" Version="1.21.0" />
-    <PackageVersion Include="Microsoft.Agents.AI.Anthropic" Version="1.21.0-preview.260911.1" />
-    <PackageVersion Include="Microsoft.Agents.AI.Foundry" Version="1.21.0-preview.260911.1" />
+    <PackageVersion Include="Microsoft.Agents.AI" Version="1.22.0" />
+    <PackageVersion Include="Microsoft.Agents.AI.OpenAI" Version="1.22.0" />
+    <PackageVersion Include="Microsoft.Agents.AI.Anthropic" Version="1.22.0-preview.260918.1" />
+    <PackageVersion Include="Microsoft.Agents.AI.Foundry" Version="1.22.0-preview.260918.1" />
     <!-- Azure -->
     <PackageVersion Include="Azure.Identity" Version="1.21.0" />
     <!-- Microsoft Extensions -->
@@ -18,10 +18,10 @@
     <PackageVersion Include="Microsoft.Extensions.DependencyInjection.Abstractions" Version="10.0.12" />
     <!-- Third-party AI SDKs -->
     <PackageVersion Include="Google.GenAI" Version="1.21.1" />
-    <PackageVersion Include="Anthropic" Version="12.47.0" />
+    <PackageVersion Include="Anthropic" Version="12.49.0" />
     <PackageVersion Include="Mistral.SDK" Version="2.3.1" />
     <PackageVersion Include="ModelContextProtocol" Version="2.2.0" />
-    <PackageVersion Include="AWSSDK.BedrockRuntime" Version="4.0.101.6" />
+    <PackageVersion Include="AWSSDK.BedrockRuntime" Version="4.0.101.7" />
     <PackageVersion Include="AWSSDK.Extensions.Bedrock.MEAI" Version="4.0.101.8" />
     <!-- Code analysis -->
     <PackageVersion Include="JetBrains.Annotations" Version="2026.2.0" />
@@ -29,8 +29,8 @@
     <PackageVersion Include="Microsoft.NET.Test.Sdk" Version="18.10.1" />
     <PackageVersion Include="xunit.v3" Version="3.2.2" />
     <PackageVersion Include="xunit.runner.visualstudio" Version="3.1.5" />
-    <PackageVersion Include="OpenTelemetry" Version="1.18.0" />
-    <PackageVersion Include="OpenTelemetry.Exporter.Console" Version="1.18.0" />
+    <PackageVersion Include="OpenTelemetry" Version="1.19.0" />
+    <PackageVersion Include="OpenTelemetry.Exporter.Console" Version="1.19.0" />
     <!-- SourceLink for symbol packages -->
     <PackageVersion Include="Microsoft.SourceLink.GitHub" Version="10.0.401" />
   </ItemGroup>

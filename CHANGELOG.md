@@ -1,6 +1,8 @@
 # Changelog - Agent Framework Toolkit
 
-## Unreleased
+## Version 1.22.0 (18th of September 2026)
+- Updated Agent Framework from 1.21.0 to 1.22.0
+- Updated all NuGet packages to the latest
 - Added automatic Azure image generation deployment header configuration for Responses API agents using `HostedImageGenerationTool` in the Azure OpenAI and Microsoft Foundry providers.
 
 ---
