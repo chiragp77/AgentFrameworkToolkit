@@ -1,5 +1,10 @@
 # Changelog - Agent Framework Toolkit
 
+## Unreleased
+- Updated model name constants across providers.
+
+---
+
 ## Version 1.22.0 (18th of September 2026)
 - Updated Agent Framework from 1.21.0 to 1.22.0
 - Updated all NuGet packages to the latest
@@ -208,7 +213,7 @@
 - Updated Google.GenAI from 1.2.0 to 1.3.0
 
 ---
- 
+
 ## Version 1.0.0-rc3.1 (8th of March 2026)
 - Anthropic: Added Support for Structured Output (custom implementation, as Anthropic does not adhere to common practice, but the outcome is the same).
 - Update the various Model Constants with the latest releases

@@ -9,6 +9,16 @@ namespace AgentFrameworkToolkit.XAI;
 public static class XAIChatModels
 {
     /// <summary>
+    /// Grok 4.7
+    /// </summary>
+    public const string Grok47 = "grok-4.7";
+
+    /// <summary>
+    /// Grok 4.6
+    /// </summary>
+    public const string Grok46 = "grok-4.6";
+
+    /// <summary>
     /// Grok 4.5 
     /// </summary>
     public const string Grok45 = "grok-4.5";

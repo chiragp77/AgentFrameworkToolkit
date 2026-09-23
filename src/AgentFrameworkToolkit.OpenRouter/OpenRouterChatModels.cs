@@ -15,10 +15,20 @@ public static class OpenRouterChatModels
     public static class XAI
     {
         /// <summary>
+        /// Grok 4.7
+        /// </summary>
+        public const string Grok47 = "x-ai/grok-4.7";
+
+        /// <summary>
+        /// Grok 4.6
+        /// </summary>
+        public const string Grok46 = "x-ai/grok-4.6";
+
+        /// <summary>
         /// Grok 4.5 
         /// </summary>
         public const string Grok45 = "x-ai/grok-4.5";
-        
+
         /// <summary>
         /// Grok 4.1 Fast (Reasoning)
         /// </summary>
@@ -71,6 +81,21 @@ public static class OpenRouterChatModels
     [PublicAPI]
     public static class Anthropic
     {
+        /// <summary>
+        /// Claude Opus 5.5
+        /// </summary>
+        public const string ClaudeOpus55 = "anthropic/claude-opus-5.5";
+
+        /// <summary>
+        /// Claude Opus 5
+        /// </summary>
+        public const string ClaudeOpus5 = "anthropic/claude-opus-5";
+
+        /// <summary>
+        /// Claude Fable 5.1
+        /// </summary>
+        public const string ClaudeFable51 = "anthropic/claude-fable-5.1";
+
         /// <summary>
         /// Claude Sonnet 3.5
         /// </summary>
@@ -136,7 +161,7 @@ public static class OpenRouterChatModels
         /// Claude Fable 5
         /// </summary>
         public const string ClaudeFable5 = "anthropic/claude-fable-5";
-        
+
         /// <summary>
         /// Claude Haiku 3.5
         /// </summary>
@@ -160,17 +185,37 @@ public static class OpenRouterChatModels
     public static class OpenAI
     {
         /// <summary>
-        /// GPT-5.4 (Reasoning)
+        /// GPT-6 Astra (Reasoning)
+        /// </summary>
+        public const string Gpt6Astra = "openai/gpt-6-astra";
+
+        /// <summary>
+        /// GPT-6 Sol (Reasoning)
+        /// </summary>
+        public const string Gpt6Sol = "openai/gpt-6-sol";
+
+        /// <summary>
+        /// GPT-6 Luna (Reasoning)
+        /// </summary>
+        public const string Gpt6Luna = "openai/gpt-6-luna";
+
+        /// <summary>
+        /// GPT-5.5 Pro (Reasoning)
+        /// </summary>
+        public const string Gpt55Pro = "openai/gpt-5.5-pro";
+
+        /// <summary>
+        /// GPT-5.6 Sol (Reasoning)
         /// </summary>
         public const string Gpt56Sol = "openai/gpt-5.6-sol";
 
         /// <summary>
-        /// GPT-5.4 (Reasoning)
+        /// GPT-5.6 Terra (Reasoning)
         /// </summary>
         public const string Gpt56Terra = "openai/gpt-5.6-terra";
 
         /// <summary>
-        /// GPT-5.4 (Reasoning)
+        /// GPT-5.6 Luna (Reasoning)
         /// </summary>
         public const string Gpt56Luna = "openai/gpt-5.6-luna";
 
@@ -277,6 +322,36 @@ public static class OpenRouterChatModels
     public static class Google
     {
         /// <summary>
+        /// Gemini 3.8 Flash
+        /// </summary>
+        public const string Gemini38Flash = "google/gemini-3.8-flash";
+
+        /// <summary>
+        /// Gemini 3.7 Flash
+        /// </summary>
+        public const string Gemini37Flash = "google/gemini-3.7-flash";
+
+        /// <summary>
+        /// Gemini 3.6 Flash
+        /// </summary>
+        public const string Gemini36Flash = "google/gemini-3.6-flash";
+
+        /// <summary>
+        /// Gemini 3.5 Flash-Lite
+        /// </summary>
+        public const string Gemini35FlashLite = "google/gemini-3.5-flash-lite";
+
+        /// <summary>
+        /// Gemini 3.5 Flash
+        /// </summary>
+        public const string Gemini35Flash = "google/gemini-3.5-flash";
+
+        /// <summary>
+        /// Gemini 3.1 Flash-Lite
+        /// </summary>
+        public const string Gemini31FlashLite = "google/gemini-3.1-flash-lite";
+
+        /// <summary>
         /// Gemini 2.5 Pro
         /// </summary>
         public const string Gemini25Pro = "google/gemini-2.5-pro";
@@ -298,6 +373,31 @@ public static class OpenRouterChatModels
     [PublicAPI]
     public static class Mistral
     {
+        /// <summary>
+        /// Mistral Medium 3.5
+        /// </summary>
+        public const string MistralMedium35 = "mistralai/mistral-medium-3-5";
+
+        /// <summary>
+        /// Mistral Small 4
+        /// </summary>
+        public const string MistralSmall4 = "mistralai/mistral-small-2603";
+
+        /// <summary>
+        /// Ministral 3 14B
+        /// </summary>
+        public const string Ministral314B = "mistralai/ministral-14b-2512";
+
+        /// <summary>
+        /// Ministral 3 8B
+        /// </summary>
+        public const string Ministral38B = "mistralai/ministral-8b-2512";
+
+        /// <summary>
+        /// Ministral 3 3B
+        /// </summary>
+        public const string Ministral33B = "mistralai/ministral-3b-2512";
+
         /// <summary>
         /// Mistral (Small)
         /// </summary>

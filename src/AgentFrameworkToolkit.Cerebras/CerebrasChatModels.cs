@@ -9,6 +9,11 @@ namespace AgentFrameworkToolkit.Cerebras;
 public static class CerebrasChatModels
 {
     /// <summary>
+    /// Qwen 3.8 27B
+    /// </summary>
+    public const string Qwen3827B = "qwen-3.8-27b";
+
+    /// <summary>
     /// Llama 3.1 8B
     /// </summary>
     public const string Llama318B = "llama3.1-8b";

@@ -9,6 +9,21 @@ namespace AgentFrameworkToolkit.Anthropic;
 public static class AnthropicChatModels
 {
     /// <summary>
+    /// Claude Opus 5.5
+    /// </summary>
+    public const string ClaudeOpus55 = "claude-opus-5-5";
+
+    /// <summary>
+    /// Claude Opus 5
+    /// </summary>
+    public const string ClaudeOpus5 = "claude-opus-5";
+
+    /// <summary>
+    /// Claude Fable 5.1
+    /// </summary>
+    public const string ClaudeFable51 = "claude-fable-5-1";
+
+    /// <summary>
     /// Claude Sonnet 3.5
     /// </summary>
     public const string ClaudeSonnet35 = "claude-3-5-sonnet";
@@ -27,7 +42,7 @@ public static class AnthropicChatModels
     /// Claude Sonnet 4.5
     /// </summary>
     public const string ClaudeSonnet45 = "claude-sonnet-4-5";
-    
+
     /// <summary>
     /// Claude Sonnet 4.6
     /// </summary>
@@ -67,12 +82,12 @@ public static class AnthropicChatModels
     /// Claude Opus 4.8
     /// </summary>
     public const string ClaudeOpus48 = "claude-opus-4-8";
-    
+
     /// <summary>
     /// Claude Fable 5
     /// </summary>
     public const string ClaudeFable5 = "claude-fable-5";
-    
+
     /// <summary>
     /// Claude Haiku 3
     /// </summary>
